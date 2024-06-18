@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class User_management_M extends CI_Model
+class Purchase_M extends CI_Model
 {
     public function __construct()
     {

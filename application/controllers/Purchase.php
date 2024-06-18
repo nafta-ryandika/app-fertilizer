@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class User_management extends CI_Controller
+class Purchase extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
         checkLogin();
-        $this->load->model("User_management_M");
+        $this->load->model("Purchase_M");
     }
 
     public function index()
@@ -18,7 +18,7 @@ class User_management extends CI_Controller
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('user_management/index', $data);
+        $this->load->view('purchase/index', $data);
         $this->load->view('templates/footer');
         $this->load->view('templates/script', $data);
     }
