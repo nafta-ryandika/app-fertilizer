@@ -21,4 +21,4 @@
     <link rel="icon" type="image/png" href="<?php echo base_url(); ?>assets/img/favicon.png">
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-gradient-warning">

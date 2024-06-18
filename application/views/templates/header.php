@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>vendor/select2/css/select2.min.css">
     <link rel="stylesheet" href="<?php echo base_url('assets/'); ?>vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 
-    <link rel="icon" type="image/png" href="<?php echo base_url(); ?>assets/img/shrimp-crab.png">
+    <link rel="icon" type="image/png" href="<?php echo base_url(); ?>assets/img/favicon.png">
     <script>
         var base_url = "<?php echo base_url(); ?>";
     </script>
