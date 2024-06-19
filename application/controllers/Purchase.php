@@ -12,7 +12,7 @@ class Purchase extends CI_Controller
 
     public function index()
     {
-        $data['title'] = 'User';
+        $data['title'] = 'Purchase';
         $data['user'] = $this->db->get_where('m_user', ['user_id' => $this->session->userdata('user_id')])->row_array();
 
         $this->load->view('templates/header', $data);
@@ -71,9 +71,13 @@ class Purchase extends CI_Controller
         $param = $this->input->post('param');
         $obj = $this->input->post('obj');
 
-        $data = $this->User_management_M->get($param, $obj);
+        if ($param == "input") {
+            $this->load->view('purchase/input');
+        } else {
+            $data = $this->User_management_M->get($param, $obj);
 
-        echo (json_encode($data));
+            echo (json_encode($data));
+        }
     }
 
     public function save()

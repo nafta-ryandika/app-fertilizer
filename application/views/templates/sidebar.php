@@ -49,7 +49,7 @@
                 <?php endif; ?>
                 <a class="nav-link pb-0" href="<?= base_url($data_submenu['url']) ?>">
                     <i class="<?= $data_submenu['icon'] ?>"></i>
-                    <span><?= $data_submenu['title'] ?></span></a>
+                    <span class="text-lg"><?= $data_submenu['title'] ?></span></a>
                 </li>
             <?php endforeach; ?>
 

@@ -28,6 +28,7 @@ $(document).ready(function() {
 	})
 
     viewData();
+	get("input","","");
 });
 
 $(function () {
@@ -353,7 +354,20 @@ function get(param,obj,callBack) {
 					callBack(html);
 			}
 		});
-	} 
+	} else if (param == "input") {
+		$.ajax({
+			type: "POST",
+			url: base_url+"purchase/get",
+			data: {
+				param: param,
+				obj:obj
+			},
+			cache: false,
+			success: function (data) {
+				$("#contentArea").html(data);
+			}
+		});
+	}
 }
 
 function report(param,obj){
@@ -460,10 +474,11 @@ function add(param,obj){
 
 		$('#tableSearch tr:last').after(html);
 	} else if (param == "add") {
-		$('#modalAdd').modal('show');
-		get("inDepartment","inDepartment","");
-		get("inRole","inRole","");
-		$('#inMode').val('add');
+		if (obj.trim() == "") {
+			get("input","","");
+		}
+		// $("#contentArea").html("");
+		console.log("test");
 	}
 }
 
