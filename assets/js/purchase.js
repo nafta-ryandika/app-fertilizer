@@ -365,6 +365,16 @@ function get(param,obj,callBack) {
 			cache: false,
 			success: function (data) {
 				$("#contentArea").html(data);
+				$(function () {
+					$("#dataTable-input").DataTable( {
+						"bInfo" : false,
+						"paging": false,
+						"ordering": false
+					});
+				})
+
+				var today = new Date().toISOString().split('T')[0];
+				$("#inDate").val(today);
 			}
 		});
 	}
@@ -475,7 +485,11 @@ function add(param,obj){
 		$('#tableSearch tr:last').after(html);
 	} else if (param == "add") {
 		if (obj.trim() == "") {
-			get("input","","");
+			get("input","","").after(function(){
+				// $(function () {
+				// 	$("#dataTable-input").DataTable();
+				// })
+			});
 		}
 		// $("#contentArea").html("");
 		console.log("test");

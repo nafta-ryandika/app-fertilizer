@@ -72,7 +72,9 @@ class Purchase extends CI_Controller
         $obj = $this->input->post('obj');
 
         if ($param == "input") {
-            $this->load->view('purchase/input');
+            $sql = "SELECT id, `type` FROM m_purchase_type a WHERE `status` = 1  ORDER BY `type` ASC";
+            $data['type'] = $this->db->query($sql)->result_array();
+            $this->load->view('purchase/input', $data);
         } else {
             $data = $this->User_management_M->get($param, $obj);
 
