@@ -76,7 +76,7 @@ class Purchase extends CI_Controller
             $data['type'] = $this->db->query($sql)->result_array();
             $this->load->view('purchase/input', $data);
         } else {
-            $data = $this->User_management_M->get($param, $obj);
+            $data = $this->Purchase_M->get($param, $obj);
 
             echo (json_encode($data));
         }

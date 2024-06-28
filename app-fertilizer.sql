@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.51-log - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.5.0.6677
+-- HeidiSQL Version:             12.6.0.6765
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `m_access` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
--- Dumping data for table app-fertilizer.m_access: ~15 rows (approximately)
+-- Dumping data for table app-fertilizer.m_access: ~16 rows (approximately)
 DELETE FROM `m_access`;
 INSERT INTO `m_access` (`id`, `role_id`, `menu_id`, `created_by`, `created_at`) VALUES
 	(1, 1, 1, 'Administrator', '2023-12-12 10:31:47'),
@@ -48,24 +48,6 @@ INSERT INTO `m_access` (`id`, `role_id`, `menu_id`, `created_by`, `created_at`) 
 	(27, 1, 8, NULL, '2024-05-21 10:23:59'),
 	(29, 6, 8, NULL, '2024-05-23 23:27:36'),
 	(30, 1, 9, NULL, '2024-06-18 14:53:00');
-
--- Dumping structure for table app-fertilizer.m_audit_shift
-CREATE TABLE IF NOT EXISTS `m_audit_shift` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `start` time DEFAULT NULL,
-  `end` time DEFAULT NULL,
-  `created_by` varchar(256) DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
-
--- Dumping data for table app-fertilizer.m_audit_shift: ~5 rows (approximately)
-DELETE FROM `m_audit_shift`;
-INSERT INTO `m_audit_shift` (`id`, `start`, `end`, `created_by`, `created_at`) VALUES
-	(2, '07:00:00', '16:00:00', 'administrator', '2024-01-30 11:29:27'),
-	(3, '08:00:00', '17:00:00', 'administrator', '2024-01-30 11:29:27'),
-	(4, '13:00:00', '22:00:00', 'administrator', '2024-01-30 11:29:27'),
-	(5, '22:00:00', '07:00:00', 'administrator', '2024-01-30 11:29:27');
 
 -- Dumping structure for table app-fertilizer.m_company
 CREATE TABLE IF NOT EXISTS `m_company` (
@@ -3258,7 +3240,7 @@ INSERT INTO `m_employee` (`id`, `card`, `name`, `company_id`, `department_id`, `
 	('436984', '', 'Ananda Akbar Rizqi', 1, 2, 48, 10, 'administrator', '2024-05-18 16:13:50'),
 	('436985', '', 'Ganistya Mareta Putri', 1, 2, 48, 10, 'administrator', '2024-05-18 16:13:50'),
 	('436987', '', 'Danang Purnama', 1, 2, 48, 10, 'administrator', '2024-05-18 16:13:50'),
-	('436988', '', 'Wahyunì Ningsih', 1, 2, 48, 10, 'administrator', '2024-05-18 16:13:50'),
+	('436988', '', 'WahyunÃ¬ Ningsih', 1, 2, 48, 10, 'administrator', '2024-05-18 16:13:50'),
 	('436989', '', 'Tika Puspita Sari Dewi Anggraini', 1, 2, 48, 10, 'administrator', '2024-05-18 16:13:50'),
 	('436990', '', 'Angelina Yomi Wasti Nahak', 1, 2, 48, 10, 'administrator', '2024-05-18 16:13:50'),
 	('436991', '', 'Agiel Wandi Achmad Fauzan', 1, 2, 50, 10, 'administrator', '2024-05-18 16:13:50'),
@@ -3373,6 +3355,31 @@ INSERT INTO `m_employee` (`id`, `card`, `name`, `company_id`, `department_id`, `
 	('437151', '', 'Anggun Mega Sari', 1, 2, 50, 10, 'administrator', '2024-05-18 16:13:52'),
 	('437152', '', 'Reni Dwi Jayanti', 1, 2, 50, 10, 'administrator', '2024-05-18 16:13:52');
 
+-- Dumping structure for table app-fertilizer.m_goods
+CREATE TABLE IF NOT EXISTS `m_goods` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods` varchar(256) DEFAULT NULL,
+  `unit_id` int(11) DEFAULT NULL,
+  `qty` varchar(256) DEFAULT NULL,
+  `remark` text,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `unit_id` (`unit_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.m_goods: ~5 rows (approximately)
+DELETE FROM `m_goods`;
+INSERT INTO `m_goods` (`id`, `goods`, `unit_id`, `qty`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'Zak', 1, NULL, NULL, 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
+	(2, 'Isolasi', 4, NULL, NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(3, 'Kardus', 1, NULL, NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(4, 'Plastik Bag', 1, NULL, NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(5, 'Oli', 3, NULL, NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
+
 -- Dumping structure for table app-fertilizer.m_menu
 CREATE TABLE IF NOT EXISTS `m_menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -3395,25 +3402,6 @@ INSERT INTO `m_menu` (`id`, `menu`, `status`, `created_by`, `created_at`) VALUES
 	(7, 'User_management', 0, 'admin', '2024-03-18 15:24:16'),
 	(8, 'Vote', 1, 'admin', '2024-05-21 10:20:41'),
 	(9, 'Purchase', 1, 'admin', '2024-06-18 14:49:21');
-
--- Dumping structure for table app-fertilizer.m_necessity
-CREATE TABLE IF NOT EXISTS `m_necessity` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `necessity` varchar(256) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL COMMENT '0 : Return; 1 : Not Return;',
-  `created_by` varchar(256) DEFAULT NULL,
-  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
-
--- Dumping data for table app-fertilizer.m_necessity: ~5 rows (approximately)
-DELETE FROM `m_necessity`;
-INSERT INTO `m_necessity` (`id`, `necessity`, `status`, `created_by`, `created_at`) VALUES
-	(1, 'Tugas untuk mengurus kepentingan perusahaan', 0, 'administrator', '2024-01-30 11:27:27'),
-	(2, 'Ijin keluar sementara', 0, 'administrator', '2024-01-30 11:27:27'),
-	(3, 'Ijin pulang untuk mengurus kepentingan pribadi', 1, 'administrator', '2024-01-30 11:27:27'),
-	(4, 'Ijin pulang karena sakit', 1, 'administrator', '2024-01-30 11:27:27'),
-	(5, 'Lain - lain', 1, 'administrator', '2024-01-30 11:27:27');
 
 -- Dumping structure for table app-fertilizer.m_position
 CREATE TABLE IF NOT EXISTS `m_position` (
@@ -3439,6 +3427,24 @@ INSERT INTO `m_position` (`id`, `position`, `created_by`, `created_at`) VALUES
 	(10, 'OPERATOR', 'administrator', '2024-01-31 10:45:26'),
 	(11, 'OPERATOR TIME BASED', 'administrator', '2024-01-31 10:45:26'),
 	(12, 'OPERATOR BORONGAN', 'administrator', '2024-01-31 10:45:26');
+
+-- Dumping structure for table app-fertilizer.m_purchase_type
+CREATE TABLE IF NOT EXISTS `m_purchase_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type` varchar(256) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.m_purchase_type: ~2 rows (approximately)
+DELETE FROM `m_purchase_type`;
+INSERT INTO `m_purchase_type` (`id`, `type`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'Barang', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
+	(2, 'Jasa', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.m_role
 CREATE TABLE IF NOT EXISTS `m_role` (
@@ -3472,7 +3478,7 @@ CREATE TABLE IF NOT EXISTS `m_submenu` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_submenu: ~10 rows (approximately)
+-- Dumping data for table app-fertilizer.m_submenu: ~11 rows (approximately)
 DELETE FROM `m_submenu`;
 INSERT INTO `m_submenu` (`id`, `menu_id`, `title`, `url`, `icon`, `status`, `created_by`, `created_at`) VALUES
 	(1, 1, 'Dashboard', 'administrator', 'fas fa-fw fa-tachometer-alt', 1, 'Administrator', '2023-12-12 10:28:19'),
@@ -3485,7 +3491,33 @@ INSERT INTO `m_submenu` (`id`, `menu_id`, `title`, `url`, `icon`, `status`, `cre
 	(10, 5, 'Report Exit Permit', 'report/exitPermit', 'fas fa-fw fa-print', 1, NULL, '2024-03-04 10:00:23'),
 	(11, 1, 'User', 'user_management', 'fas fa-fw fa-user', 1, NULL, '2024-03-18 14:51:33'),
 	(12, 8, 'E Vote', 'vote', 'fas fa-fw fa-square-check', 1, NULL, '2024-05-21 10:23:38'),
-	(13, 9, 'Pembelian', 'purchase', 'fas fa-fw fa-cart-shopping', 1, NULL, '2024-06-18 14:52:41');
+	(13, 9, 'Purchase', 'purchase', 'fas fa-fw fa-cart-shopping', 1, NULL, '2024-06-18 14:52:41');
+
+-- Dumping structure for table app-fertilizer.m_supplier
+CREATE TABLE IF NOT EXISTS `m_supplier` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `supplier` varchar(256) DEFAULT NULL,
+  `pic` varchar(256) DEFAULT NULL,
+  `phone` varchar(16) DEFAULT NULL,
+  `address` text,
+  `remark` text,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.m_supplier: ~5 rows (approximately)
+DELETE FROM `m_supplier`;
+INSERT INTO `m_supplier` (`id`, `supplier`, `pic`, `phone`, `address`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'Abadi Jaya', 'Andi', '088847228293', 'Serang', NULL, 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
+	(2, 'Berkah Bersinar', 'Budi', '089518693827', 'Jakarta', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(3, 'Cahaya Alam', 'Caca', '083882515493', 'Bandung', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(4, 'Dadi Makmur', 'Dani', '084314134921', 'Semarang', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(5, 'Edi Putra', 'Edi', '083373986943', 'Yogyakarta', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(6, 'Fandi Utama', 'Fredi', '085324383234', 'Surabaya', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.m_token
 CREATE TABLE IF NOT EXISTS `m_token` (
@@ -3502,6 +3534,27 @@ DELETE FROM `m_token`;
 INSERT INTO `m_token` (`id`, `user_id`, `token`, `created_at`) VALUES
 	(4, 'coba', 'xyUjSmX+AEkwYRrFBdGl2C2r5vLgj06uzbZT2iOSKdU=', '2024-01-04 08:43:24'),
 	(5, 'coba', 'L8Ba28doMtle31D4CdTIIbdBao4/Qal2koZ8+GyhHzY=', '2024-01-04 08:45:58');
+
+-- Dumping structure for table app-fertilizer.m_unit
+CREATE TABLE IF NOT EXISTS `m_unit` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `unit` varchar(256) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.m_unit: ~4 rows (approximately)
+DELETE FROM `m_unit`;
+INSERT INTO `m_unit` (`id`, `unit`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'Pcs', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
+	(2, 'Kg', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(3, 'Drum', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(4, 'Roll', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(5, 'Cartoon', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.m_user
 CREATE TABLE IF NOT EXISTS `m_user` (

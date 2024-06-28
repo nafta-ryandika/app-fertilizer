@@ -33,7 +33,9 @@
                     <div class="form-group row">
                         <label for="inSupplier" class="col-sm-3 col-form-label">Supplier</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="inSupplier" name="inSupplier" required>
+                            <select class="form-control select2" style="width: 100%;" id="inSupplier" name="inSupplier" required>
+                                <option value="">Select</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -43,17 +45,29 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="inTotal" class="col-sm-3 col-form-label">Total</label>
-                        <div class="col-sm-6">
-                            <input type="text" class="form-control" id="inTotal" name="inTotal" required>
+                        <label for="inRemark" class="col-sm-3 col-form-label">Remark</label>
+                        <div class="col-sm-9">
+                            <textarea type="text" class="form-control" id="inRemark" name="inRemark"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="form-group row">
-                        <label for="inRemark" class="col-sm-3 col-form-label">Remark</label>
-                        <div class="col-sm-9">
-                            <textarea type="text" class="form-control" id="inRemark" name="inRemark"></textarea>
+                        <label for="inDiscount" class="col-sm-3 col-form-label">Discount</label>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control text-right" id="inDiscount" name="inDiscount" value="0" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inTax" class="col-sm-3 col-form-label">Tax</label>
+                        <div class="col-sm-3">
+                            <input type="number" class="form-control text-right" id="inTax" name="inTax" value="0" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inTotal" class="col-sm-3 col-form-label">Total</label>
+                        <div class="col-sm-6">
+                            <input type="number" class="form-control text-right" id="inTotal" name="inTotal" readonly disabled required>
                         </div>
                     </div>
                 </div>
@@ -67,31 +81,50 @@
                                     <table class="table table-hover" id="dataTable-input" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th scope="col">#</th>
                                                 <th scope="col">Goods</th>
                                                 <th scope="col">Qty</th>
                                                 <th scope="col">Unit</th>
+                                                <th scope="col">Price</th>
+                                                <th scope="col">Discount</th>
+                                                <th scope="col">Sub Total</th>
                                                 <th scope="col">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            $i = 1;
+                                            // $i = 1;
                                             // foreach ($user as $data_user) :
+                                            for ($i = 0; $i < 2; $i++) {
                                             ?>
-                                            <tr>
-                                                <td scope="row"><?= $i ?></td>
-                                                <td scope="row"><?= $i ?></td>
-                                                <td scope="row"><?= $i ?></td>
-                                                <td scope="row"><?= $i ?></td>
-                                                <td>
-                                                    <a class="btn btn-info m-1" id="btnDetail" title="Detail" onclick="get('detail','','')"><i class="fas fa-fw fa-solid fa-eye m-1"></i></a>
-                                                    <a class="btn btn-warning m-1" id="btnEdit" title="Edit" onclick="get('edit','','')"><i class="fas fa-fw fa-solid fa-pen-to-square m-1"></i></a>
-                                                    <a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove('data','')"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td scope="row">
+                                                        <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>
+                                                            <option value="">Select</option>
+                                                        </select>
+                                                    </td>
+                                                    <td scope="row">
+                                                        <input type="number" class="form-control text-right" name="inDqty" required>
+                                                    </td>
+                                                    <td scope="row">
+                                                        <input type="text" class="form-control" name="inDunit" readonly disabled required>
+                                                    </td>
+                                                    <td scope="row">
+                                                        <input type="number" class="form-control text-right" name="inDprice" required>
+                                                    </td>
+                                                    <td scope="row">
+                                                        <input type="text" class="form-control" name="inDiscount" readonly disabled required>
+                                                    </td>
+                                                    <td scope="row">
+                                                        <input type="number" class="form-control text-right" name="inDsubtotal" required>
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="get('detail','','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
+                                                        <a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove('data','')"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
+                                                    </td>
+                                                </tr>
                                             <?php
-                                            $i++;
+                                            }
+                                            // $i++;
                                             // endforeach;
                                             ?>
                                         </tbody>

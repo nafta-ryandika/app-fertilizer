@@ -29,8 +29,8 @@ class Purchase_M extends CI_Model
     {
         $data = array();
 
-        if ($param == "inDepartment") {
-            $query = "SELECT id, department FROM m_department ORDER BY department";
+        if ($param == "inSupplier") {
+            $query = "SELECT id, supplier FROM m_supplier WHERE `status` = '1' ORDER BY supplier";
             $row = $this->db->query($query)->num_rows();
 
             if ($row > 0) {
@@ -38,8 +38,8 @@ class Purchase_M extends CI_Model
             } else {
                 return FALSE;
             }
-        } else if ($param == "inDivision") {
-            $query = "SELECT id, division FROM m_division WHERE department_id = '" . $obj . "' ORDER BY division";
+        } else if ($param == "inDgoods") {
+            $query = "SELECT id, goods FROM m_goods WHERE `status` = '1' ORDER BY goods";
             $row = $this->db->query($query)->num_rows();
 
             if ($row > 0) {

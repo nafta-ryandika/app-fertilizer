@@ -1,8 +1,8 @@
 $(document).ready(function() {
-	$('#inDepartment').on('change',function(){
-		var inDepartment = $('#inDepartment').val().trim();
-		get("inDivision",inDepartment,"");
-	})
+	// $('#inDepartment').on('change',function(){
+	// 	var inDepartment = $('#inDepartment').val().trim();
+	// 	get("inDivision",inDepartment,"");
+	// })
 
 	$('#modalAdd #btnSave').on('click',function(){
 		save('user','');
@@ -17,23 +17,12 @@ $(document).ready(function() {
 		viewData();
 	})
 
-	$("#inRepeatpassword").on("keyup",function(){
-		var inPassword = $("#inPassword").val();
-		var inRepeatpassword = $("#inRepeatpassword").val();
-
-		if (inPassword == inRepeatpassword) {
-			$("#inPassword").removeClass("is-invalid");
-			$("#inRepeatpassword").removeClass("is-invalid");
-		}
-	})
-
     viewData();
 	get("input","","");
 });
 
 $(function () {
-    $('#inDepartment').select2({
-		dropdownParent: $('#modalAdd'),
+    $('#inSupplier').select2({
 		theme: 'bootstrap4'
 	})
 })
@@ -164,36 +153,10 @@ function get(param,obj,callBack) {
 			} else {
 				$('#tableSearch tr:eq('+rowIndex+') .inSearchinput').prop('type','text');
 			}
-	} else if (param == "inDepartment") {
+	} else if (param == "inSupplier") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"user_management/get",
-			data: {
-				param: param,
-				obj: obj
-			},
-			cache: false,
-			dataType: "JSON",
-			success: function (data) {
-					var html = '<option value="">Select</option>';
-					var i;
-	
-					for (i=0; i<data.res.length; i++) {
-						if (obj.trim() != "" && obj == data.res[i].id) {
-							html += '<option value="' + data.res[i].id + '" selected>' + data.res[i].department + '</option>';	
-						}
-						else {
-							html += '<option value="' + data.res[i].id + '">' + data.res[i].department + '</option>';
-						}
-					}
-	
-					$('#inDepartment').html(html);
-			}
-		});
-	} else if (param == "inDivision") {
-		$.ajax({
-			type: "POST",
-			url: base_url+"user_management/get",
+			url: base_url+"purchase/get",
 			data: {
 				param: param,
 				obj: obj
@@ -201,8 +164,38 @@ function get(param,obj,callBack) {
 			cache: false,
 			dataType: "JSON",
 			beforeSend: function(data) {
-				$('#inDivision').select2({
-					dropdownParent: $('#modalAdd'),
+				$('#inSupplier').select2({
+					theme: 'bootstrap4'
+				})
+			},
+			success: function (data) {
+					var html = '<option value="">Select</option>';
+					var i;
+	
+					for (i=0; i<data.res.length; i++) {
+						if (obj.trim() != "" && obj == data.res[i].id) {
+							html += '<option value="' + data.res[i].id + '" selected>' + data.res[i].supplier + '</option>';	
+						}
+						else {
+							html += '<option value="' + data.res[i].id + '">' + data.res[i].supplier + '</option>';
+						}
+					}
+	
+					$('#inSupplier').html(html);
+			}
+		});
+	} else if (param == "inDgoods") {
+		$.ajax({
+			type: "POST",
+			url: base_url+"purchase/get",
+			data: {
+				param: param,
+				obj: obj
+			},
+			cache: false,
+			dataType: "JSON",
+			beforeSend: function(data) {
+				$('.inDgoods').select2({
 					theme: 'bootstrap4'
 				})
 			},
@@ -212,14 +205,18 @@ function get(param,obj,callBack) {
 	
 					for (i=0; i<data.res.length; i++) {
 						if (callBack.trim() != "" && callBack == data.res[i].id) {
-							html += '<option value="' + data.res[i].id + '" selected>' + data.res[i].division + '</option>';	
+							html += '<option value="' + data.res[i].id + '" selected>' + data.res[i].goods + '</option>';	
 						}
 						else {
-							html += '<option value="' + data.res[i].id + '">' + data.res[i].division + '</option>';
+							html += '<option value="' + data.res[i].id + '">' + data.res[i].goods + '</option>';
 						}
 					}
 	
-					$('#inDivision').html(html);
+					$('.inDgoods').html(html);
+
+					$('.inDgoods').on('select2:select', function () {
+						alert("lalala");
+					});
 			}
 		});
 	} else if (param == "inRole") {
@@ -369,12 +366,15 @@ function get(param,obj,callBack) {
 					$("#dataTable-input").DataTable( {
 						"bInfo" : false,
 						"paging": false,
-						"ordering": false
+						"ordering": false,
+						"columnDefs": [{ width: '20%', targets: 0 }]
 					});
 				})
 
 				var today = new Date().toISOString().split('T')[0];
 				$("#inDate").val(today);
+				get("inSupplier","","");
+				get("inDgoods","","");	
 			}
 		});
 	}
