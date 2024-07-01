@@ -103,19 +103,20 @@
                                                         </select>
                                                     </td>
                                                     <td scope="row">
-                                                        <input type="number" class="form-control text-right" name="inDqty" required>
+                                                        <input type="number" class="form-control text-right inDqty" name="inDqty" required>
                                                     </td>
                                                     <td scope="row">
-                                                        <input type="text" class="form-control" name="inDunit" readonly disabled required>
+                                                        <input type="text" class="form-control inDunit" name="inDunit" readonly disabled required>
+                                                        <input type="hidden" class="form-control inDunitid" name="inDunitid" readonly disabled>
                                                     </td>
                                                     <td scope="row">
-                                                        <input type="number" class="form-control text-right" name="inDprice" required>
+                                                        <input type="number" class="form-control text-right inDprice" name="inDprice" required>
                                                     </td>
                                                     <td scope="row">
-                                                        <input type="text" class="form-control" name="inDiscount" readonly disabled required>
+                                                        <input type="number" class="form-control inDiscount" name="inDiscount" required>
                                                     </td>
                                                     <td scope="row">
-                                                        <input type="number" class="form-control text-right" name="inDsubtotal" required>
+                                                        <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" required>
                                                     </td>
                                                     <td>
                                                         <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="get('detail','','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>

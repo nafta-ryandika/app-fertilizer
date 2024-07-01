@@ -205,17 +205,21 @@ function get(param,obj,callBack) {
 	
 					for (i=0; i<data.res.length; i++) {
 						if (callBack.trim() != "" && callBack == data.res[i].id) {
-							html += '<option value="' + data.res[i].id + '" selected>' + data.res[i].goods + '</option>';	
+							html += '<option value="' + data.res[i].id + '" data-unit="'+data.res[i].unit+'" data-unitid="'+data.res[i].unit_id+'" selected>' + data.res[i].goods + '</option>';	
 						}
 						else {
-							html += '<option value="' + data.res[i].id + '">' + data.res[i].goods + '</option>';
+							html += '<option value="' + data.res[i].id + '" data-unit="'+data.res[i].unit+'" data-unitid="'+data.res[i].unit_id+'">' + data.res[i].goods + '</option>';
 						}
 					}
 	
 					$('.inDgoods').html(html);
 
 					$('.inDgoods').on('select2:select', function () {
-						alert("lalala");
+						var unit_id = $(this).find(":selected").data("unit	id");
+						var unit = $(this).find(":selected").data("unit");
+						
+						$(this).closest('tr').find('.inDunitid').val(unit_id);
+						$(this).closest('tr').find('.inDunit').val(unit);
 					});
 			}
 		});
@@ -367,6 +371,7 @@ function get(param,obj,callBack) {
 						"bInfo" : false,
 						"paging": false,
 						"ordering": false,
+						"searching":false,
 						"columnDefs": [{ width: '20%', targets: 0 }]
 					});
 				})

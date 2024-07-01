@@ -39,7 +39,11 @@ class Purchase_M extends CI_Model
                 return FALSE;
             }
         } else if ($param == "inDgoods") {
-            $query = "SELECT id, goods FROM m_goods WHERE `status` = '1' ORDER BY goods";
+            $query = "SELECT id, goods, unit_id,
+                        (SELECT unit FROM m_unit where id = unit_id) AS unit
+                        FROM m_goods 
+                        WHERE `status` = '1' 
+                        ORDER BY goods";
             $row = $this->db->query($query)->num_rows();
 
             if ($row > 0) {
