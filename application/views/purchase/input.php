@@ -94,37 +94,37 @@
                                             <?php
                                             // $i = 1;
                                             // foreach ($user as $data_user) :
-                                            for ($i = 0; $i < 2; $i++) {
+                                            // for ($i = 0; $i < 2; $i++) {
                                             ?>
-                                                <tr>
-                                                    <td scope="row">
-                                                        <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>
-                                                            <option value="">Select</option>
-                                                        </select>
-                                                    </td>
-                                                    <td scope="row">
-                                                        <input type="number" class="form-control text-right inDqty" name="inDqty" required>
-                                                    </td>
-                                                    <td scope="row">
-                                                        <input type="text" class="form-control inDunit" name="inDunit" readonly disabled required>
-                                                        <input type="hidden" class="form-control inDunitid" name="inDunitid" readonly disabled>
-                                                    </td>
-                                                    <td scope="row">
-                                                        <input type="number" class="form-control text-right inDprice" name="inDprice" required>
-                                                    </td>
-                                                    <td scope="row">
-                                                        <input type="number" class="form-control inDiscount" name="inDiscount" required>
-                                                    </td>
-                                                    <td scope="row">
-                                                        <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" required>
-                                                    </td>
-                                                    <td>
-                                                        <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="get('detail','','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
-                                                        <a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove('data','')"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
-                                                    </td>
-                                                </tr>
+                                            <tr>
+                                                <td scope="row">
+                                                    <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>
+                                                        <option value="">Select</option>
+                                                    </select>
+                                                </td>
+                                                <td scope="row">
+                                                    <input type="number" class="form-control text-right inDqty" name="inDqty" onkeyup="count('subtotal',this)" required>
+                                                </td>
+                                                <td scope="row">
+                                                    <input type="text" class="form-control inDunit" name="inDunit" readonly disabled required>
+                                                    <input type="hidden" class="form-control inDunitid" name="inDunitid" readonly disabled>
+                                                </td>
+                                                <td scope="row">
+                                                    <input type="number" class="form-control text-right inDprice" name="inDprice" onkeyup="count('subtotal',this)" required>
+                                                </td>
+                                                <td scope="row">
+                                                    <input type="number" class="form-control inDiscount" name="inDiscount" onkeyup="count('subtotal',this)">
+                                                </td>
+                                                <td scope="row">
+                                                    <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" required>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="get('detail','','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
+                                                    <a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove('data','')"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
+                                                </td>
+                                            </tr>
                                             <?php
-                                            }
+                                            // }
                                             // $i++;
                                             // endforeach;
                                             ?>

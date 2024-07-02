@@ -762,3 +762,22 @@ function check(param,obj) {
 		}
 	}
 }
+
+function count (param,obj){
+	if (param == "subtotal") {
+		var inDqty = $(obj).closest("tr").find(".inDqty").val();
+		var inDprice = $(obj).closest("tr").find(".inDprice").val();
+		var inDiscount = $(obj).closest("tr").find(".inDiscount").val();
+		var subtotal = 0;
+
+		if (inDqty > 0 && inDprice) {
+			if (inDiscount > 0) {
+				subtotal = inDqty * inDprice * (1 - (inDiscount/100));
+			} else {
+				subtotal = inDqty * inDprice;
+			}
+		}
+
+		$(obj).closest("tr").find(".inDsubtotal").val(subtotal);
+	}
+}
