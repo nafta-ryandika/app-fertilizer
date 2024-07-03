@@ -5,6 +5,7 @@
         </div>
         <div class="card-body">
             <div class="row">
+                <input type="hidden" class="form-control text-center" id="inMode" name="inMode" value="" readonly disabled>
                 <div class="col-6">
                     <div class="form-group row">
                         <label for="inId" class="col-sm-3 col-form-label">ID</label>
@@ -55,13 +56,13 @@
                     <div class="form-group row">
                         <label for="inDiscount" class="col-sm-3 col-form-label">Discount</label>
                         <div class="col-sm-3">
-                            <input type="number" class="form-control text-right" id="inDiscount" name="inDiscount" value="0" required>
+                            <input type="number" class="form-control text-right" id="inDiscount" name="inDiscount" value="0" onkeyup="count('total',this)" required>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="inTax" class="col-sm-3 col-form-label">Tax</label>
                         <div class="col-sm-3">
-                            <input type="number" class="form-control text-right" id="inTax" name="inTax" value="0" required>
+                            <input type="number" class="form-control text-right" id="inTax" name="inTax" value="0" onkeyup="count('total',this)" required>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -113,14 +114,14 @@
                                                     <input type="number" class="form-control text-right inDprice" name="inDprice" onkeyup="count('subtotal',this)" required>
                                                 </td>
                                                 <td scope="row">
-                                                    <input type="number" class="form-control inDiscount" name="inDiscount" onkeyup="count('subtotal',this)">
+                                                    <input type="number" class="form-control inDdiscount" name="inDdiscount" onkeyup="count('subtotal',this)">
                                                 </td>
                                                 <td scope="row">
                                                     <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" required>
                                                 </td>
                                                 <td>
-                                                    <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="get('detail','','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
-                                                    <a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove('data','')"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
+                                                    <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
+                                                    <a class="btn btn-secondary m-1" id="btnDelete" title="Delete" onclick=""><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
                                                 </td>
                                             </tr>
                                             <?php

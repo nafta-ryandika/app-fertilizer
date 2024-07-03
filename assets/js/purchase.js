@@ -212,7 +212,7 @@ function get(param,obj,callBack) {
 						}
 					}
 	
-					$('.inDgoods').html(html);
+					$("#dataTable-input tr").eq(obj).find('.inDgoods').html(html);
 
 					$('.inDgoods').on('select2:select', function () {
 						var unit_id = $(this).find(":selected").data("unit	id");
@@ -379,7 +379,10 @@ function get(param,obj,callBack) {
 				var today = new Date().toISOString().split('T')[0];
 				$("#inDate").val(today);
 				get("inSupplier","","");
-				get("inDgoods","","");	
+				get("inDgoods","1","");	
+			},
+			complete: function (data) {
+				$("#inMode").val("add");
 			}
 		});
 	}
@@ -491,103 +494,128 @@ function add(param,obj){
 	} else if (param == "add") {
 		if (obj.trim() == "") {
 			get("input","","").after(function(){
-				// $(function () {
-				// 	$("#dataTable-input").DataTable();
-				// })
+				
 			});
 		}
 		// $("#contentArea").html("");
-		console.log("test");
+	} else if (param == "detail") {
+		var html = '<tr>\n\
+						<td scope="row">\n\
+							<select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>\n\
+								<option value="">Select</option>\n\
+							</select>\n\
+						</td>\n\
+						<td scope="row">\n\
+							<input type="number" class="form-control text-right inDqty" name="inDqty" onkeyup="count(\'subtotal\',this)" required>\n\
+						</td>\n\
+						<td scope="row">\n\
+							<input type="text" class="form-control inDunit" name="inDunit" readonly disabled required>\n\
+							<input type="hidden" class="form-control inDunitid" name="inDunitid" readonly disabled>\n\
+						</td>\n\
+						<td scope="row">\n\
+							<input type="number" class="form-control text-right inDprice" name="inDprice" onkeyup="count(\'subtotal\',this)" required>\n\
+						</td>\n\
+						<td scope="row">\n\
+							<input type="number" class="form-control inDdiscount" name="inDdiscount" onkeyup="count(\'subtotal\',this)">\n\
+						</td>\n\
+						<td scope="row">\n\
+							<input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" required>\n\
+						</td>\n\
+						<td>\n\
+							<a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add(\'detail\',\'\')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>\n\
+							<a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove(\'detail\',this)"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>\n\
+						</td>\n\
+					</tr>';
+		$('#dataTable-input tr:last').after(html);
+		var numRow = $('#dataTable-input tbody tr').length;
+		get("inDgoods",numRow,"");
+		// console.log(numRow);
 	}
 }
 
 function save(param,obj){
-	if (param == 'user') {
-		var forms = $('#formAdd');
+	if (param == 'data') {
 		var  inMode = $('#inMode').val();
-		var  inIdx = $('#inIdx').val();
 		var  inId = $('#inId').val();
-		var  inName = $('#inName').val();
-		var  inDepartment = $('#inDepartment').val();
-		var  inDivision = $('#inDivision').val();
-		var  inRole = $('#inRole').val();
-		var  inEmail = $('#inEmail').val();
-		var  inImage = $('#inImage').val();
-		var  inPassword = $('#inPassword').val();
-		var  inRepeatpassword = $('#inRepeatpassword').val();
-		var  inStatus = $('#inStatus').val();
+		var  inDate = $('#inDate').val();
+		var  inType = $('#inType').val();
+		var  inSupplier = $('#inSupplier').val();
+		var  inDuedate = $('#inDuedate').val();
+		var  inRemark = $('#inRemark').val();
+		var  inDiscount = $('#inDiscount').val();
+		var  inTax = $('#inTax').val();
+		var  inTotal = $('#inTotal').val();
 
-		if (inMode == "edit") {
-			$("#modalAdd #inPassword").prop("required",false);
-			$("#modalAdd #inRepeatpassword").prop("required",false);
-		} else {
-			$("#modalAdd #inPassword").prop("required",true);
-			$("#modalAdd #inRepeatpassword").prop("required",true);
-		}
-	    
-		var validation = Array.prototype.filter.call(forms, function(form) {
-			if (form.checkValidity() === false) {
-			event.preventDefault();
-			event.stopPropagation();
-			} else {
-				if ($(".is-invalid").length > 0) {
+		var inDgoods = "";
+		var inDqty = "";
+		var inDunitid = "";
+		var inDprice = "";
+		var inDdiscount = "";
+		var inDsubtotal = "";
+
+		$(".inDgoods").each(function(){
+			inDgoods  = $(this).val()+"|";
+		})
+		
+		$(".inDqty").each(function(){
+			inDqty  = $(this).val()+"|";
+		})
+		
+		$(".inDunitid").each(function(){
+			inDunitid  = $(this).val()+"|";
+		})
+		
+		$(".inDprice").each(function(){
+			inDprice  = $(this).val()+"|";
+		})
+		
+		$(".inDdiscount").each(function(){
+			inDdiscount  = $(this).val()+"|";
+		})
+		
+		$(".inDsubtotal").each(function(){
+			inDsubtotal  = $(this).val()+"|";
+		})
+
+		$.ajax({
+			type: "POST",
+			url: base_url+"user_management/save",
+			data: {
+				param: param,
+				obj: obj,
+				inMode: inMode,
+				inId: inId,
+				inDate: inDate,
+				inType: inType,
+				inSupplier: inSupplier,
+				inDuedate: inDuedate,
+				inRemark: inRemark,
+				inDiscount: inDiscount,
+				inTax: inTax,
+				inTotal: inTotal 
+			},
+			cache: false,
+			dataType: "JSON",
+			success: function (data) {
+				if (data.res == 'success') {
 					Swal.fire({
-						title: "Error !",
-						icon: "error",
+						title: "Data Saved!",
+						icon: "success",
 						timer: 1000
-					})
-					return;
-				} else if (inPassword != inRepeatpassword) {
-					$("#formAdd").removeClass("was-validated");
-					$("#inPassword").addClass("is-invalid");
-					$("#inRepeatpassword").addClass("is-invalid");
-					return;
-				} else {
-					$.ajax({
-						type: "POST",
-						url: base_url+"user_management/save",
-						data: {
-							param: param,
-							obj: obj,
-							inMode: inMode,
-							inIdx: inIdx,
-							inId: inId,
-							inName: inName,
-							inDepartment: inDepartment,
-							inDivision: inDivision,
-							inRole: inRole,
-							inEmail: inEmail,
-							inImage: inImage,
-							inPassword: inPassword,
-							inStatus: inStatus 
-						},
-						cache: false,
-						dataType: "JSON",
-						success: function (data) {
-							if (data.res == 'success') {
-								Swal.fire({
-									title: "Data Saved!",
-									icon: "success",
-									timer: 1000
-								}).then(function () { 
-									if (inMode == "add") {
-										clear('user','');
-										$("#inId").focus();	
-									} else if (inMode == "edit") {
-										clear('user','add');
-										$('#modalAdd').modal('toggle');
-										viewData();
-									}
-								});
-							} else if (date.err == '') {
-								console.log(data.err);
-							} 
+					}).then(function () { 
+						if (inMode == "add") {
+							clear('user','');
+							$("#inId").focus();	
+						} else if (inMode == "edit") {
+							clear('user','add');
+							$('#modalAdd').modal('toggle');
+							viewData();
 						}
 					});
-				}
+				} else if (date.err == '') {
+					console.log(data.err);
+				} 
 			}
-
-			form.classList.add('was-validated');
 		});
 	}
 }
@@ -679,8 +707,7 @@ function remove(param,obj) {
 				});
 			}
 		});
-	}
-	else if (param == "password") {
+	} else if (param == "password") {
 		const swalWithBootstrapButtons = Swal.mixin({
 			customClass: {
 				confirmButton: "btn btn-lg btn-success m-3",
@@ -730,6 +757,8 @@ function remove(param,obj) {
 				});
 			}
 		});
+	} else if (param == "detail") {
+		$(obj).closest('tr').remove();
 	}
 }
 
@@ -767,17 +796,45 @@ function count (param,obj){
 	if (param == "subtotal") {
 		var inDqty = $(obj).closest("tr").find(".inDqty").val();
 		var inDprice = $(obj).closest("tr").find(".inDprice").val();
-		var inDiscount = $(obj).closest("tr").find(".inDiscount").val();
+		var inDdiscount = $(obj).closest("tr").find(".inDdiscount").val();
 		var subtotal = 0;
 
 		if (inDqty > 0 && inDprice) {
-			if (inDiscount > 0) {
-				subtotal = inDqty * inDprice * (1 - (inDiscount/100));
+			if (inDdiscount > 0) {
+				subtotal = inDqty * inDprice * (1 - (inDdiscount/100));
 			} else {
 				subtotal = inDqty * inDprice;
 			}
 		}
 
 		$(obj).closest("tr").find(".inDsubtotal").val(subtotal);
+
+		var total = 0;
+		var inDiscount = $("#inDiscount").val();
+		var inTax = $("#inTax").val();
+
+		$(".inDsubtotal").each(function () {
+			total = parseFloat(total) + parseFloat($(this).val());
+		})
+		
+		total = total * (1 - (inDiscount/100));
+
+		total = total + (total * (inTax/100));
+
+		$("#inTotal").val(total);
+	} else if (param == "total") {
+		var total = 0;
+		var inDiscount = $("#inDiscount").val();
+		var inTax = $("#inTax").val();
+
+		$(".inDsubtotal").each(function () {
+			total = parseFloat(total) + parseFloat($(this).val());
+		})
+		
+		total = total * (1 - (inDiscount/100));
+
+		total = total + (total * (inTax/100));
+
+		$("#inTotal").val(total);
 	}
 }
