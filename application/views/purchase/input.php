@@ -22,7 +22,7 @@
                     <div class="form-group row">
                         <label for="inName" class="col-sm-3 col-form-label">Type</label>
                         <div class="col-sm-3">
-                            <select class="form-control inType" style="width: 100%;">
+                            <select class="form-control inType" id="inType" style="width: 100%;">
                                 <?php
                                 foreach ($type as $data_type) :
                                     echo '<option value="' . $data_type['id'] . '">' . $data_type['type'] . '</option>';
@@ -139,7 +139,7 @@
             </div>
             <div class="class row">
                 <div class="class col-12 text-center">
-                    <button type="submit" class="btn btn-primary btn-md col-1" id="btnSave">Save</button>
+                    <button type="button" class="btn btn-primary btn-md col-1" id="btnSave" onclick="save('data','')">Save</button>
                     <button type="button" class="btn btn-secondary btn-md col-1" data-dismiss="modal">Close</button>
                 </div>
             </div>

@@ -4,10 +4,6 @@ $(document).ready(function() {
 	// 	get("inDivision",inDepartment,"");
 	// })
 
-	$('#modalAdd #btnSave').on('click',function(){
-		save('user','');
-	})
-
 	$('#modalAdd #inId').on('keyup',function(){
 		check("inId","");
 	})
@@ -215,7 +211,7 @@ function get(param,obj,callBack) {
 					$("#dataTable-input tr").eq(obj).find('.inDgoods').html(html);
 
 					$('.inDgoods').on('select2:select', function () {
-						var unit_id = $(this).find(":selected").data("unit	id");
+						var unit_id = $(this).find(":selected").data("unitid");
 						var unit = $(this).find(":selected").data("unit");
 						
 						$(this).closest('tr').find('.inDunitid').val(unit_id);
@@ -542,9 +538,9 @@ function save(param,obj){
 		var  inSupplier = $('#inSupplier').val();
 		var  inDuedate = $('#inDuedate').val();
 		var  inRemark = $('#inRemark').val();
-		var  inDiscount = $('#inDiscount').val();
-		var  inTax = $('#inTax').val();
-		var  inTotal = $('#inTotal').val();
+		var  inDiscount = parseFloat($('#inDiscount').val());
+		var  inTax = parseFloat($('#inTax').val());
+		var  inTotal = parseFloat($('#inTotal').val());
 
 		var inDgoods = "";
 		var inDqty = "";
@@ -554,46 +550,54 @@ function save(param,obj){
 		var inDsubtotal = "";
 
 		$(".inDgoods").each(function(){
-			inDgoods  = $(this).val()+"|";
+			inDgoods  += $(this).val()+"|";
 		})
 		
 		$(".inDqty").each(function(){
-			inDqty  = $(this).val()+"|";
+			inDqty  += $(this).val()+"|";
 		})
 		
 		$(".inDunitid").each(function(){
-			inDunitid  = $(this).val()+"|";
+			inDunitid  += $(this).val()+"|";
 		})
 		
 		$(".inDprice").each(function(){
-			inDprice  = $(this).val()+"|";
+			inDprice  += $(this).val()+"|";
 		})
 		
 		$(".inDdiscount").each(function(){
-			inDdiscount  = $(this).val()+"|";
+			inDdiscount  += $(this).val()+"|";
 		})
 		
 		$(".inDsubtotal").each(function(){
-			inDsubtotal  = $(this).val()+"|";
+			inDsubtotal  += $(this).val()+"|";
 		})
 
+		var data = [{inMode: inMode,
+					inId: inId,
+					inDate: inDate,
+					inType: inType,
+					inSupplier: inSupplier,
+					inDuedate: inDuedate,
+					inRemark: inRemark,
+					inDiscount: inDiscount,
+					inTax: inTax,
+					inTotal: inTotal,
+					inDgoods: inDgoods,
+					inDqty: inDqty,
+					inDunitid: inDunitid,
+					inDprice: inDprice,
+					inDdiscount: inDdiscount,
+					inDsubtotal: inDsubtotal}];  
+		
 		$.ajax({
 			type: "POST",
-			url: base_url+"user_management/save",
+			url: base_url+"purchase/save",
 			data: {
-				param: param,
-				obj: obj,
-				inMode: inMode,
-				inId: inId,
-				inDate: inDate,
-				inType: inType,
-				inSupplier: inSupplier,
-				inDuedate: inDuedate,
-				inRemark: inRemark,
-				inDiscount: inDiscount,
-				inTax: inTax,
-				inTotal: inTotal 
-			},
+					param: param,
+					obj: obj,
+					data: data
+				},
 			cache: false,
 			dataType: "JSON",
 			success: function (data) {
@@ -604,12 +608,12 @@ function save(param,obj){
 						timer: 1000
 					}).then(function () { 
 						if (inMode == "add") {
-							clear('user','');
-							$("#inId").focus();	
+							// clear('user','');
+							// $("#inId").focus();	
 						} else if (inMode == "edit") {
-							clear('user','add');
-							$('#modalAdd').modal('toggle');
-							viewData();
+							// clear('user','add');
+							// $('#modalAdd').modal('toggle');
+							// viewData();
 						}
 					});
 				} else if (date.err == '') {

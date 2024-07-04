@@ -100,37 +100,17 @@ class Purchase_M extends CI_Model
         return $data;
     }
 
-    public function save($param, $obj, $inMode, $inIdx, $inId, $inName, $inDepartment, $inDivision, $inRole, $inEmail, $inImage, $inPassword, $inStatus)
+    public function save($param, $obj, $data)
     {
-        $curdate = date("Y-m-d");
-        $curtime = date("H:i:s");
-        $res = array();
-
-        if ($param == 'user') {
+        for ($i = 0; $i < count($data); $i++) {
+            for ($j = 0; $j < count($data[$i]); $j++) {
+                $inType = $data[$i]["inType"];
+            }
+        }
+        var_dump($inType);
+        die();
+        if ($param == 'data') {
             if ($inMode == "add") {
-                $data = array(
-                    'id' => '',
-                    'user_id' => $inId,
-                    'name' => $inName,
-                    'email' => $inEmail,
-                    'image' => "default.png",
-                    'password' => addslashes($inPassword),
-                    'company_id' => '1',
-                    'department_id' => $inDepartment,
-                    'division_id' => $inDivision,
-                    'role_id' => $inRole,
-                    'status' => $inStatus,
-                    'created_by' => $_SESSION['user_id']
-                );
-
-                $this->db->db_debug = false;
-
-                if ($this->db->insert('m_user', $data)) {
-                    $res['res'] = 'success';
-                } else {
-                    $res['err'] =  $this->db->error();
-                    $res['err'] = $res['err']['message'];
-                }
             } else if ($inMode == "edit") {
                 $data = array(
                     'user_id' => $inId,

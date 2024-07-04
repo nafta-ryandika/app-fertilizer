@@ -86,21 +86,10 @@ class Purchase extends CI_Controller
     {
         $param = $this->input->post('param');
         $obj = $this->input->post('obj');
+        $datax = $this->input->post('data');
 
-        if ($param == 'user') {
-            $inMode = $this->input->post('inMode');
-            $inIdx = $this->input->post('inIdx');
-            $inId = $this->input->post('inId');
-            $inName = $this->input->post('inName');
-            $inDepartment = $this->input->post('inDepartment');
-            $inDivision = $this->input->post('inDivision');
-            $inRole = $this->input->post('inRole');
-            $inEmail = $this->input->post('inEmail');
-            $inImage = $this->input->post('inImage');
-            $inPassword = password_hash($this->input->post('inPassword'), PASSWORD_DEFAULT);
-            $inStatus = $this->input->post('inStatus');
-
-            $data = $this->User_management_M->save($param, $obj, $inMode, $inIdx, $inId, $inName, $inDepartment, $inDivision, $inRole, $inEmail, $inImage, $inPassword, $inStatus);
+        if ($param == 'data') {
+            $data = $this->Purchase_M->save($param, $obj, $datax);
         }
 
         echo (json_encode($data));
