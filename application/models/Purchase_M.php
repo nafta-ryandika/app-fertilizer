@@ -102,12 +102,99 @@ class Purchase_M extends CI_Model
 
     public function save($param, $obj, $data)
     {
+        $res = array();
+
         for ($i = 0; $i < count($data); $i++) {
-            for ($j = 0; $j < count($data[$i]); $j++) {
-                $inType = $data[$i]["inType"];
+            //header
+            $inMode = $data[$i]["inMode"];
+            $inId = $data[$i]["inId"];
+            $inDate = $data[$i]["inDate"];
+            $inType = $data[$i]["inType"];
+            $inSupplier = $data[$i]["inSupplier"];
+            $inDuedate = $data[$i]["inDuedate"];
+            $inRemark = $data[$i]["inRemark"];
+            $inDiscount = $data[$i]["inDiscount"];
+            $inTax = $data[$i]["inTax"];
+            $inTotal = $data[$i]["inTotal"];
+
+            // detail
+            $inDgoods = $data[$i]["inDgoods"];
+            $inDqty = $data[$i]["inDqty"];
+            $inDunitid = $data[$i]["inDunitid"];
+            $inDprice = $data[$i]["inDprice"];
+            $inDdiscount = $data[$i]["inDdiscount"];
+            $inDsubtotal = $data[$i]["inDsubtotal"];
+        }
+
+        $period = date("m") . date("Y");
+        $transaction = "purchase";
+        $counter = 0;
+
+        $query1 = "SELECT `counter` From m_counter WHERE `transaction` = '" . $transaction . "' `period` = '" . $period . " AND `status` = 1'";
+        $row = $this->db->query($query1)->num_rows();
+
+        if ($row > 0) {
+            $data1 = array(
+                'counter' => $counter++,
+                'created_by' => $_SESSION['user_id'],
+                'created_at' => ,
+            );
+
+            $this->db->db_debug = false;
+
+            $this->db->where("id", $inIdx);
+
+            if ($this->db->update("m_user", $data)) {
+                $res['res'] = 'success';
+            } else {
+                $res['res'] =  $this->db->error();
+                $res['res'] = $data['res']['message'];
+            }
+        } else {
+            $data1 = array(
+                'id' => '',
+                'transaction' => $transaction,
+                'counter' => $counter++,
+                'period' => $period,
+                'created_by' => $_SESSION['user_id']
+            );
+
+            $this->db->db_debug = false;
+
+            if ($this->db->insert('m_counter', $data1)) {
+                $res['res'] = 'success';
+            } else {
+                $res['err'] =  $this->db->error();
+                $res['err'] = $res['err']['message'];
+                return $res;
             }
         }
-        var_dump($inType);
+
+        $data = array(
+            'id' => '',
+            'user_id' => $inId,
+            'name' => $inName,
+            'email' => $inEmail,
+            'image' => "default.png",
+            'password' => addslashes($inPassword),
+            'company_id' => '1',
+            'department_id' => $inDepartment,
+            'division_id' => $inDivision,
+            'role_id' => $inRole,
+            'status' => $inStatus,
+            'created_by' => $_SESSION['user_id']
+        );
+
+        $this->db->db_debug = false;
+
+        if ($this->db->insert('m_user', $data)) {
+            $res['res'] = 'success';
+        } else {
+            $res['err'] =  $this->db->error();
+            $res['err'] = $res['err']['message'];
+        }
+
+        var_dump($period);
         die();
         if ($param == 'data') {
             if ($inMode == "add") {
