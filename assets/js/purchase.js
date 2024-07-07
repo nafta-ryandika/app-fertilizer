@@ -1,20 +1,6 @@
 $(document).ready(function() {
-	// $('#inDepartment').on('change',function(){
-	// 	var inDepartment = $('#inDepartment').val().trim();
-	// 	get("inDivision",inDepartment,"");
-	// })
-
-	$('#modalAdd #inId').on('keyup',function(){
-		check("inId","");
-	})
-
-	$('#modalAdd').on('hidden.bs.modal', function () {
-		clear('user','');
-		viewData();
-	})
-
     viewData();
-	get("input","","");
+	// get("input","","");
 });
 
 $(function () {
@@ -360,8 +346,13 @@ function get(param,obj,callBack) {
 				obj:obj
 			},
 			cache: false,
+			beforeSend: function (data) {
+				$("#searchArea").hide();
+				$("#dataArea").hide();
+				$("#inputArea").show();
+			},
 			success: function (data) {
-				$("#contentArea").html(data);
+				$("#inputArea").html(data);
 				$(function () {
 					$("#dataTable-input").DataTable( {
 						"bInfo" : false,
@@ -379,6 +370,7 @@ function get(param,obj,callBack) {
 			},
 			complete: function (data) {
 				$("#inMode").val("add");
+				$("#inType").focus();
 			}
 		});
 	}
@@ -573,7 +565,68 @@ function save(param,obj){
 			inDsubtotal  += $(this).val()+"|";
 		})
 
-		var data = [{inMode: inMode,
+		if (inType.trim() == "") {
+			Swal.fire({
+				title: "Input Type Empty !",
+				icon: "error"
+			}).then(function () { 
+				$("#inType").focus();
+				return;
+			});
+		} else if (inSupplier.trim() == "") {
+			Swal.fire({
+				title: "Input Supplier Empty !",
+				icon: "error"
+			}).then(function () { 
+				$("#inSupplier").focus();
+				return;
+			});
+		} else if (inDuedate.trim() == "") {
+			Swal.fire({
+				title: "Input Due Date Empty !",
+				icon: "error"
+			}).then(function () { 
+				$("#inDuedate").focus();
+				return;
+			});
+		} else {
+			var check = true;
+
+			$(".inDgoods").each(function(){
+				var dqtyx = $(this).closest('tr').find('.inDqty').val();
+				var dunitx = $(this).closest('tr').find('.inDunit').val();
+				var dpricex = $(this).closest('tr').find('.inDprice').val();
+				var dsubtotalx = $(this).closest('tr').find('.inDsubtotal').val();
+					
+				if ($(this).val().trim() == "") {
+					if (dqtyx.trim() != "" || dunitx.trim() != "" || dpricex.trim() != "" || dsubtotalx.trim() != ""){
+						Swal.fire({
+							title: "Please Check Puchase Order Details",
+							icon: "error"
+						}).then(function () { 
+							$(this).focus();
+							return;
+						});
+
+						check = false;
+					}
+				} else if ($(this).val().trim() != "") {
+					if (dqtyx.trim() == "" || dunitx.trim() == "" || dpricex.trim() == "" || dsubtotalx.trim() == ""){
+						Swal.fire({
+							title: "Please Check Puchase Order Details",
+							icon: "error"
+						}).then(function () { 
+							$(this).focus();
+							return;
+						});
+
+						check = false;
+					}
+				}
+			})
+
+			if(check) {
+				var data = [{inMode: inMode,
 					inId: inId,
 					inDate: inDate,
 					inType: inType,
@@ -590,37 +643,39 @@ function save(param,obj){
 					inDdiscount: inDdiscount,
 					inDsubtotal: inDsubtotal}];  
 		
-		$.ajax({
-			type: "POST",
-			url: base_url+"purchase/save",
-			data: {
-					param: param,
-					obj: obj,
-					data: data
-				},
-			cache: false,
-			dataType: "JSON",
-			success: function (data) {
-				if (data.res == 'success') {
-					Swal.fire({
-						title: "Data Saved!",
-						icon: "success",
-						timer: 1000
-					}).then(function () { 
-						if (inMode == "add") {
-							// clear('user','');
-							// $("#inId").focus();	
-						} else if (inMode == "edit") {
-							// clear('user','add');
-							// $('#modalAdd').modal('toggle');
-							// viewData();
-						}
-					});
-				} else if (date.err == '') {
-					console.log(data.err);
-				} 
+				$.ajax({
+					type: "POST",
+					url: base_url+"purchase/save",
+					data: {
+							param: param,
+							obj: obj,
+							data: data
+						},
+					cache: false,
+					dataType: "JSON",
+					success: function (data) {
+						if (data.res == 'success') {
+							Swal.fire({
+								title: "Data Saved!",
+								icon: "success",
+								timer: 1000
+							}).then(function () { 
+								if (inMode == "add") {
+									get("input","","");
+									// $("#inId").focus();	
+								} else if (inMode == "edit") {
+									// clear('user','add');
+									// $('#modalAdd').modal('toggle');
+									// viewData();
+								}
+							});
+						} else if (date.err == '') {
+							console.log(data.err);
+						} 
+					}
+				});
 			}
-		});
+		}
 	}
 }
 
@@ -840,5 +895,37 @@ function count (param,obj){
 		total = total + (total * (inTax/100));
 
 		$("#inTotal").val(total);
+	}
+}
+
+function exit (param,obj){
+	if (param == "input") {
+		const swalWithBootstrapButtons = Swal.mixin({
+			customClass: {
+				confirmButton: "btn btn-lg btn-success m-3",
+				cancelButton: "btn btn-lg btn-danger m-3"
+			},
+			buttonsStyling: false
+		});
+
+		swalWithBootstrapButtons.fire({
+			title: "Close Input?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonText: "Yes",
+			cancelButtonText: "No",
+			reverseButtons: true
+		}).then((result) => {
+			if (result.isConfirmed) {
+				viewData();
+			} else if (
+				result.dismiss === Swal.DismissReason.cancel
+			) {
+				swalWithBootstrapButtons.fire({
+					title: "Cancelled",
+					icon: "error"
+				});
+			}
+		});
 	}
 }

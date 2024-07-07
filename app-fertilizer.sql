@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.51-log - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.6.0.6765
+-- HeidiSQL Version:             12.5.0.6677
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,9 +21,9 @@ USE `app-fertilizer`;
 
 -- Dumping structure for table app-fertilizer.m_access
 CREATE TABLE IF NOT EXISTS `m_access` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `role_id` int(11) DEFAULT NULL,
-  `menu_id` int(11) DEFAULT NULL,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `role_id` int(16) DEFAULT NULL,
+  `menu_id` int(16) DEFAULT NULL,
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -51,7 +51,7 @@ INSERT INTO `m_access` (`id`, `role_id`, `menu_id`, `created_by`, `created_at`) 
 
 -- Dumping structure for table app-fertilizer.m_company
 CREATE TABLE IF NOT EXISTS `m_company` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
   `company` varchar(256) DEFAULT NULL,
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -65,25 +65,27 @@ INSERT INTO `m_company` (`id`, `company`, `created_by`, `created_at`) VALUES
 
 -- Dumping structure for table app-fertilizer.m_counter
 CREATE TABLE IF NOT EXISTS `m_counter` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `transaction` varchar(256) NOT NULL DEFAULT '0',
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `transaction` varchar(256) DEFAULT NULL,
   `counter` int(11) DEFAULT NULL,
   `period` varchar(16) DEFAULT NULL,
-  `status` tinyint(4) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   KEY `period` (`period`),
   KEY `counter` (`counter`),
   KEY `transaction` (`transaction`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.m_counter: ~0 rows (approximately)
 DELETE FROM `m_counter`;
+INSERT INTO `m_counter` (`id`, `transaction`, `counter`, `period`, `status`, `created_by`, `created_at`) VALUES
+	(2, 'purchase', 17, '072024', 1, 'admin', '2024-07-07 14:04:00');
 
 -- Dumping structure for table app-fertilizer.m_department
 CREATE TABLE IF NOT EXISTS `m_department` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
   `department` varchar(256) DEFAULT NULL,
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -121,8 +123,8 @@ INSERT INTO `m_department` (`id`, `department`, `created_by`, `created_at`) VALU
 
 -- Dumping structure for table app-fertilizer.m_division
 CREATE TABLE IF NOT EXISTS `m_division` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `department_id` int(11) NOT NULL,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `department_id` int(16) NOT NULL,
   `division` varchar(256) DEFAULT NULL,
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -226,7 +228,7 @@ INSERT INTO `m_division` (`id`, `department_id`, `division`, `created_by`, `crea
 
 -- Dumping structure for table app-fertilizer.m_goods
 CREATE TABLE IF NOT EXISTS `m_goods` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
   `goods` varchar(256) DEFAULT NULL,
   `unit_id` int(11) DEFAULT NULL,
   `qty` varchar(256) DEFAULT NULL,
@@ -251,7 +253,7 @@ INSERT INTO `m_goods` (`id`, `goods`, `unit_id`, `qty`, `remark`, `status`, `cre
 
 -- Dumping structure for table app-fertilizer.m_menu
 CREATE TABLE IF NOT EXISTS `m_menu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
   `menu` varchar(128) DEFAULT NULL,
   `status` tinyint(4) DEFAULT NULL COMMENT '0 = hide; 1 show;',
   `created_by` varchar(256) DEFAULT NULL,
@@ -274,7 +276,7 @@ INSERT INTO `m_menu` (`id`, `menu`, `status`, `created_by`, `created_at`) VALUES
 
 -- Dumping structure for table app-fertilizer.m_position
 CREATE TABLE IF NOT EXISTS `m_position` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
   `position` varchar(256) DEFAULT NULL,
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -299,7 +301,7 @@ INSERT INTO `m_position` (`id`, `position`, `created_by`, `created_at`) VALUES
 
 -- Dumping structure for table app-fertilizer.m_purchase_type
 CREATE TABLE IF NOT EXISTS `m_purchase_type` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
   `type` varchar(256) DEFAULT NULL,
   `status` tinyint(4) DEFAULT '1',
   `created_by` varchar(256) DEFAULT NULL,
@@ -317,7 +319,7 @@ INSERT INTO `m_purchase_type` (`id`, `type`, `status`, `created_by`, `created_at
 
 -- Dumping structure for table app-fertilizer.m_role
 CREATE TABLE IF NOT EXISTS `m_role` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(16) unsigned NOT NULL AUTO_INCREMENT,
   `role` varchar(256) DEFAULT NULL,
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -336,8 +338,8 @@ INSERT INTO `m_role` (`id`, `role`, `created_by`, `created_at`) VALUES
 
 -- Dumping structure for table app-fertilizer.m_submenu
 CREATE TABLE IF NOT EXISTS `m_submenu` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `menu_id` int(11) DEFAULT NULL,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `menu_id` int(16) DEFAULT NULL,
   `title` varchar(128) DEFAULT NULL,
   `url` varchar(128) DEFAULT NULL,
   `icon` varchar(128) DEFAULT NULL,
@@ -364,7 +366,7 @@ INSERT INTO `m_submenu` (`id`, `menu_id`, `title`, `url`, `icon`, `status`, `cre
 
 -- Dumping structure for table app-fertilizer.m_supplier
 CREATE TABLE IF NOT EXISTS `m_supplier` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
   `supplier` varchar(256) DEFAULT NULL,
   `pic` varchar(256) DEFAULT NULL,
   `phone` varchar(16) DEFAULT NULL,
@@ -378,7 +380,7 @@ CREATE TABLE IF NOT EXISTS `m_supplier` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_supplier: ~5 rows (approximately)
+-- Dumping data for table app-fertilizer.m_supplier: ~6 rows (approximately)
 DELETE FROM `m_supplier`;
 INSERT INTO `m_supplier` (`id`, `supplier`, `pic`, `phone`, `address`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'Abadi Jaya', 'Andi', '088847228293', 'Serang', NULL, 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
@@ -390,7 +392,7 @@ INSERT INTO `m_supplier` (`id`, `supplier`, `pic`, `phone`, `address`, `remark`,
 
 -- Dumping structure for table app-fertilizer.m_token
 CREATE TABLE IF NOT EXISTS `m_token` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(16) NOT NULL,
   `token` varchar(128) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -403,7 +405,7 @@ DELETE FROM `m_token`;
 
 -- Dumping structure for table app-fertilizer.m_unit
 CREATE TABLE IF NOT EXISTS `m_unit` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
   `unit` varchar(256) DEFAULT NULL,
   `status` tinyint(4) DEFAULT '1',
   `created_by` varchar(256) DEFAULT NULL,
@@ -413,7 +415,7 @@ CREATE TABLE IF NOT EXISTS `m_unit` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_unit: ~4 rows (approximately)
+-- Dumping data for table app-fertilizer.m_unit: ~5 rows (approximately)
 DELETE FROM `m_unit`;
 INSERT INTO `m_unit` (`id`, `unit`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'Pcs', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
@@ -424,16 +426,16 @@ INSERT INTO `m_unit` (`id`, `unit`, `status`, `created_by`, `created_at`, `log_b
 
 -- Dumping structure for table app-fertilizer.m_user
 CREATE TABLE IF NOT EXISTS `m_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(16) DEFAULT NULL,
   `name` varchar(256) DEFAULT NULL,
   `email` varchar(256) DEFAULT NULL,
   `image` varchar(256) DEFAULT NULL,
   `password` varchar(256) DEFAULT NULL,
-  `company_id` int(11) DEFAULT '1',
-  `department_id` int(11) DEFAULT NULL,
-  `division_id` int(11) DEFAULT NULL,
-  `role_id` int(11) DEFAULT NULL,
+  `company_id` int(16) DEFAULT '1',
+  `department_id` int(16) DEFAULT NULL,
+  `division_id` int(16) DEFAULT NULL,
+  `role_id` int(16) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -452,6 +454,77 @@ INSERT INTO `m_user` (`id`, `user_id`, `name`, `email`, `image`, `password`, `co
 	(25, 'security', 'security', '', 'default.png', '$2y$10$swhOc3ETAs0BBgw8Ih7Ek.sTFYnlpmD76JUfh0oDx3FSqcNmqbpfS', 1, 14, 23, 4, 1, 'admin', '2024-05-18 16:25:26'),
 	(26, 'audit', 'audit', '', 'default.png', '$2y$10$NDfADe49btw6ciicwTs6qeyXrQCAMgi9MEjyM/Sr2WF5w1UF4rONW', 1, 12, 22, 5, 1, 'admin', '2024-05-18 16:26:15'),
 	(27, 'vote', 'vote', '', 'default.png', '$2y$10$2c08SzztPfP2Rd1Tij37HeGgbqpOE54mksVgF/IWwiMuSE/3QRAjC', 1, 20, 38, 6, 1, 'admin', '2024-05-23 23:31:11');
+
+-- Dumping structure for table app-fertilizer.t_purchase
+CREATE TABLE IF NOT EXISTS `t_purchase` (
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `purchase_id` varchar(16) NOT NULL,
+  `date` date DEFAULT NULL,
+  `purchase_type_id` int(11) NOT NULL DEFAULT '0',
+  `supplier_id` int(11) NOT NULL DEFAULT '0',
+  `due_date` date DEFAULT NULL,
+  `remark` text,
+  `discount` int(11) DEFAULT NULL,
+  `tax` int(11) DEFAULT NULL,
+  `total` int(11) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`,`purchase_id`) USING BTREE,
+  KEY `date` (`date`),
+  KEY `due_date` (`due_date`),
+  KEY `purchase_type_id` (`purchase_type_id`),
+  KEY `supplier_id` (`supplier_id`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.t_purchase: ~0 rows (approximately)
+DELETE FROM `t_purchase`;
+INSERT INTO `t_purchase` (`id`, `purchase_id`, `date`, `purchase_type_id`, `supplier_id`, `due_date`, `remark`, `discount`, `tax`, `total`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(2, 'PO/072024/00013', '2024-07-07', 1, 6, '2024-07-07', 'test', 10, 11, 42957, 1, 'admin', '2024-07-07 10:16:55', NULL, NULL),
+	(3, 'PO/072024/00014', '2024-07-07', 1, 6, '2024-07-07', 'test', 10, 11, 43956, 1, 'admin', '2024-07-07 10:27:11', NULL, NULL),
+	(4, 'PO/072024/00015', '2024-07-07', 1, 6, '2024-07-07', 'test', 10, 11, 43956, 1, 'admin', '2024-07-07 10:33:35', NULL, NULL),
+	(5, 'PO/072024/00016', '2024-07-07', 0, 0, '0000-00-00', '', 0, 0, 0, 1, 'admin', '2024-07-07 10:59:07', NULL, NULL),
+	(6, 'PO/072024/00017', '2024-07-07', 1, 4, '2024-07-07', '', 5, 11, 71179, 1, 'admin', '2024-07-07 14:04:00', NULL, NULL);
+
+-- Dumping structure for table app-fertilizer.t_purchase_detail
+CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `purchase_id` varchar(16) DEFAULT NULL,
+  `goods_id` varchar(16) NOT NULL,
+  `qty` float DEFAULT NULL,
+  `unit_id` varchar(16) DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  `discount` float DEFAULT NULL,
+  `subtotal` float DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `purchase_id` (`purchase_id`),
+  KEY `goods_id` (`goods_id`),
+  KEY `unit_id` (`unit_id`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.t_purchase_detail: ~11 rows (approximately)
+DELETE FROM `t_purchase_detail`;
+INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'PO/072024/00013', '2', 20, '4', 2000, 5, 38000, 1, 'admin', '2024-07-07 10:16:55', NULL, NULL),
+	(2, 'PO/072024/00013', '3', 10, '1', 500, NULL, 5000, 1, 'admin', '2024-07-07 10:16:55', NULL, NULL),
+	(3, 'PO/072024/00014', '2', 20, '4', 2000, 5, 38000, 1, 'admin', '2024-07-07 10:27:11', NULL, NULL),
+	(4, 'PO/072024/00014', '3', 10, '1', 500, NULL, 5000, 1, 'admin', '2024-07-07 10:27:11', NULL, NULL),
+	(5, 'PO/072024/00014', '4', 5, '1', 200, NULL, 1000, 1, 'admin', '2024-07-07 10:27:11', NULL, NULL),
+	(6, 'PO/072024/00015', '2', 20, '4', 2000, 1, 38000, 1, 'admin', '2024-07-07 10:33:35', NULL, NULL),
+	(7, 'PO/072024/00015', '3', 10, '1', 500, 0, 5000, 1, 'admin', '2024-07-07 10:33:35', NULL, NULL),
+	(8, 'PO/072024/00015', '4', 5, '1', 200, 0, 1000, 1, 'admin', '2024-07-07 10:33:35', NULL, NULL),
+	(9, 'PO/072024/00016', '', 0, '', 0, 1, 0, 1, 'admin', '2024-07-07 10:59:07', NULL, NULL),
+	(10, 'PO/072024/00017', '2', 100, '4', 500, 1, 47500, 1, 'admin', '2024-07-07 14:04:00', NULL, NULL),
+	(11, 'PO/072024/00017', '5', 2, '3', 10000, 0, 20000, 1, 'admin', '2024-07-07 14:04:00', NULL, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

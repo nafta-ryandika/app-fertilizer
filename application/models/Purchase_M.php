@@ -126,42 +126,55 @@ class Purchase_M extends CI_Model
             $inDsubtotal = $data[$i]["inDsubtotal"];
         }
 
+        $curdate = date("Y-m-d H:i:s");
         $period = date("m") . date("Y");
         $transaction = "purchase";
         $counter = 0;
 
-        $query1 = "SELECT `counter` From m_counter WHERE `transaction` = '" . $transaction . "' `period` = '" . $period . " AND `status` = 1'";
-        $row = $this->db->query($query1)->num_rows();
+        $query1 = "SELECT `counter` From m_counter WHERE `transaction` = '" . $transaction . "'  AND  `period` = '" . $period . "' AND `status` = '1'";
+        $row1 = $this->db->query($query1)->num_rows();
 
-        if ($row > 0) {
-            $data1 = array(
-                'counter' => $counter++,
+        if ($row1 > 0) {
+            $data1 = $this->db->query($query1)->row_array();
+            $counter = $data1['counter'];
+            $counter++;
+
+            $data2 = array(
+                'counter' => $counter,
                 'created_by' => $_SESSION['user_id'],
-                'created_at' => ,
+                'created_at' => $curdate
             );
 
             $this->db->db_debug = false;
 
-            $this->db->where("id", $inIdx);
+            $where2 = array(
+                'period' => $period,
+                'transaction' => $transaction
+            );
 
-            if ($this->db->update("m_user", $data)) {
+            $this->db->where($where2);
+
+            if ($this->db->update("m_counter", $data2)) {
                 $res['res'] = 'success';
             } else {
                 $res['res'] =  $this->db->error();
                 $res['res'] = $data['res']['message'];
+                return $res;
             }
         } else {
-            $data1 = array(
+            $counter++;
+
+            $data2 = array(
                 'id' => '',
                 'transaction' => $transaction,
-                'counter' => $counter++,
+                'counter' => $counter,
                 'period' => $period,
                 'created_by' => $_SESSION['user_id']
             );
 
             $this->db->db_debug = false;
 
-            if ($this->db->insert('m_counter', $data1)) {
+            if ($this->db->insert('m_counter', $data2)) {
                 $res['res'] = 'success';
             } else {
                 $res['err'] =  $this->db->error();
@@ -170,58 +183,76 @@ class Purchase_M extends CI_Model
             }
         }
 
-        $data = array(
+        $counter = sprintf("%05d", $counter);
+
+        $purchase_id = "PO/" . $period . "/" . $counter;
+
+        // header
+        $data3 = array(
             'id' => '',
-            'user_id' => $inId,
-            'name' => $inName,
-            'email' => $inEmail,
-            'image' => "default.png",
-            'password' => addslashes($inPassword),
-            'company_id' => '1',
-            'department_id' => $inDepartment,
-            'division_id' => $inDivision,
-            'role_id' => $inRole,
-            'status' => $inStatus,
+            'purchase_id' => $purchase_id,
+            'date' => $inDate,
+            'purchase_type_id' => $inType,
+            'supplier_id' => $inSupplier,
+            'due_date' => $inDuedate,
+            'remark' => $inRemark,
+            'discount' => $inDiscount,
+            'tax' => $inTax,
+            'total' => $inTotal,
             'created_by' => $_SESSION['user_id']
         );
 
         $this->db->db_debug = false;
 
-        if ($this->db->insert('m_user', $data)) {
+        if ($this->db->insert('t_purchase', $data3)) {
             $res['res'] = 'success';
         } else {
             $res['err'] =  $this->db->error();
             $res['err'] = $res['err']['message'];
+            return $res;
         }
 
-        var_dump($period);
-        die();
-        if ($param == 'data') {
-            if ($inMode == "add") {
-            } else if ($inMode == "edit") {
-                $data = array(
-                    'user_id' => $inId,
-                    'name' => $inName,
-                    'email' => $inEmail,
-                    'image' => "default.png",
-                    'company_id' => '1',
-                    'department_id' => $inDepartment,
-                    'division_id' => $inDivision,
-                    'role_id' => $inRole,
-                    'status' => $inStatus,
-                    'created_by' => $_SESSION['user_id'],
-                    'created_at' => date('Y-m-d H:i:s')
+        // detail
+        $inDgoods = rtrim($inDgoods, "|");
+        $inDgoods = explode("|", $inDgoods);
+
+        $inDqty = rtrim($inDqty, "|");
+        $inDqty = explode("|", $inDqty);
+
+        $inDunitid = rtrim($inDunitid, "|");
+        $inDunitid = explode("|", $inDunitid);
+
+        $inDprice = rtrim($inDprice, "|");
+        $inDprice = explode("|", $inDprice);
+
+        $inDdiscount = rtrim($inDdiscount, "|");
+        $inDdiscount = explode("|", $inDdiscount);
+
+        $inDsubtotal = rtrim($inDsubtotal, "|");
+        $inDsubtotal = explode("|", $inDsubtotal);
+
+        if (!empty($inDgoods)) {
+            for ($i = 0; $i < count($inDgoods); $i++) {
+                $data4 = array(
+                    'id' => '',
+                    'purchase_id' => $purchase_id,
+                    'goods_id' => $inDgoods[$i],
+                    'qty' => $inDqty[$i],
+                    'unit_id' => $inDunitid[$i],
+                    'price' => $inDprice[$i],
+                    'discount' => isset($inDdiscount[$i]),
+                    'subtotal' => $inDsubtotal[$i],
+                    'created_by' => $_SESSION['user_id']
                 );
 
                 $this->db->db_debug = false;
 
-                $this->db->where("id", $inIdx);
-
-                if ($this->db->update("m_user", $data)) {
+                if ($this->db->insert('t_purchase_detail', $data4)) {
                     $res['res'] = 'success';
                 } else {
-                    $res['res'] =  $this->db->error();
-                    $res['res'] = $data['res']['message'];
+                    $res['err'] =  $this->db->error();
+                    $res['err'] = $res['err']['message'];
+                    return $res;
                 }
             }
         }

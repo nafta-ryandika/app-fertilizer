@@ -5,7 +5,7 @@
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
 
     <div class="row content" id="contentArea">
-        <div class="col-lg">
+        <div class="col-lg" id="searchArea" style="display: none;">
             <div class="card shadow mt-4 mb-4">
                 <!-- Card Header - Accordion -->
                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
@@ -76,7 +76,7 @@
                 </table>
             </div>
         </div>
-        <div class="card shadow mt-4 mb-4">
+        <div class="card shadow mt-4 mb-4" id="dataArea">
             <!-- Card Header - Accordion -->
             <a href="#collapseCardExample1" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
                 <h6 class="m-0 font-weight-bold text-primary">View Data</h6>
@@ -87,6 +87,10 @@
                     <div class="content" id="tableArea">
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-lg" id="inputArea" style="">
+            <div class="card shadow">
             </div>
         </div>
     </div>
