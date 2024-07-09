@@ -5,7 +5,7 @@
     <h1 class="h3 mb-4 text-gray-800"><?= $title; ?></h1>
 
     <div class="row content" id="contentArea">
-        <div class="col-lg" id="searchArea" style="display: none;">
+        <div class="col-lg-12" id="searchArea">
             <div class="card shadow mt-4 mb-4">
                 <!-- Card Header - Accordion -->
                 <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
@@ -32,19 +32,20 @@
                                         <div class="form-group row">
                                             <div class="col-3">
                                                 <select class="form-control inSearchcolumn" style="width: 100%;" onchange="get('searchColumn',this,'')">
-                                                    <option value="user_id">ID</option>
-                                                    <option value="name">Name</option>
-                                                    <option value="dt1.department_id">Department</option>
-                                                    <option value="dt3.division">Division</option>
-                                                    <option value="dt1.role_id">Role</option>
-                                                    <option value="email">Email</option>
-                                                    <option value="status">Status</option>
+                                                    <option value="purchase_id">ID</option>
+                                                    <option value="date">Date</option>
+                                                    <option value="purchase_type_id">Type</option>
+                                                    <option value="supplier_id">Supplier</option>
+                                                    <option value="due_date">Due Date</option>
+                                                    <option value="total">Total</option>
                                                 </select>
                                             </div>
                                             <div class="col-2">
                                                 <select class="form-control inSearchparameter" style="width: 100%;">
                                                     <option value="=">Equal</option>
                                                     <option value="like">Like</option>
+                                                    <option value=">">Greater Than</option>
+                                                    <option value="<">Less Than</option>
                                                 </select>
                                             </div>
                                             <div class="col-5">
@@ -70,31 +71,30 @@
                                         </div>
                                     </div>
                                 </div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
-                </td>
-                </tr>
-                </table>
             </div>
         </div>
-        <div class="card shadow mt-4 mb-4" id="dataArea">
-            <!-- Card Header - Accordion -->
-            <a href="#collapseCardExample1" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
-                <h6 class="m-0 font-weight-bold text-primary">View Data</h6>
-            </a>
-            <!-- Card Content - Collapse -->
-            <div class="collapse show" id="collapseCardExample1" style="">
-                <div class="card-body">
-                    <div class="content" id="tableArea">
+        <div class="col-lg-12" id="dataArea">
+            <div class="card shadow mt-4 mb-4">
+                <!-- Card Header - Accordion -->
+                <a href="#collapseCardExample1" class="d-block card-header py-3" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="collapseCardExample">
+                    <h6 class="m-0 font-weight-bold text-primary">View Data</h6>
+                </a>
+                <!-- Card Content - Collapse -->
+                <div class="collapse show" id="collapseCardExample1">
+                    <div class="card-body">
+                        <div class="content" id="tableArea">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg" id="inputArea" style="">
-            <div class="card shadow">
-            </div>
+        <div class="col-lg-12" id="inputArea">
         </div>
     </div>
-</div>
 
 </div>
 <!-- /.container-fluid -->

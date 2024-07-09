@@ -28,32 +28,17 @@ class Purchase extends CI_Controller
         $inWhere = $this->input->post('inWhere');
 
         $sql = "SELECT 
-                *, 
-                dt1.id AS id,
-                IF(dt1.status = 0, 'Not Active', IF(dt1.status = 1, 'Active','Unknown')) AS status_name
-                FROM 
-                (
-                    SELECT id, user_id, name, email, image, password, company_id, department_id, division_id, role_id, `status` FROM m_user WHERE 1
-                )dt1
-                LEFT JOIN
-                (
-                    SELECT id, department FROM m_department WHERE 1
-                )dt2
-                ON dt1.department_id = dt2.id
-                JOIN 
-                (
-                    SELECT id, department_id, division FROM m_division WHERE 1
-                )dt3
-                ON dt1.division_id = dt3.id
-                LEFT JOIN 
-                (
-                    SELECT id, `role` FROM m_role WHERE 1
-                )dt4
-                ON dt1.role_id = dt4.id 
-                WHERE 1 " . $inWhere;
+                id, purchase_id, purchase_type_id, supplier_id, due_date, remark, discount, tax, total, `status`, created_by, created_at, log_by, log_at,
+                DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
+                DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
+                (SELECT `type` FROM m_purchase_type WHERE id = a.purchase_type_id) AS `type`,
+                (SELECT supplier FROM m_supplier WHERE id = a.supplier_id) AS supplier
+                FROM t_purchase a 
+                WHERE 1 " . $inWhere . " 
+                ORDER BY created_at DESC";
         $data['user'] = $this->db->query($sql)->result_array();
 
-        $this->load->view('user_management/view_data', $data);
+        $this->load->view('purchase/view_data', $data);
     }
 
     public function check()

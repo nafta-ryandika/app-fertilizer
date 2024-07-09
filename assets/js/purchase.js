@@ -1,6 +1,5 @@
 $(document).ready(function() {
     viewData();
-	// get("input","","");
 });
 
 $(function () {
@@ -22,7 +21,7 @@ function viewData() {
 		inSearchinput = $('.inSearchinput').val();
 
 		if (inSearchcolumn.trim() != "" && inSearchinput.trim() != "") {
-			if (inSearchparameter == "=") {
+			if (inSearchparameter == "=" || inSearchparameter == ">" || inSearchparameter == "<") {
 				inWhere = " AND " + inSearchcolumn + " " + inSearchparameter + " " +"'" + inSearchinput + "'"; 
 			} else if (inSearchparameter == "like") {
 				inWhere = " AND " + inSearchcolumn + " " + inSearchparameter + " " +"'%" + inSearchinput.replace(" ","%") + "%'";
@@ -56,7 +55,7 @@ function viewData() {
 			inSearchinput = xSearchinput[i];
 
 			if (inSearchcolumn.trim() != "" && inSearchinput.trim() != "") {
-				if (inSearchparameter == "=") {
+				if (inSearchparameter == "=" || inSearchparameter == ">" || inSearchparameter == "<") {
 					inWhere += " AND " + inSearchcolumn + " " + inSearchparameter + " " +"'" + inSearchinput + "'"; 
 				} else if (inSearchparameter == "like") {
 					inWhere += " AND " + inSearchcolumn + " " + inSearchparameter + " " +"'%" + inSearchinput.replace(" ","%") + "%'";
@@ -70,7 +69,7 @@ function viewData() {
 
 	$.ajax({
 		type: "POST",
-		url: base_url+"user_management/viewData",
+		url: base_url+"purchase/viewData",
 		data: {
 				inWhere: inWhere
 			},
@@ -120,16 +119,14 @@ function get(param,obj,callBack) {
 
 			$('#tableSearch tr:eq('+rowIndex+') .col-5').html('<input type="text" class="form-control inSearchinput">');
 
-			if (searchColumn == "dt1.department_id") {
-				get("searchColumn"+searchColumn,"",function(data){
+			if (searchColumn == "date" || searchColumn == "due_date") {
+				$('#tableSearch tr:eq('+rowIndex+') .inSearchinput').prop('type','date');
+			} else if (searchColumn == "purchase_type_id") {
+				get("searchColumn_"+searchColumn,"",function(data){
 					$('#tableSearch tr:eq('+rowIndex+') .col-5').html(data);
 				})
-			} else if (searchColumn == "dt1.role_id") {
-				get("searchColumn"+searchColumn,"",function(data){
-					$('#tableSearch tr:eq('+rowIndex+') .col-5').html(data);
-				})
-			} else if (searchColumn == "status") {
-				get("searchColumn"+searchColumn,"",function(data){
+			} else if (searchColumn == "supplier_id") {
+				get("searchColumn_"+searchColumn,"",function(data){
 					$('#tableSearch tr:eq('+rowIndex+') .col-5').html(data);
 				})
 			} else {
@@ -275,20 +272,12 @@ function get(param,obj,callBack) {
 				})
 			}
 		})
-	} else if (param == "searchColumnstatus") {
-		var html = '<select class="form-control inSearchinput" style="width: 100%;">\n\
-						<option value="">Select</option>\n\
-						<option value="0">Not Active</option>\n\
-						<option value="1">Active</option>\n\
-					</select>';
-		
-		callBack(html);
-	} else if (param == "searchColumndt1.department_id") {
+	} else if (param == "searchColumn_purchase_type_id") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"user_management/get",
+			url: base_url+"purchase/get",
 			data: {
-				param: "inDepartment",
+				param: "type",
 				obj: obj
 			},
 			cache: false,
@@ -299,7 +288,7 @@ function get(param,obj,callBack) {
 					var i;
 	
 					for (i=0; i<data.res.length; i++) {
-						html += '<option value="' + data.res[i].id + '">' + data.res[i].department + '</option>';
+						html += '<option value="' + data.res[i].id + '">' + data.res[i].type + '</option>';
 					}
 
 					html += '</select>';
@@ -307,12 +296,12 @@ function get(param,obj,callBack) {
 					callBack(html);
 			}
 		});
-	} else if (param == "searchColumndt1role_id") {
+	} else if (param == "searchColumn_supplier_id") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"user_management/get",
+			url: base_url+"purchase/get",
 			data: {
-				param: "inRole",
+				param: "inSupplier",
 				obj: obj
 			},
 			cache: false,
@@ -329,7 +318,7 @@ function get(param,obj,callBack) {
 					var i;
 
 					for (i=0; i<data.res.length; i++) {
-						html += '<option value="' + data.res[i].id + '">' + data.res[i].role + '</option>';
+						html += '<option value="' + data.res[i].id + '">' + data.res[i].supplier + '</option>';
 					}
 
 					html += '</select>';
@@ -451,19 +440,20 @@ function add(param,obj){
 										<div class="col-3">\n\
 											<select class="form-control inSearchcolumn" style="width: 100%;" onchange="get(\'searchColumn\',this,\'\')">\n\
 												<option value="">Parameter</option>\n\
-												<option value="user_id">ID</option>\n\
-												<option value="name">Name</option>\n\
-												<option value="dt1.department_id">Department</option>\n\
-												<option value="dt3.division">Division</option>\n\
-												<option value="dt1.role_id">Role</option>\n\
-												<option value="email">Email</option>\n\
-												<option value="status">Status</option>\n\
+												<option value="purchase_id">ID</option>\n\
+												<option value="date">Date</option>\n\
+												<option value="purchase_type_id">Type</option>\n\
+												<option value="supplier_id">Supplier</option>\n\
+												<option value="due_date">Due Date</option>\n\
+												<option value="total">Total</option>\n\
 											</select>\n\
 										</div>\n\
 										<div class="col-2">\n\
 											<select class="form-control inSearchparameter" style="width: 100%;">\n\
 												<option value="=">Equal</option>\n\
 												<option value="like">Like</option>\n\
+												<option value=">">Greater Than</option>\n\
+												<option value="<">Less Than</option>\n\
 											</select>\n\
 										</div>\n\
 										<div class="col-5">\n\
@@ -917,6 +907,9 @@ function exit (param,obj){
 			reverseButtons: true
 		}).then((result) => {
 			if (result.isConfirmed) {
+				$("#inputArea").hide();
+				$("#searchArea").show();
+				$("#dataArea").show();
 				viewData();
 			} else if (
 				result.dismiss === Swal.DismissReason.cancel

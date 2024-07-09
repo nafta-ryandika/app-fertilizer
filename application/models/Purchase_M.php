@@ -51,8 +51,8 @@ class Purchase_M extends CI_Model
             } else {
                 return FALSE;
             }
-        } else if ($param == "inRole") {
-            $query = "SELECT id, role FROM m_role";
+        } else if ($param == "type") {
+            $query = "SELECT id, `type` FROM m_purchase_type a WHERE `status` = 1  ORDER BY `type` ASC";
             $row = $this->db->query($query)->num_rows();
 
             if ($row > 0) {
