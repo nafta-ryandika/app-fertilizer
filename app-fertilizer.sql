@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.51-log - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.5.0.6677
+-- HeidiSQL Version:             12.6.0.6765
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `m_counter` (
 -- Dumping data for table app-fertilizer.m_counter: ~0 rows (approximately)
 DELETE FROM `m_counter`;
 INSERT INTO `m_counter` (`id`, `transaction`, `counter`, `period`, `status`, `created_by`, `created_at`) VALUES
-	(2, 'purchase', 17, '072024', 1, 'admin', '2024-07-07 14:04:00');
+	(2, 'purchase', 18, '072024', 1, 'admin', '2024-07-09 09:48:45');
 
 -- Dumping structure for table app-fertilizer.m_department
 CREATE TABLE IF NOT EXISTS `m_department` (
@@ -477,54 +477,58 @@ CREATE TABLE IF NOT EXISTS `t_purchase` (
   KEY `due_date` (`due_date`),
   KEY `purchase_type_id` (`purchase_type_id`),
   KEY `supplier_id` (`supplier_id`),
-  KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+  KEY `status` (`status`),
+  KEY `purchase_id` (`purchase_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_purchase: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.t_purchase: ~5 rows (approximately)
 DELETE FROM `t_purchase`;
 INSERT INTO `t_purchase` (`id`, `purchase_id`, `date`, `purchase_type_id`, `supplier_id`, `due_date`, `remark`, `discount`, `tax`, `total`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(2, 'PO/072024/00013', '2024-07-07', 1, 6, '2024-07-07', 'test', 10, 11, 42957, 1, 'admin', '2024-07-07 10:16:55', NULL, NULL),
 	(3, 'PO/072024/00014', '2024-07-07', 1, 6, '2024-07-07', 'test', 10, 11, 43956, 1, 'admin', '2024-07-07 10:27:11', NULL, NULL),
 	(4, 'PO/072024/00015', '2024-07-07', 1, 6, '2024-07-07', 'test', 10, 11, 43956, 1, 'admin', '2024-07-07 10:33:35', NULL, NULL),
-	(5, 'PO/072024/00016', '2024-07-07', 0, 0, '0000-00-00', '', 0, 0, 0, 1, 'admin', '2024-07-07 10:59:07', NULL, NULL),
-	(6, 'PO/072024/00017', '2024-07-07', 1, 4, '2024-07-07', '', 5, 11, 71179, 1, 'admin', '2024-07-07 14:04:00', NULL, NULL);
+	(6, 'PO/072024/00017', '2024-07-07', 1, 4, '2024-07-07', '', 5, 11, 71179, 1, 'admin', '2024-07-07 14:04:00', NULL, NULL),
+	(7, 'PO/072024/00018', '2024-07-09', 1, 4, '2024-07-09', 'test', 10, 11, 239760, 1, 'admin', '2024-07-09 09:48:45', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.t_purchase_detail
 CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `purchase_id` varchar(16) DEFAULT NULL,
-  `goods_id` varchar(16) NOT NULL,
+  `purchase_id` varchar(16) NOT NULL,
+  `goods_id` varchar(16) DEFAULT NULL,
   `qty` float DEFAULT NULL,
   `unit_id` varchar(16) DEFAULT NULL,
   `price` float DEFAULT NULL,
   `discount` float DEFAULT NULL,
   `subtotal` float DEFAULT NULL,
+  `qty_received` float DEFAULT NULL,
   `status` tinyint(4) DEFAULT '1',
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `log_by` varchar(256) DEFAULT NULL,
   `log_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
+  PRIMARY KEY (`id`,`purchase_id`) USING BTREE,
   KEY `purchase_id` (`purchase_id`),
   KEY `goods_id` (`goods_id`),
   KEY `unit_id` (`unit_id`),
   KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_purchase_detail: ~11 rows (approximately)
+-- Dumping data for table app-fertilizer.t_purchase_detail: ~13 rows (approximately)
 DELETE FROM `t_purchase_detail`;
-INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
-	(1, 'PO/072024/00013', '2', 20, '4', 2000, 5, 38000, 1, 'admin', '2024-07-07 10:16:55', NULL, NULL),
-	(2, 'PO/072024/00013', '3', 10, '1', 500, NULL, 5000, 1, 'admin', '2024-07-07 10:16:55', NULL, NULL),
-	(3, 'PO/072024/00014', '2', 20, '4', 2000, 5, 38000, 1, 'admin', '2024-07-07 10:27:11', NULL, NULL),
-	(4, 'PO/072024/00014', '3', 10, '1', 500, NULL, 5000, 1, 'admin', '2024-07-07 10:27:11', NULL, NULL),
-	(5, 'PO/072024/00014', '4', 5, '1', 200, NULL, 1000, 1, 'admin', '2024-07-07 10:27:11', NULL, NULL),
-	(6, 'PO/072024/00015', '2', 20, '4', 2000, 1, 38000, 1, 'admin', '2024-07-07 10:33:35', NULL, NULL),
-	(7, 'PO/072024/00015', '3', 10, '1', 500, 0, 5000, 1, 'admin', '2024-07-07 10:33:35', NULL, NULL),
-	(8, 'PO/072024/00015', '4', 5, '1', 200, 0, 1000, 1, 'admin', '2024-07-07 10:33:35', NULL, NULL),
-	(9, 'PO/072024/00016', '', 0, '', 0, 1, 0, 1, 'admin', '2024-07-07 10:59:07', NULL, NULL),
-	(10, 'PO/072024/00017', '2', 100, '4', 500, 1, 47500, 1, 'admin', '2024-07-07 14:04:00', NULL, NULL),
-	(11, 'PO/072024/00017', '5', 2, '3', 10000, 0, 20000, 1, 'admin', '2024-07-07 14:04:00', NULL, NULL);
+INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_received`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'PO/072024/00013', '2', 20, '4', 2000, 5, 38000, NULL, 1, 'admin', '2024-07-07 10:16:55', NULL, NULL),
+	(2, 'PO/072024/00013', '3', 10, '1', 500, NULL, 5000, NULL, 1, 'admin', '2024-07-07 10:16:55', NULL, NULL),
+	(3, 'PO/072024/00014', '2', 20, '4', 2000, 5, 38000, NULL, 1, 'admin', '2024-07-07 10:27:11', NULL, NULL),
+	(4, 'PO/072024/00014', '3', 10, '1', 500, NULL, 5000, NULL, 1, 'admin', '2024-07-07 10:27:11', NULL, NULL),
+	(5, 'PO/072024/00014', '4', 5, '1', 200, NULL, 1000, NULL, 1, 'admin', '2024-07-07 10:27:11', NULL, NULL),
+	(6, 'PO/072024/00015', '2', 20, '4', 2000, 1, 38000, NULL, 1, 'admin', '2024-07-07 10:33:35', NULL, NULL),
+	(7, 'PO/072024/00015', '3', 10, '1', 500, 0, 5000, NULL, 1, 'admin', '2024-07-07 10:33:35', NULL, NULL),
+	(8, 'PO/072024/00015', '4', 5, '1', 200, 0, 1000, NULL, 1, 'admin', '2024-07-07 10:33:35', NULL, NULL),
+	(9, 'PO/072024/00016', '', 0, '', 0, 1, 0, NULL, 1, 'admin', '2024-07-07 10:59:07', NULL, NULL),
+	(10, 'PO/072024/00017', '2', 100, '4', 500, 1, 47500, NULL, 1, 'admin', '2024-07-07 14:04:00', NULL, NULL),
+	(11, 'PO/072024/00017', '5', 2, '3', 10000, 0, 20000, NULL, 1, 'admin', '2024-07-07 14:04:00', NULL, NULL),
+	(12, 'PO/072024/00018', '2', 100, '4', 2000, 1, 190000, NULL, 1, 'admin', '2024-07-09 09:48:45', NULL, NULL),
+	(13, 'PO/072024/00018', '1', 50, '1', 1000, 0, 50000, NULL, 1, 'admin', '2024-07-09 09:48:45', NULL, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

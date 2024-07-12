@@ -87,30 +87,37 @@ function get(param,obj,callBack) {
 	if (param == "edit") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"user_management/get",
+			url: base_url+"purchase/get",
 			data: {
 				param: param,
 				obj: obj
 			},
 			cache: false,
-			dataType: "JSON",
+			dataType: "html",
+			beforeSend: function (data) {
+				$("#searchArea").hide();
+				$("#dataArea").hide();
+				$("#inputArea").show();
+			},
 			success: function (data) {
-				var user_data = data.res;
+				// console.log("test"+param);
+				// console.log(data);
+				// var user_data = data.res;
+				$("#inputArea").html(data);
+				// $("#inputArea").html(data.html).after(function (data) {
+				// 	$('#inMode').val('edit');
+				// 	// get("inDepartment",user_data.department_id,"");
+				// 	// get("inDivision",user_data.department_id,user_data.division_id);
+				// 	// get("inRole",user_data.role_id,"");
+				// 	// $("#inIdx").val(user_data.id);
+				// 	// $("#inId").val(user_data.user_id);
+				// 	// $("#inName").val(user_data.name);	
+				// 	// $("#inEmail").val(user_data.email);	
 
-				$('#modalAdd').modal('show').after(function (data) {
-					$('#inMode').val('edit');
-					get("inDepartment",user_data.department_id,"");
-					get("inDivision",user_data.department_id,user_data.division_id);
-					get("inRole",user_data.role_id,"");
-					$("#inIdx").val(user_data.id);
-					$("#inId").val(user_data.user_id);
-					$("#inName").val(user_data.name);	
-					$("#inEmail").val(user_data.email);	
-
-					$("#inPassword").closest("div").parent("div").hide();
-					$("#inRepeatpassword").closest("div").parent("div").hide();
-					$("#inStatus").val(user_data.status);
-				})
+				// 	// $("#inPassword").closest("div").parent("div").hide();
+				// 	// $("#inRepeatpassword").closest("div").parent("div").hide();
+				// 	// $("#inStatus").val(user_data.status);
+				// })
 			}
 		})
 	} else if (param == "searchColumn") {

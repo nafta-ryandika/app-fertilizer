@@ -63,15 +63,29 @@ class Purchase_M extends CI_Model
         } else if ($param == "edit") {
 
             $query = "SELECT 
-                        id, user_id, name, email, image, company_id, department_id, division_id, role_id, `status` 
-                        FROM m_user 
-                        WHERE 
-                        id = '" . $obj . "'";
+                    id, purchase_id, `date`, purchase_type_id, supplier_id, due_date, remark, discount, tax, total, `status` 
+                    FROM t_purchase
+                    WHERE 
+                    id = '" . $obj . "' AND 
+                    `status` = 1";
 
             $row = $this->db->query($query)->num_rows();
 
             if ($row > 0) {
-                $data["res"] = $this->db->query($query)->row_array();
+                $data["header"] = $this->db->query($query)->row_array();
+            } else {
+                return FALSE;
+            }
+
+            $purchase_id = $data["header"]["purchase_id"];
+
+            $query2 = "SELECT 
+                        *,
+                        (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
+                        FROM t_purchase_detail WHERE purchase_id = '" . $purchase_id . "'";
+
+            if ($row > 0) {
+                $data["detail"] = $this->db->query($query2)->result_array();
             } else {
                 return FALSE;
             }

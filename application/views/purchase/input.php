@@ -1,4 +1,23 @@
-<!-- <div class="col-lg"> -->
+<?php
+if (isset($param)) {
+    if ($param == "edit") {
+        $inId = $header["header"]["purchase_id"];
+        // foreach ($header as $data_header) {
+        //     $inId = $data_header["header"]["purchase_id"];
+        // }
+?>
+
+        <script>
+            $("#inId").val('<?= $inId ?>');
+        </script>
+
+<?php
+        var_dump($header);
+        // die();
+    }
+}
+?>
+
 <div class="card shadow">
     <div class="card-header">
         <h6 class="m-0 font-weight-bold text-primary">Input</h6>
@@ -146,5 +165,3 @@
         </div>
     </div>
 </div>
-<!-- </div> -->
-<!-- </div> -->

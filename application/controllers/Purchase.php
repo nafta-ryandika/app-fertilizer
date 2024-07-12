@@ -36,7 +36,7 @@ class Purchase extends CI_Controller
                 FROM t_purchase a 
                 WHERE 1 " . $inWhere . " 
                 ORDER BY created_at DESC";
-        $data['user'] = $this->db->query($sql)->result_array();
+        $data['purchase'] = $this->db->query($sql)->result_array();
 
         $this->load->view('purchase/view_data', $data);
     }
@@ -60,6 +60,13 @@ class Purchase extends CI_Controller
             $sql = "SELECT id, `type` FROM m_purchase_type a WHERE `status` = 1  ORDER BY `type` ASC";
             $data['type'] = $this->db->query($sql)->result_array();
             $this->load->view('purchase/input', $data);
+        } elseif ($param == "edit") {
+            $data["header"] = $this->Purchase_M->get($param, $obj);
+            $data['param'] = $param;
+            $sql = "SELECT id, `type` FROM m_purchase_type a WHERE `status` = 1  ORDER BY `type` ASC";
+            $data['type'] = $this->db->query($sql)->result_array();
+            $data['html'] = $this->load->view('purchase/input', $data);
+            // echo (json_encode($data));
         } else {
             $data = $this->Purchase_M->get($param, $obj);
 
