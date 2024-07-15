@@ -98,6 +98,7 @@ function get(param,obj,callBack) {
 				$("#searchArea").hide();
 				$("#dataArea").hide();
 				$("#inputArea").show();
+				get("inSupplier","","");
 			},
 			success: function (data) {
 				// console.log("test"+param);
@@ -106,6 +107,8 @@ function get(param,obj,callBack) {
 				$("#inputArea").html(data);
 				// $("#inputArea").html(data.html).after(function (data) {
 				// 	$('#inMode').val('edit');
+
+				// console.log("test"+data.header);
 				// 	// get("inDepartment",user_data.department_id,"");
 				// 	// get("inDivision",user_data.department_id,user_data.division_id);
 				// 	// get("inRole",user_data.role_id,"");
@@ -118,6 +121,9 @@ function get(param,obj,callBack) {
 				// 	// $("#inRepeatpassword").closest("div").parent("div").hide();
 				// 	// $("#inStatus").val(user_data.status);
 				// })
+			},
+			complete: function(data){
+				// get("inSupplier","","");
 			}
 		})
 	} else if (param == "searchColumn") {
@@ -863,8 +869,9 @@ function count (param,obj){
 			}
 		}
 
-		$(obj).closest("tr").find(".inDsubtotal").val(subtotal);
-
+		if(!isNaN(subtotal)) {
+			$(obj).closest("tr").find(".inDsubtotal").val(subtotal);
+		}
 		var total = 0;
 		var inDiscount = $("#inDiscount").val();
 		var inTax = $("#inTax").val();
@@ -877,7 +884,9 @@ function count (param,obj){
 
 		total = total + (total * (inTax/100));
 
-		$("#inTotal").val(total);
+		if(!isNaN(total)) {
+			$("#inTotal").val(total);
+		}
 	} else if (param == "total") {
 		var total = 0;
 		var inDiscount = $("#inDiscount").val();
@@ -891,7 +900,9 @@ function count (param,obj){
 
 		total = total + (total * (inTax/100));
 
-		$("#inTotal").val(total);
+		if(!isNaN(total)) {
+			$("#inTotal").val(total);
+		}
 	}
 }
 

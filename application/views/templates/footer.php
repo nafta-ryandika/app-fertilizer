@@ -58,6 +58,9 @@
 <link href="<?= base_url('assets/'); ?>vendor/sweet_alert2/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet">
 <script src="<?= base_url('assets/'); ?>vendor/sweet_alert2/sweetalert2/sweetalert2.all.min.js"></script>
 
+<!-- number -->
+<script src="<?= base_url('assets/'); ?>vendor/number/number.min.js"></script>
+
 <script>
     $('.custom-file-input').on('change', function() {
         let fileName = $(this).val().split('\\').pop();

@@ -1,19 +1,28 @@
 <?php
 if (isset($param)) {
     if ($param == "edit") {
-        $inId = $header["header"]["purchase_id"];
-        // foreach ($header as $data_header) {
-        //     $inId = $data_header["header"]["purchase_id"];
-        // }
+        $inId = $data["header"]["purchase_id"];
+        $inDate = $data["header"]["date"];
+        $inType = $data["header"]["purchase_type_id"];
+        $inSupplier = $data["header"]["supplier_id"];
+        $inDuedate = $data["header"]["due_date"];
+        $inRemark = $data["header"]["remark"];
+        $inDiscount = $data["header"]["discount"];
+        $inTax = $data["header"]["tax"];
+        $inTotal = $data["header"]["total"];
 ?>
-
         <script>
             $("#inId").val('<?= $inId ?>');
+            $("#inDate").val('<?= $inDate ?>');
+            $("#inType").val('<?= $inType ?>');
+            get("inSupplier", "<?= $inSupplier ?>", "");
+            $("#inDuedate").val('<?= $inDuedate ?>');
+            $("#inRemark").val('<?= $inRemark ?>');
+            $("#inDiscount").val('<?= $inDiscount ?>');
+            $("#inTax").val('<?= $inTax ?>');
+            $("#inTotal").val($.number(<?= $inTotal ?>, 2));
         </script>
-
 <?php
-        var_dump($header);
-        // die();
     }
 }
 ?>
@@ -88,7 +97,7 @@ if (isset($param)) {
                 <div class="form-group row">
                     <label for="inTotal" class="col-sm-3 col-form-label">Total</label>
                     <div class="col-sm-6">
-                        <input type="number" class="form-control text-right" id="inTotal" name="inTotal" readonly disabled required>
+                        <input type="text" class="form-control text-right" id="inTotal" name="inTotal" readonly disabled required>
                     </div>
                 </div>
             </div>
@@ -113,41 +122,87 @@ if (isset($param)) {
                                     </thead>
                                     <tbody>
                                         <?php
-                                        // $i = 1;
-                                        // foreach ($user as $data_user) :
-                                        // for ($i = 0; $i < 2; $i++) {
+                                        if ($param == "edit") {
+                                            foreach ($data["detail"] as $data_detail) :
+                                                $inDgoods = $data_detail["goods_id"];
+                                                $inDqty = $data_detail["qty"];
+                                                $inDunit = $data_detail["unit"];
+                                                $inDunitid = $data_detail["unit_id"];
+                                                $inPrice = $data_detail["price"];
+                                                $inDdiscount = $data_detail["discount"];
+                                                $inDsubtotal = $data_detail["subtotal"];
+
                                         ?>
-                                        <tr>
-                                            <td scope="row">
-                                                <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>
-                                                    <option value="">Select</option>
-                                                </select>
-                                            </td>
-                                            <td scope="row">
-                                                <input type="number" class="form-control text-right inDqty" name="inDqty" onkeyup="count('subtotal',this)" onfocus="$(this).select();" required>
-                                            </td>
-                                            <td scope="row">
-                                                <input type="text" class="form-control inDunit" name="inDunit" readonly disabled required>
-                                                <input type="hidden" class="form-control inDunitid" name="inDunitid" readonly disabled>
-                                            </td>
-                                            <td scope="row">
-                                                <input type="number" class="form-control text-right inDprice" name="inDprice" onkeyup="count('subtotal',this)" onfocus="$(this).select();" required>
-                                            </td>
-                                            <td scope="row">
-                                                <input type="number" class="form-control inDdiscount" name="inDdiscount" onkeyup="count('subtotal',this)" onfocus="$(this).select();">
-                                            </td>
-                                            <td scope="row">
-                                                <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" required>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
-                                                <a class="btn btn-secondary m-1" id="btnDelete" title="Delete" onclick=""><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
-                                            </td>
-                                        </tr>
+                                                <tr>
+                                                    <td scope="row">
+                                                        <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>
+                                                            <option value="">Select</option>
+                                                            <?php
+                                                            foreach ($goods as $data_goods) :
+                                                                echo '<option value="' . $data_goods['id'] . '">' . $data_goods['goods'] . '</option>';
+                                                            endforeach;
+                                                            ?>
+                                                        </select>
+                                                    </td>
+                                                    <td scope="row">
+                                                        <input type="number" class="form-control text-right inDqty" name="inDqty" onkeyup="count('subtotal',this)" onfocus="$(this).select();" value="<?= $inDqty; ?>" required>
+                                                    </td>
+                                                    <td scope="row">
+                                                        <input type="text" class="form-control inDunit" name="inDunit" value="<?= $inDunit; ?>" readonly disabled required>
+                                                        <input type="hidden" class="form-control inDunitid" name="inDunitid" value="<?= $inDunitid; ?>" readonly disabled>
+                                                    </td>
+                                                    <td scope="row">
+                                                        <input type="number" class="form-control text-right inDprice" name="inDprice" onkeyup="count('subtotal',this)" onfocus="$(this).select();" value="<?= $inPrice; ?>" required>
+                                                    </td>
+                                                    <td scope="row">
+                                                        <input type="number" class="form-control inDdiscount" name="inDdiscount" onkeyup="count('subtotal',this)" onfocus="$(this).select();" value="<?= $inDdiscount; ?>">
+                                                    </td>
+                                                    <td scope="row">
+                                                        <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" value="<?= $inDsubtotal; ?>" required>
+                                                    </td>
+                                                    <td>
+                                                        <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
+                                                        <a class="btn btn-secondary m-1" id="btnDelete" title="Delete" onclick=""><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
+                                                        <script>
+                                                            var a = $(this).closest("tr").eq("index");
+                                                            console.log("lalala" + a);
+                                                            get("inDgoods", "", "");
+                                                        </script>
+                                                    </td>
+                                                </tr>
+                                            <?php
+                                            endforeach;
+                                        } else {
+                                            ?>
+                                            <tr>
+                                                <td scope="row">
+                                                    <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>
+                                                        <option value="">Select</option>
+                                                    </select>
+                                                </td>
+                                                <td scope="row">
+                                                    <input type="number" class="form-control text-right inDqty" name="inDqty" onkeyup="count('subtotal',this)" onfocus="$(this).select();" required>
+                                                </td>
+                                                <td scope="row">
+                                                    <input type="text" class="form-control inDunit" name="inDunit" readonly disabled required>
+                                                    <input type="hidden" class="form-control inDunitid" name="inDunitid" readonly disabled>
+                                                </td>
+                                                <td scope="row">
+                                                    <input type="number" class="form-control text-right inDprice" name="inDprice" onkeyup="count('subtotal',this)" onfocus="$(this).select();" required>
+                                                </td>
+                                                <td scope="row">
+                                                    <input type="number" class="form-control inDdiscount" name="inDdiscount" onkeyup="count('subtotal',this)" onfocus="$(this).select();">
+                                                </td>
+                                                <td scope="row">
+                                                    <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" required>
+                                                </td>
+                                                <td>
+                                                    <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
+                                                    <a class="btn btn-secondary m-1" id="btnDelete" title="Delete" onclick=""><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
+                                                </td>
+                                            </tr>
                                         <?php
-                                        // }
-                                        // $i++;
-                                        // endforeach;
+                                        }
                                         ?>
                                     </tbody>
                                 </table>
