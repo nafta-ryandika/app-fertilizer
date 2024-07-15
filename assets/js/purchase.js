@@ -665,7 +665,6 @@ function save(param,obj){
 							}).then(function () { 
 								if (inMode == "add") {
 									get("input","","");
-									// $("#inId").focus();	
 								} else if (inMode == "edit") {
 									// clear('user','add');
 									// $('#modalAdd').modal('toggle');
