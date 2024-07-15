@@ -164,8 +164,8 @@ if (isset($param)) {
                                                         <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
                                                         <a class="btn btn-secondary m-1" id="btnDelete" title="Delete" onclick=""><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
                                                         <script>
-                                                            var a = $(this).closest("tr").eq("index");
-                                                            console.log("lalala" + a);
+                                                            // var a = $(this).closest("tr").eq("index");
+                                                            // console.log("lalala" + a);
                                                             get("inDgoods", "", "");
                                                         </script>
                                                     </td>
