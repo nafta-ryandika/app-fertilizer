@@ -527,6 +527,7 @@ function add(param,obj){
 function save(param,obj){
 	if (param == 'data') {
 		var  inMode = $('#inMode').val();
+		var  inIdx = $('#inIdx').val();
 		var  inId = $('#inId').val();
 		var  inDate = $('#inDate').val();
 		var  inType = $('#inType').val();
@@ -537,12 +538,17 @@ function save(param,obj){
 		var  inTax = parseFloat($('#inTax').val());
 		var  inTotal = parseFloat($('#inTotal').val());
 
+		var inDidx = "";
 		var inDgoods = "";
 		var inDqty = "";
 		var inDunitid = "";
 		var inDprice = "";
 		var inDdiscount = "";
 		var inDsubtotal = "";
+
+		$(".inDidx").each(function(){
+			inDidx  += $(this).val()+"|";
+		})
 
 		$(".inDgoods").each(function(){
 			inDgoods  += $(this).val()+"|";
@@ -630,6 +636,7 @@ function save(param,obj){
 
 			if(check) {
 				var data = [{inMode: inMode,
+					inIdx: inIdx,
 					inId: inId,
 					inDate: inDate,
 					inType: inType,
@@ -639,6 +646,7 @@ function save(param,obj){
 					inDiscount: inDiscount,
 					inTax: inTax,
 					inTotal: inTotal,
+					inDidx: inDidx,
 					inDgoods: inDgoods,
 					inDqty: inDqty,
 					inDunitid: inDunitid,

@@ -1,6 +1,7 @@
 <?php
 if (isset($param)) {
     if ($param == "edit") {
+        $inIdx = $data["header"]["id"];
         $inId = $data["header"]["purchase_id"];
         $inDate = $data["header"]["date"];
         $inType = $data["header"]["purchase_type_id"];
@@ -13,6 +14,7 @@ if (isset($param)) {
 ?>
         <script>
             $("#inMode").val('<?= $param ?>');
+            $("#inIdx").val('<?= $inIdx ?>');
             $("#inId").val('<?= $inId ?>');
             $("#inDate").val('<?= $inDate ?>');
             $("#inType").val('<?= $inType ?>');
@@ -39,6 +41,7 @@ if (isset($param)) {
                 <div class="form-group row">
                     <label for="inId" class="col-sm-3 col-form-label">ID</label>
                     <div class="col-sm-6">
+                        <input type="hidden" class="form-control text-center" id="inIdx" name="inIdx" value="" readonly disabled>
                         <input type="text" class="form-control text-center" id="inId" name="inId" value="~ Automatic ~" readonly disabled>
                     </div>
                 </div>
@@ -126,6 +129,7 @@ if (isset($param)) {
                                         if (isset($param)) {
                                             if ($param == "edit") {
                                                 foreach ($data["detail"] as $data_detail) :
+                                                    $inDidx = $data_detail["id"];
                                                     $inDgoods = $data_detail["goods_id"];
                                                     $inDqty = $data_detail["qty"];
                                                     $inDunit = $data_detail["unit"];
@@ -137,6 +141,7 @@ if (isset($param)) {
                                         ?>
                                                     <tr>
                                                         <td scope="row">
+                                                            <input type="hidden" class="form-control text-center inDidx" id="inDidx" name="inDidx" value="<?= $inDidx; ?>" readonly disabled>
                                                             <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>
                                                                 <option value="">Select</option>
                                                                 <?php
@@ -170,8 +175,6 @@ if (isset($param)) {
                                                             <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
                                                             <a class="btn btn-secondary m-1" id="btnDelete" title="Delete" onclick=""><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
                                                             <script>
-                                                                // var a = $(this).closest("tr").eq("index");
-                                                                // console.log("lalala" + a);
                                                                 get("inDgoods", "", "");
                                                             </script>
                                                         </td>

@@ -121,6 +121,7 @@ class Purchase_M extends CI_Model
         for ($i = 0; $i < count($data); $i++) {
             //header
             $inMode = $data[$i]["inMode"];
+            $inIdx = $data[$i]["inIdx"];
             $inId = $data[$i]["inId"];
             $inDate = $data[$i]["inDate"];
             $inType = $data[$i]["inType"];
@@ -132,6 +133,7 @@ class Purchase_M extends CI_Model
             $inTotal = $data[$i]["inTotal"];
 
             // detail
+            $inDidx = $data[$i]["inDidx"];
             $inDgoods = $data[$i]["inDgoods"];
             $inDqty = $data[$i]["inDqty"];
             $inDunitid = $data[$i]["inDunitid"];
@@ -273,26 +275,114 @@ class Purchase_M extends CI_Model
             }
         } else if ($inMode == "edit") {
             $data2 = array(
-                'counter' => $counter,
-                'created_by' => $_SESSION['user_id'],
-                'created_at' => $curdate
+                'purchase_type_id' => $inType,
+                'supplier_id' => $inSupplier,
+                'due_date' => $inDuedate,
+                'remark' => $inRemark,
+                'discount' => $inDiscount,
+                'tax' => $inTax,
+                'total' => $inTotal,
+                'log_by' => $_SESSION['user_id'],
+                'log_at' => $curdate
             );
 
             $this->db->db_debug = false;
 
             $where2 = array(
-                'period' => $period,
-                'transaction' => $transaction
+                'id' => $inIdx,
+                'purchase_id' => $inId
             );
 
             $this->db->where($where2);
 
-            if ($this->db->update("m_counter", $data2)) {
+            if ($this->db->update("t_purchase", $data2)) {
                 $res['res'] = 'success';
             } else {
                 $res['res'] =  $this->db->error();
                 $res['res'] = $data['res']['message'];
                 return $res;
+            }
+
+            $inDidx = rtrim($inDidx, "|");
+            $inDidx = explode("|", $inDidx);
+
+            $inDgoods = rtrim($inDgoods, "|");
+            $inDgoods = explode("|", $inDgoods);
+
+            $inDqty = rtrim($inDqty, "|");
+            $inDqty = explode("|", $inDqty);
+
+            $inDunitid = rtrim($inDunitid, "|");
+            $inDunitid = explode("|", $inDunitid);
+
+            $inDprice = rtrim($inDprice, "|");
+            $inDprice = explode("|", $inDprice);
+
+            $inDdiscount = rtrim($inDdiscount, "|");
+            $inDdiscount = explode("|", $inDdiscount);
+
+            $inDsubtotal = rtrim($inDsubtotal, "|");
+            $inDsubtotal = explode("|", $inDsubtotal);
+
+            if (!empty($inDgoods)) {
+                for ($i = 0; $i < count($inDgoods); $i++) {
+                    if (isset($inDidx[$i])) {
+                        $data3 = array(
+                            'goods_id' => $inDgoods[$i],
+                            'qty' => $inDqty[$i],
+                            'unit_id' => $inDunitid[$i],
+                            'price' => $inDprice[$i],
+                            'discount' => $inDdiscount[$i],
+                            'subtotal' => $inDsubtotal[$i],
+                            'log_by' => $_SESSION['user_id'],
+                            'log_at' => $curdate
+                        );
+
+
+
+                        $this->db->db_debug = false;
+
+                        $where3 = array(
+                            'id' => $inDidx[$i],
+                            'purchase_id' => $inId
+                        );
+
+                        $this->db->where($where3);
+
+                        if ($this->db->update("t_purchase_detail", $data3)) {
+                            $res['res'] = 'success';
+                        } else {
+                            $res['res'] =  $this->db->error();
+                            $res['res'] = $data['res']['message'];
+                            return $res;
+                        }
+                    } else {
+                        $data3 = array(
+                            'id' => '',
+                            'purchase_id' => $inId,
+                            'goods_id' => $inDgoods[$i],
+                            'qty' => $inDqty[$i],
+                            'unit_id' => $inDunitid[$i],
+                            'price' => $inDprice[$i],
+                            'discount' => !empty($inDdiscount[$i]),
+                            'subtotal' => $inDsubtotal[$i],
+                            'created_by' => $_SESSION['user_id']
+                        );
+
+                        // var_dump($data3);
+                        // die();
+
+                        $this->db->db_debug = false;
+
+                        if ($this->db->insert('t_purchase_detail', $data3)) {
+                            $res['res'] = 'success';
+                        } else {
+                            $res['err'] =  $this->db->error();
+                            $res['err'] = $res['err']['message'];
+                            return $res;
+                        }
+                    }
+                }
             }
         }
 
