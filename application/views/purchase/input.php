@@ -173,7 +173,7 @@ if (isset($param)) {
                                                         </td>
                                                         <td>
                                                             <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
-                                                            <a class="btn btn-secondary m-1" id="btnDelete" title="Delete" onclick=""><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
+                                                            <a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove('detail',this)"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
                                                             <script>
                                                                 get("inDgoods", "", "");
                                                             </script>
@@ -246,6 +246,7 @@ if (isset($param)) {
                                         ?>
                                     </tbody>
                                 </table>
+                                <input type="hidden" class="form-control text-center inDremove" id="inDremove" name="inDremove" value="" readonly disabled>
                             </div>
                         </div>
                     </div>

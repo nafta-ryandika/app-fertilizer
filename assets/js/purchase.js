@@ -674,9 +674,7 @@ function save(param,obj){
 								if (inMode == "add") {
 									get("input","","");
 								} else if (inMode == "edit") {
-									// clear('user','add');
-									// $('#modalAdd').modal('toggle');
-									// viewData();
+									exit('save','');
 								}
 							});
 						} else if (date.err == '') {
@@ -725,17 +723,17 @@ function clear(param,obj) {
 }
 
 function remove(param,obj) {
+	const swalWithBootstrapButtons = Swal.mixin({
+		customClass: {
+			confirmButton: "btn btn-lg btn-success m-3",
+			cancelButton: "btn btn-lg btn-danger m-3"
+		},
+		buttonsStyling: false
+	});
+
 	if (param == "parameter") {
 		$(obj).closest('tr').remove();
 	} else if (param == "data") {
-		const swalWithBootstrapButtons = Swal.mixin({
-			customClass: {
-				confirmButton: "btn btn-lg btn-success m-3",
-				cancelButton: "btn btn-lg btn-danger m-3"
-			},
-			buttonsStyling: false
-		});
-
 		swalWithBootstrapButtons.fire({
 			title: "Are you sure?",
 			icon: "warning",
@@ -776,15 +774,7 @@ function remove(param,obj) {
 				});
 			}
 		});
-	} else if (param == "password") {
-		const swalWithBootstrapButtons = Swal.mixin({
-			customClass: {
-				confirmButton: "btn btn-lg btn-success m-3",
-				cancelButton: "btn btn-lg btn-danger m-3"
-			},
-			buttonsStyling: false
-		});
-
+	} else if (param == "detail") { 
 		swalWithBootstrapButtons.fire({
 			title: "Are you sure?",
 			icon: "warning",
@@ -794,71 +784,17 @@ function remove(param,obj) {
 			reverseButtons: true
 		}).then((result) => {
 			if (result.isConfirmed) {
-				$.ajax({
-					type: "POST",
-					url: base_url+"user_management/remove",
-					data: {
-						param: param,
-						obj: obj
-					},
-					cache: false,
-					dataType: "JSON",
-					success: function (data) {
-						if (data.res == 'success') {
-							swalWithBootstrapButtons.fire({
-								title: "Reset!",
-								text: "New Password : " + data.password,
-								icon: "success"
-							}).then(function () { 
-								viewData();
-							});
-						} else if (date.err == '') {
-							console.log(data.err);
-						} 
-					}
-				});
-			} else if (
-				result.dismiss === Swal.DismissReason.cancel
-			) {
-				swalWithBootstrapButtons.fire({
-					title: "Cancelled",
-					icon: "error"
-				});
+				var inDremove = $("#inDremove").val(); 
+				inDremove += $(obj).closest('tr').find('.inDidx').val() + "|";
+				$("#inDremove").val(inDremove);
+				$(obj).closest('tr').remove();
 			}
 		});
-	} else if (param == "detail") {
-		$(obj).closest('tr').remove();
 	}
 }
 
 function check(param,obj) {
-	if (param == "inId") {
-		var inId = $("#"+param).val();
-		var num = inId.length;
-		
-		if (num >= 4) {
-			$.ajax({
-				type: "POST",
-				url: base_url+"user_management/check",
-				data: {
-						param: param,
-						obj: inId
-				},
-				cache: false,
-				dataType: "JSON",
-				success: function (data) {
-					if (data.res > 0) {
-						$("#inId").addClass("is-invalid");
-					}
-					else {
-						$("#inId").removeClass("is-invalid");
-					}
-				}
-			})
-		} else {
-			return;
-		}
-	}
+
 }
 
 function count (param,obj){
@@ -932,6 +868,7 @@ function exit (param,obj){
 			reverseButtons: true
 		}).then((result) => {
 			if (result.isConfirmed) {
+				$('#inMode').val("");
 				$("#inputArea").hide();
 				$("#searchArea").show();
 				$("#dataArea").show();
@@ -945,5 +882,11 @@ function exit (param,obj){
 				});
 			}
 		});
+	} else if (param == "save") {
+		$('#inMode').val("");
+		$("#inputArea").hide();
+		$("#searchArea").show();
+		$("#dataArea").show();
+		viewData();
 	}
 }

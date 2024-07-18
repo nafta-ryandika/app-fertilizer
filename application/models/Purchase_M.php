@@ -250,6 +250,12 @@ class Purchase_M extends CI_Model
 
             if (!empty($inDgoods)) {
                 for ($i = 0; $i < count($inDgoods); $i++) {
+                    if (!empty($inDdiscount[$i])) {
+                        $inDdiscountx = $inDdiscount[$i];
+                    } else {
+                        $inDdiscountx = 0;
+                    }
+
                     $data4 = array(
                         'id' => '',
                         'purchase_id' => $purchase_id,
@@ -257,7 +263,7 @@ class Purchase_M extends CI_Model
                         'qty' => $inDqty[$i],
                         'unit_id' => $inDunitid[$i],
                         'price' => $inDprice[$i],
-                        'discount' => $inDdiscount[$i],
+                        'discount' => $inDdiscountx,
                         'subtotal' => $inDsubtotal[$i],
                         'created_by' => $_SESSION['user_id']
                     );
@@ -326,13 +332,20 @@ class Purchase_M extends CI_Model
 
             if (!empty($inDgoods)) {
                 for ($i = 0; $i < count($inDgoods); $i++) {
+
+                    if (!empty($inDdiscount[$i])) {
+                        $inDdiscountx = $inDdiscount[$i];
+                    } else {
+                        $inDdiscountx = 0;
+                    }
+
                     if (isset($inDidx[$i])) {
                         $data3 = array(
                             'goods_id' => $inDgoods[$i],
                             'qty' => $inDqty[$i],
                             'unit_id' => $inDunitid[$i],
                             'price' => $inDprice[$i],
-                            'discount' => $inDdiscount[$i],
+                            'discount' => $inDdiscountx,
                             'subtotal' => $inDsubtotal[$i],
                             'log_by' => $_SESSION['user_id'],
                             'log_at' => $curdate
@@ -364,7 +377,7 @@ class Purchase_M extends CI_Model
                             'qty' => $inDqty[$i],
                             'unit_id' => $inDunitid[$i],
                             'price' => $inDprice[$i],
-                            'discount' => !empty($inDdiscount[$i]),
+                            'discount' => $inDdiscountx,
                             'subtotal' => $inDsubtotal[$i],
                             'created_by' => $_SESSION['user_id']
                         );
