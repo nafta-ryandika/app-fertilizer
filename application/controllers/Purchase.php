@@ -67,7 +67,9 @@ class Purchase extends CI_Controller
             $sql = "SELECT id, `type` FROM m_purchase_type a WHERE `status` = 1  ORDER BY `type` ASC";
             $data['type'] = $this->db->query($sql)->result_array();
 
-            $sql2 = "SELECT id, goods 
+            $sql2 = "SELECT 
+                    id, goods ,unit_id, 
+                    (SELECT unit FROM m_unit WHERE id = unit_id AND `status` = 1) AS unit
                     FROM m_goods 
                     WHERE `status` = 1  
                     ORDER BY goods ASC";

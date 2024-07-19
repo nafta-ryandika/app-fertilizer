@@ -765,6 +765,8 @@ function remove(param,obj) {
 				if (rowCount == 0) {
 					add('detail','');
 				}
+
+				count("subtotal","");
 			}
 		});
 	}
@@ -806,6 +808,8 @@ function count (param,obj){
 
 		if(!isNaN(total)) {
 			$("#inTotal").val(total);
+		} else {
+			$("#inTotal").val(0);
 		}
 	} else if (param == "total") {
 		var total = 0;
@@ -822,6 +826,8 @@ function count (param,obj){
 
 		if(!isNaN(total)) {
 			$("#inTotal").val(total);
+		} else {
+			$("#inTotal").val(0);
 		}
 	}
 }

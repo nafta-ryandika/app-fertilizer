@@ -128,18 +128,18 @@ if (isset($param)) {
                                                     <tr>
                                                         <td scope="row">
                                                             <input type="hidden" class="form-control text-center inDidx" id="inDidx" name="inDidx" value="<?= $inDidx; ?>" readonly disabled>
-                                                            <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>
+                                                            <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" onclick="choose('inDgoods',this)" required>
                                                                 <option value="">Select</option>
                                                                 <?php
                                                                 foreach ($goods as $data_goods) :
                                                                     if (isset($inDgoods)) {
                                                                         if ($data_goods['id'] == $inDgoods) {
-                                                                            echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '" selected>' . $data_goods['goods'] . '</option>';
+                                                                            echo '<option value="' . $data_goods['id'] . '" data-unit="' . $data_goods['unit'] . '" data-unitid="' . $data_goods['unit_id'] . '" selected>' . $data_goods['goods'] . '</option>';
                                                                         } else {
-                                                                            echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
+                                                                            echo '<option value="' . $data_goods['id'] . '" data-unit="' . $data_goods['unit'] . '" data-unitid="' . $data_goods['unit_id'] . '">' . $data_goods['goods'] . '</option>';
                                                                         }
                                                                     } else {
-                                                                        echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
+                                                                        echo '<option value="' . $data_goods['id'] . '" data-unit="' . $data_goods['unit'] . '" data-unitid="' . $data_goods['unit_id'] . '">' . $data_goods['goods'] . '</option>';
                                                                     }
                                                                 endforeach;
                                                                 ?>
@@ -181,12 +181,12 @@ if (isset($param)) {
                                                             foreach ($goods as $data_goods) :
                                                                 if (isset($inDgoods)) {
                                                                     if ($data_goods['id'] == $inDgoods) {
-                                                                        echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '" selected>' . $data_goods['goods'] . '</option>';
+                                                                        echo '<option value="' . $data_goods['id'] . '" data-unit="' . $data_goods['unit'] . '" data-unitid="' . $data_goods['unit_id'] . '" selected>' . $data_goods['goods'] . '</option>';
                                                                     } else {
-                                                                        echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
+                                                                        echo '<option value="' . $data_goods['id'] . '" data-unit="' . $data_goods['unit'] . '" data-unitid="' . $data_goods['unit_id'] . '">' . $data_goods['goods'] . '</option>';
                                                                     }
                                                                 } else {
-                                                                    echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
+                                                                    echo '<option value="' . $data_goods['id'] . '" data-unit="' . $data_goods['unit'] . '" data-unitid="' . $data_goods['unit_id'] . '">' . $data_goods['goods'] . '</option>';
                                                                 }
                                                             endforeach;
                                                             ?>
@@ -212,7 +212,7 @@ if (isset($param)) {
                                                         <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
                                                         <a class="btn btn-secondary m-1" id="btnDelete" title="Delete" onclick=""><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
                                                         <script>
-                                                            get("inDgoods", "<?= $numRow ?>;", "");
+                                                            get("inDgoods", 1, "");
                                                         </script>
                                                     </td>
                                                 </tr>
@@ -225,17 +225,17 @@ if (isset($param)) {
                                                     <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>
                                                         <option value="">Select</option>
                                                         <?php
-                                                        foreach ($goods as $data_goods) :
-                                                            if (isset($inDgoods)) {
-                                                                if ($data_goods['id'] == $inDgoods) {
-                                                                    echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '" selected>' . $data_goods['goods'] . '</option>';
-                                                                } else {
-                                                                    echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
-                                                                }
-                                                            } else {
-                                                                echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
-                                                            }
-                                                        endforeach;
+                                                        // foreach ($goods as $data_goods) :
+                                                        //     if (isset($inDgoods)) {
+                                                        //         if ($data_goods['id'] == $inDgoods) {
+                                                        //             echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '" selected>' . $data_goods['goods'] . '</option>';
+                                                        //         } else {
+                                                        //             echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
+                                                        //         }
+                                                        //     } else {
+                                                        //         echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
+                                                        //     }
+                                                        // endforeach;
                                                         ?>
                                                     </select>
                                                 </td>
@@ -259,7 +259,7 @@ if (isset($param)) {
                                                     <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
                                                     <a class="btn btn-secondary m-1" id="btnDelete" title="Delete" onclick=""><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
                                                     <script>
-                                                        // get("inDgoods", 1, "");
+                                                        get("inDgoods", 1, "");
                                                     </script>
                                                 </td>
                                             </tr>
@@ -298,14 +298,13 @@ if (isset($param)) {
     $("#inTotal").val($.number(<?= $inTotal ?>, 2));
 
 
-    // var numRow = $('#dataTable-input tbody tr').length;
-    // get("inDgoods", 1, "");
-    // $(this).on('select2:select', function() {
-    // var unit_id = $(this).find(":selected").data("unitid");
-    // var unit = $(this).find(":selected").data("unit");
+    $('.inDgoods').on("select2:selecting", function() {
+        var unit_id = $(this).find(":selected").data("unitid");
+        var unit = $(this).find(":selected").data("unit");
 
-    // $(this).closest('tr').find('.inDunitid').val(unit_id);
-    // $(this).closest('tr').find('.inDunit').val(unit);
-    // });
-    // })
+        $(this).closest('tr').find('.inDunitid').val(unit_id);
+        $(this).closest('tr').find('.inDunit').val(unit);
+
+        console.log(unit_id + "lalala");
+    });
 </script>

@@ -345,7 +345,7 @@ class Purchase_M extends CI_Model
                         $inDdiscountx = 0;
                     }
 
-                    if (isset($inDidx[$i])) {
+                    if (isset($inDidx[$i]) && $inDidx[$i] != "") {
                         $data3 = array(
                             'goods_id' => $inDgoods[$i],
                             'qty' => $inDqty[$i],
