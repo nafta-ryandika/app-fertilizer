@@ -82,7 +82,10 @@ class Purchase_M extends CI_Model
             $query2 = "SELECT 
                         *,
                         (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
-                        FROM t_purchase_detail WHERE purchase_id = '" . $purchase_id . "'";
+                        FROM t_purchase_detail 
+                        WHERE 
+                        purchase_id = '" . $purchase_id . "' AND 
+                        `status` = 1";
 
             if ($row > 0) {
                 $data["detail"] = $this->db->query($query2)->result_array();
@@ -140,6 +143,7 @@ class Purchase_M extends CI_Model
             $inDprice = $data[$i]["inDprice"];
             $inDdiscount = $data[$i]["inDdiscount"];
             $inDsubtotal = $data[$i]["inDsubtotal"];
+            $inDremove = $data[$i]["inDremove"];
         }
 
         $curdate = date("Y-m-d H:i:s");
@@ -280,6 +284,7 @@ class Purchase_M extends CI_Model
                 }
             }
         } else if ($inMode == "edit") {
+            // header
             $data2 = array(
                 'purchase_type_id' => $inType,
                 'supplier_id' => $inSupplier,
@@ -289,7 +294,7 @@ class Purchase_M extends CI_Model
                 'tax' => $inTax,
                 'total' => $inTotal,
                 'log_by' => $_SESSION['user_id'],
-                'log_at' => $curdate
+                'log_at' => date("Y-m-d H:i:s")
             );
 
             $this->db->db_debug = false;
@@ -309,6 +314,7 @@ class Purchase_M extends CI_Model
                 return $res;
             }
 
+            // detail 
             $inDidx = rtrim($inDidx, "|");
             $inDidx = explode("|", $inDidx);
 
@@ -348,7 +354,7 @@ class Purchase_M extends CI_Model
                             'discount' => $inDdiscountx,
                             'subtotal' => $inDsubtotal[$i],
                             'log_by' => $_SESSION['user_id'],
-                            'log_at' => $curdate
+                            'log_at' => date("Y-m-d H:i:s")
                         );
 
 
@@ -382,9 +388,6 @@ class Purchase_M extends CI_Model
                             'created_by' => $_SESSION['user_id']
                         );
 
-                        // var_dump($data3);
-                        // die();
-
                         $this->db->db_debug = false;
 
                         if ($this->db->insert('t_purchase_detail', $data3)) {
@@ -392,6 +395,37 @@ class Purchase_M extends CI_Model
                         } else {
                             $res['err'] =  $this->db->error();
                             $res['err'] = $res['err']['message'];
+                            return $res;
+                        }
+                    }
+                }
+            }
+
+            if (isset($inDremove)) {
+                $inDremove = explode("|", $inDremove);
+
+                if (!empty($inDremove)) {
+                    for ($i = 0; $i < count($inDremove); $i++) {
+                        $data4 = array(
+                            'status' => 0,
+                            'log_by' => $_SESSION['user_id'],
+                            'log_at' => date("Y-m-d H:i:s")
+                        );
+
+                        $this->db->db_debug = false;
+
+                        $where4 = array(
+                            'id' => $inDremove[$i],
+                            'purchase_id' => $inId
+                        );
+
+                        $this->db->where($where4);
+
+                        if ($this->db->update("t_purchase_detail", $data4)) {
+                            $res['res'] = 'success';
+                        } else {
+                            $res['res'] =  $this->db->error();
+                            $res['res'] = $data['res']['message'];
                             return $res;
                         }
                     }

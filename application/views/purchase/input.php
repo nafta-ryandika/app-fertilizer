@@ -11,21 +11,6 @@ if (isset($param)) {
         $inDiscount = $data["header"]["discount"];
         $inTax = $data["header"]["tax"];
         $inTotal = $data["header"]["total"];
-?>
-        <script>
-            $("#inMode").val('<?= $param ?>');
-            $("#inIdx").val('<?= $inIdx ?>');
-            $("#inId").val('<?= $inId ?>');
-            $("#inDate").val('<?= $inDate ?>');
-            $("#inType").val('<?= $inType ?>');
-            get("inSupplier", "<?= $inSupplier ?>", "");
-            $("#inDuedate").val('<?= $inDuedate ?>');
-            $("#inRemark").val('<?= $inRemark ?>');
-            $("#inDiscount").val('<?= $inDiscount ?>');
-            $("#inTax").val('<?= $inTax ?>');
-            $("#inTotal").val($.number(<?= $inTotal ?>, 2));
-        </script>
-<?php
     }
 }
 ?>
@@ -127,7 +112,8 @@ if (isset($param)) {
                                     <tbody>
                                         <?php
                                         if (isset($param)) {
-                                            if ($param == "edit") {
+                                            $numRow = 1;
+                                            if ($param == "edit" && (count($data["detail"]) > 0)) {
                                                 foreach ($data["detail"] as $data_detail) :
                                                     $inDidx = $data_detail["id"];
                                                     $inDgoods = $data_detail["goods_id"];
@@ -146,10 +132,14 @@ if (isset($param)) {
                                                                 <option value="">Select</option>
                                                                 <?php
                                                                 foreach ($goods as $data_goods) :
-                                                                    if ($data_goods['id'] == $inDgoods) {
-                                                                        echo '<option value="' . $data_goods['id'] . '" selected>' . $data_goods['goods'] . '</option>';
+                                                                    if (isset($inDgoods)) {
+                                                                        if ($data_goods['id'] == $inDgoods) {
+                                                                            echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '" selected>' . $data_goods['goods'] . '</option>';
+                                                                        } else {
+                                                                            echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
+                                                                        }
                                                                     } else {
-                                                                        echo '<option value="' . $data_goods['id'] . '">' . $data_goods['goods'] . '</option>';
+                                                                        echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
                                                                     }
                                                                 endforeach;
                                                                 ?>
@@ -175,7 +165,7 @@ if (isset($param)) {
                                                             <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
                                                             <a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove('detail',this)"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
                                                             <script>
-                                                                get("inDgoods", "", "");
+                                                                get("inDgoods", "<?= $numRow; ?>", "<?= $inDgoods; ?>");
                                                             </script>
                                                         </td>
                                                     </tr>
@@ -187,6 +177,19 @@ if (isset($param)) {
                                                     <td scope="row">
                                                         <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>
                                                             <option value="">Select</option>
+                                                            <?php
+                                                            foreach ($goods as $data_goods) :
+                                                                if (isset($inDgoods)) {
+                                                                    if ($data_goods['id'] == $inDgoods) {
+                                                                        echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '" selected>' . $data_goods['goods'] . '</option>';
+                                                                    } else {
+                                                                        echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
+                                                                    }
+                                                                } else {
+                                                                    echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
+                                                                }
+                                                            endforeach;
+                                                            ?>
                                                         </select>
                                                     </td>
                                                     <td scope="row">
@@ -208,6 +211,9 @@ if (isset($param)) {
                                                     <td>
                                                         <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
                                                         <a class="btn btn-secondary m-1" id="btnDelete" title="Delete" onclick=""><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
+                                                        <script>
+                                                            get("inDgoods", "<?= $numRow ?>;", "");
+                                                        </script>
                                                     </td>
                                                 </tr>
                                             <?php
@@ -218,6 +224,19 @@ if (isset($param)) {
                                                 <td scope="row">
                                                     <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>
                                                         <option value="">Select</option>
+                                                        <?php
+                                                        foreach ($goods as $data_goods) :
+                                                            if (isset($inDgoods)) {
+                                                                if ($data_goods['id'] == $inDgoods) {
+                                                                    echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '" selected>' . $data_goods['goods'] . '</option>';
+                                                                } else {
+                                                                    echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
+                                                                }
+                                                            } else {
+                                                                echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
+                                                            }
+                                                        endforeach;
+                                                        ?>
                                                     </select>
                                                 </td>
                                                 <td scope="row">
@@ -239,6 +258,9 @@ if (isset($param)) {
                                                 <td>
                                                     <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
                                                     <a class="btn btn-secondary m-1" id="btnDelete" title="Delete" onclick=""><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
+                                                    <script>
+                                                        // get("inDgoods", 1, "");
+                                                    </script>
                                                 </td>
                                             </tr>
                                         <?php
@@ -261,3 +283,29 @@ if (isset($param)) {
         </div>
     </div>
 </div>
+
+<script>
+    $("#inMode").val('<?= $param ?>');
+    $("#inIdx").val('<?= $inIdx ?>');
+    $("#inId").val('<?= $inId ?>');
+    $("#inDate").val('<?= $inDate ?>');
+    $("#inType").val('<?= $inType ?>');
+    get("inSupplier", "<?= $inSupplier ?>", "");
+    $("#inDuedate").val('<?= $inDuedate ?>');
+    $("#inRemark").val('<?= $inRemark ?>');
+    $("#inDiscount").val('<?= $inDiscount ?>');
+    $("#inTax").val('<?= $inTax ?>');
+    $("#inTotal").val($.number(<?= $inTotal ?>, 2));
+
+
+    // var numRow = $('#dataTable-input tbody tr').length;
+    // get("inDgoods", 1, "");
+    // $(this).on('select2:select', function() {
+    // var unit_id = $(this).find(":selected").data("unitid");
+    // var unit = $(this).find(":selected").data("unit");
+
+    // $(this).closest('tr').find('.inDunitid').val(unit_id);
+    // $(this).closest('tr').find('.inDunit').val(unit);
+    // });
+    // })
+</script>

@@ -215,38 +215,6 @@ function get(param,obj,callBack) {
 					});
 			}
 		});
-	} else if (param == "inRole") {
-		$.ajax({
-			type: "POST",
-			url: base_url+"user_management/get",
-			data: {
-				param: param,
-				obj: obj
-			},
-			cache: false,
-			dataType: "JSON",
-			beforeSend: function(data) {
-				$('#inDivision').select2({
-					dropdownParent: $('#modalAdd'),
-					theme: 'bootstrap4'
-				})
-			},
-			success: function (data) {
-					var html = '<option value="">Select</option>';
-					var i;
-	
-					for (i=0; i<data.res.length; i++) {
-						if (obj.trim() != "" && obj == data.res[i].id) {
-							html += '<option value="' + data.res[i].id + '" selected>' + data.res[i].role + '</option>';	
-						}
-						else {
-							html += '<option value="' + data.res[i].id + '">' + data.res[i].role + '</option>';
-						}
-					}
-	
-					$('#inRole').html(html);
-			}
-		});
 	} else if (param == "detail") {
 		$.ajax({
 			type: "POST",
@@ -545,6 +513,7 @@ function save(param,obj){
 		var inDprice = "";
 		var inDdiscount = "";
 		var inDsubtotal = "";
+		var inDremove = $("#inDremove").val();
 
 		$(".inDidx").each(function(){
 			inDidx  += $(this).val()+"|";
@@ -652,7 +621,8 @@ function save(param,obj){
 					inDunitid: inDunitid,
 					inDprice: inDprice,
 					inDdiscount: inDdiscount,
-					inDsubtotal: inDsubtotal}];  
+					inDsubtotal: inDsubtotal,
+					inDremove: inDremove}];  
 		
 				$.ajax({
 					type: "POST",
@@ -787,7 +757,14 @@ function remove(param,obj) {
 				var inDremove = $("#inDremove").val(); 
 				inDremove += $(obj).closest('tr').find('.inDidx').val() + "|";
 				$("#inDremove").val(inDremove);
+
 				$(obj).closest('tr').remove();
+				
+				var rowCount = $('#dataTable-input tbody tr').length;
+				
+				if (rowCount == 0) {
+					add('detail','');
+				}
 			}
 		});
 	}
