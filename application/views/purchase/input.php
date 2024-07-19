@@ -165,7 +165,7 @@ if (isset($param)) {
                                                             <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
                                                             <a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove('detail',this)"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
                                                             <script>
-                                                                get("inDgoods", "<?= $numRow; ?>", "<?= $inDgoods; ?>");
+                                                                get("inDgoods", "", "<?= $inDgoods; ?>");
                                                             </script>
                                                         </td>
                                                     </tr>
