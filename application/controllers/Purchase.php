@@ -34,21 +34,11 @@ class Purchase extends CI_Controller
                 (SELECT `type` FROM m_purchase_type WHERE id = a.purchase_type_id) AS `type`,
                 (SELECT supplier FROM m_supplier WHERE id = a.supplier_id) AS supplier
                 FROM t_purchase a 
-                WHERE 1 " . $inWhere . " 
+                WHERE `status` = 1  " . $inWhere . " 
                 ORDER BY created_at DESC";
         $data['purchase'] = $this->db->query($sql)->result_array();
 
         $this->load->view('purchase/view_data', $data);
-    }
-
-    public function check()
-    {
-        $param = $this->input->post('param');
-        $obj = $this->input->post('obj');
-
-        $data = $this->User_management_M->check($param, $obj);
-
-        echo (json_encode($data));
     }
 
     public function get()
@@ -102,7 +92,7 @@ class Purchase extends CI_Controller
         $param = $this->input->post('param');
         $obj = $this->input->post('obj');
 
-        $data = $this->User_management_M->remove($param, $obj);
+        $data = $this->Purchase_M->remove($param, $obj);
 
         echo (json_encode($data));
     }

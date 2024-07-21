@@ -1,5 +1,9 @@
 $(document).ready(function() {
     viewData();
+
+	$('#modalDetail').on('hidden.bs.modal', function () {
+		$("#contentDetailpurchase").html("");
+	})
 });
 
 $(function () {
@@ -101,29 +105,7 @@ function get(param,obj,callBack) {
 				get("inSupplier","","");
 			},
 			success: function (data) {
-				// console.log("test"+param);
-				// console.log(data);
-				// var user_data = data.res;
 				$("#inputArea").html(data);
-				// $("#inputArea").html(data.html).after(function (data) {
-				// 	$('#inMode').val('edit');
-
-				// console.log("test"+data.header);
-				// 	// get("inDepartment",user_data.department_id,"");
-				// 	// get("inDivision",user_data.department_id,user_data.division_id);
-				// 	// get("inRole",user_data.role_id,"");
-				// 	// $("#inIdx").val(user_data.id);
-				// 	// $("#inId").val(user_data.user_id);
-				// 	// $("#inName").val(user_data.name);	
-				// 	// $("#inEmail").val(user_data.email);	
-
-				// 	// $("#inPassword").closest("div").parent("div").hide();
-				// 	// $("#inRepeatpassword").closest("div").parent("div").hide();
-				// 	// $("#inStatus").val(user_data.status);
-				// })
-			},
-			complete: function(data){
-				// get("inSupplier","","");
 			}
 		})
 	} else if (param == "searchColumn") {
@@ -218,7 +200,7 @@ function get(param,obj,callBack) {
 	} else if (param == "detail") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"user_management/get",
+			url: base_url+"purchase/get",
 			data: {
 				param: param,
 				obj: obj
@@ -226,30 +208,49 @@ function get(param,obj,callBack) {
 			cache: false,
 			dataType: "JSON",
 			success: function (data) {
-				var user_data = data.res;
+				var data_header = data.header;
+				var data_detail = data.detail;
+
+				console.log(data_detail.length);
 
 				$('#modalDetail').modal('show').after(function (data) {
-					$("#modalDetail .modal-dialog .modal-content .modal-body #inId").text(user_data.user_id);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #inName").text(user_data.name);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #inDepartment").text(user_data.department);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #inDivision").text(user_data.division);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #inRole").text(user_data.role);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #inEmail").text(user_data.email);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #inImage").attr("src",base_url+"assets/img/profile/"+user_data.image);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #inStatus").text(user_data.status);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #inCreated_by").text(user_data.created_by);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #inCreated_at").text(user_data.created_at);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtId").text(data_header.purchase_id);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDate").text(data_header.date);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtType").text(data_header.type);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtSupplier").text(data_header.supplier);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDuedate").text(data_header.due_date);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtRemark").text(data_header.remark);
 					
-					// get("inDepartment",user_data.department_id,"");
-					// get("inDivision",user_data.department_id,user_data.division_id);
-					// get("inRole",user_data.role_id,"");
-					// $("#inIdx").val(user_data.id);
-					// $("#inId").val(user_data.user_id);
-					// $("#inName").val(user_data.name);	
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDiscount").text(data_header.discount);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTax").text(data_header.tax);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTotal").text("Rp " + parseFloat(data_header.total).toLocaleString('id-ID'));
 
-					// $("#inPassword").closest("div").parent("div").hide();
-					// $("#inRepeatpassword").closest("div").parent("div").hide();
-					// $("#inStatus").val(user_data.status);
+					if (data_detail.length > 0){
+						var html = "<table class=\"table table-hover\" id=\"tableDetailpurchase\">\n\
+										<tr>\n\
+											<th scope=\"col\" style=\"text-align: center !important;\">Goods</th>\n\
+											<th scope=\"col\" style=\"text-align: center !important;\">Qty</th>\n\
+											<th scope=\"col\" style=\"text-align: center !important;\">Unit</th>\n\
+											<th scope=\"col\" style=\"text-align: center !important;\">Price</th>\n\
+											<th scope=\"col\" style=\"text-align: center !important;\">Discount</th>\n\
+											<th scope=\"col\" style=\"text-align: center !important;\">Subtotal</th>\n\
+										</tr>";
+
+						for (var i = 0; i < data_detail.length; i++) {
+							html += "<tr>\n\
+										<td style=\"text-align: center !important;\">"+ data_detail[i].goods +"</td>\n\
+										<td style=\"text-align: right !important;\">"+ parseFloat(data_detail[i].qty).toLocaleString('id-ID') +"</td>\n\
+										<td style=\"text-align: center !important;\">"+ data_detail[i].unit +"</td>\n\
+										<td style=\"text-align: right !important;\">"+ parseFloat(data_detail[i].price).toLocaleString('id-ID') +"</td>\n\
+										<td style=\"text-align: right !important;\">"+ data_detail[i].discount +"</td>\n\
+										<td style=\"text-align: right !important;\">"+ "Rp " + parseFloat(data_detail[i].subtotal).toLocaleString('id-ID') +"</td>\n\
+									</tr>";
+						}
+
+						html += "</table>";
+
+						$('#contentDetailpurchase').html(html);
+					}
 				})
 			}
 		})
@@ -456,7 +457,6 @@ function add(param,obj){
 				
 			});
 		}
-		// $("#contentArea").html("");
 	} else if (param == "detail") {
 		var html = '<tr>\n\
 						<td scope="row">\n\
@@ -488,7 +488,6 @@ function add(param,obj){
 		$('#dataTable-input tr:last').after(html);
 		var numRow = $('#dataTable-input tbody tr').length;
 		get("inDgoods",numRow,"");
-		// console.log(numRow);
 	}
 }
 
@@ -715,7 +714,7 @@ function remove(param,obj) {
 			if (result.isConfirmed) {
 				$.ajax({
 					type: "POST",
-					url: base_url+"user_management/remove",
+					url: base_url+"purchase/remove",
 					data: {
 						param: param,
 						obj: obj

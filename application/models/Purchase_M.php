@@ -12,19 +12,6 @@ class Purchase_M extends CI_Model
         date_default_timezone_set('Asia/Jakarta');
     }
 
-    public function check($param, $obj)
-    {
-        $res = array();
-        if ($param == "inId") {
-            $query = "SELECT user_id FROM m_user WHERE user_id = '" . $obj . "'";
-            $row = $this->db->query($query)->num_rows();
-
-            $res['res'] = $row;
-        }
-
-        return $res;
-    }
-
     public function get($param, $obj)
     {
         $data = array();
@@ -93,24 +80,40 @@ class Purchase_M extends CI_Model
                 return FALSE;
             }
         } else if ($param == "detail") {
+            $datax = explode("|", $obj);
 
             $query = "SELECT 
-                        id, user_id, name, email, image, company_id, department_id, division_id, role_id, created_by,
-                        DATE_FORMAT(created_at, '%d-%m-%Y %H:%i:%s') as created_at,
-                        IF(`status` = 1, 'Active', 'Not Active') as `status`,
-                        (SELECT department FROM m_department WHERE id = department_id) AS department,
-                        (SELECT division FROM m_division WHERE id = division_id) AS division,
-                        (SELECT `role` FROM m_role WHERE id = role_id) AS `role`
-                        FROM m_user 
-                        WHERE 
-                        id = '" . $obj . "'";
+                        id, purchase_id, purchase_type_id, supplier_id, due_date, remark, discount, tax, total, `status`, created_by, created_at, log_by, log_at,
+                        DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
+                        DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
+                        (SELECT `type` FROM m_purchase_type WHERE id = a.purchase_type_id) AS `type`,
+                        (SELECT supplier FROM m_supplier WHERE id = a.supplier_id) AS supplier
+                        FROM t_purchase a 
+                        WHERE id = '" . $datax[0] . "' AND `status` = 1";
 
             $row = $this->db->query($query)->num_rows();
 
             if ($row > 0) {
-                $data["res"] = $this->db->query($query)->row_array();
+                $data["header"] = $this->db->query($query)->row_array();
             } else {
                 return FALSE;
+            }
+
+            $query1 = "SELECT 
+                        *,
+                        (SELECT goods FROM m_goods WHERE id = goods_id) AS goods, 
+                        (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
+                        FROM t_purchase_detail 
+                        WHERE 
+                        purchase_id = '" . $datax[1] . "' AND 
+                        `status` = 1";
+
+            $row1 = $this->db->query($query1)->num_rows();
+
+            if ($row1 > 0) {
+                $data["detail"] = $this->db->query($query1)->result_array();
+            } else {
+                $data["detail"] = "";
             }
         }
 
@@ -441,35 +444,52 @@ class Purchase_M extends CI_Model
         $res = array();
 
         if ($param == "data") {
-            $this->db->db_debug = false;
-            $this->db->where('id', $obj);
+            $datax = explode("|", $obj);
 
-            if ($this->db->delete('m_user')) {
-                $res['res'] = 'success';
-            } else {
-                $res['res'] = $this->db->error();
-                $res['res'] = $res['res']['message'];
-            }
-        } else if ($param == "password") {
-            $length = 6;
-            $inPassword =  substr(str_shuffle('0123456789'), 1, $length);
-
-            $data = array(
-                'password' => addslashes(password_hash($inPassword, PASSWORD_DEFAULT)),
-                'created_by' => $_SESSION['user_id'],
-                'created_at' => date('Y-m-d H:i:s')
+            // header
+            $data1 = array(
+                'status' => 0,
+                'log_by' => $_SESSION['user_id'],
+                'log_at' => date("Y-m-d H:i:s")
             );
 
             $this->db->db_debug = false;
 
-            $this->db->where("id", $obj);
+            $where1 = array(
+                'id' => $datax[0],
+                'purchase_id' => $datax[1]
+            );
 
-            if ($this->db->update("m_user", $data)) {
+            $this->db->where($where1);
+
+            if ($this->db->update("t_purchase", $data1)) {
                 $res['res'] = 'success';
-                $res['password'] = $inPassword;
             } else {
                 $res['res'] =  $this->db->error();
                 $res['res'] = $data['res']['message'];
+                return $res;
+            }
+
+            $data2 = array(
+                'status' => 0,
+                'log_by' => $_SESSION['user_id'],
+                'log_at' => date("Y-m-d H:i:s")
+            );
+
+            $this->db->db_debug = false;
+
+            $where2 = array(
+                'purchase_id' => $datax[1]
+            );
+
+            $this->db->where($where2);
+
+            if ($this->db->update("t_purchase_detail", $data2)) {
+                $res['res'] = 'success';
+            } else {
+                $res['res'] =  $this->db->error();
+                $res['res'] = $data['res']['message'];
+                return $res;
             }
         }
 

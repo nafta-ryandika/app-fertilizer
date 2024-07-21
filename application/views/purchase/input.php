@@ -224,19 +224,6 @@ if (isset($param)) {
                                                 <td scope="row">
                                                     <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>
                                                         <option value="">Select</option>
-                                                        <?php
-                                                        // foreach ($goods as $data_goods) :
-                                                        //     if (isset($inDgoods)) {
-                                                        //         if ($data_goods['id'] == $inDgoods) {
-                                                        //             echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '" selected>' . $data_goods['goods'] . '</option>';
-                                                        //         } else {
-                                                        //             echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
-                                                        //         }
-                                                        //     } else {
-                                                        //         echo '<option value="' . $data_goods['id'] . '" data-unit="' . $inDunit . '" data-unitid="' . $inDunitid . '">' . $data_goods['goods'] . '</option>';
-                                                        //     }
-                                                        // endforeach;
-                                                        ?>
                                                     </select>
                                                 </td>
                                                 <td scope="row">
@@ -304,7 +291,5 @@ if (isset($param)) {
 
         $(this).closest('tr').find('.inDunitid').val(unit_id);
         $(this).closest('tr').find('.inDunit').val(unit);
-
-        console.log(unit_id + "lalala");
     });
 </script>
