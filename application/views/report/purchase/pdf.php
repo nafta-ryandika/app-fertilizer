@@ -85,10 +85,10 @@
                 <th scope="col">Department</th>
                 <th scope="col">Division</th>
                 <th scope="col">Position</th>
-                <th scope="col">Date OUT</th>
-                <th scope="col">Time OUT</th>
                 <th scope="col">Date IN</th>
                 <th scope="col">Time IN</th>
+                <th scope="col">Date OUT</th>
+                <th scope="col">Time OUT</th>
                 <th scope="col">Necessity</th>
                 <th scope="col">Remark</th>
                 <th scope="col">Status</th>
@@ -96,26 +96,26 @@
         </thead>
         <tbody>
             <?php
-            $i = 1;
-            foreach ($exit_permit as $data_exit_permit) {
-                echo '<tr>';
-                echo '<td>' . $i . '</td>';
-                echo '<td style="text-align: center;">' . $data_exit_permit['employee_id'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_exit_permit['name'] . '</td>';
-                echo '<td>' . $data_exit_permit['company'] . '</td>';
-                echo '<td>' . $data_exit_permit['department'] . '</td>';
-                echo '<td>' . $data_exit_permit['division'] . '</td>';
-                echo '<td>' . $data_exit_permit['position'] . '</td>';
-                echo '<td>' . $data_exit_permit['date_out'] . '</td>';
-                echo '<td>' . $data_exit_permit['time_out'] . '</td>';
-                echo '<td>' . $data_exit_permit['date_in'] . '</td>';
-                echo '<td>' . $data_exit_permit['time_in'] . '</td>';
-                echo '<td>' . $data_exit_permit['necessity'] . '</td>';
-                echo '<td>' . $data_exit_permit['remark'] . '</td>';
-                echo '<td>' . $data_exit_permit['status_name'] . '</td>';
-                echo '</tr>';
-                $i++;
-            }
+            // $i = 1;
+            // foreach ($exit_permit as $data_exit_permit) {
+            //     echo '<tr>';
+            //     echo '<td>' . $i . '</td>';
+            //     echo '<td style="text-align: center;">' . $data_exit_permit['employee_id'] . '</td>';
+            //     echo '<td style="text-align: center;">' . $data_exit_permit['name'] . '</td>';
+            //     echo '<td>' . $data_exit_permit['company'] . '</td>';
+            //     echo '<td>' . $data_exit_permit['department'] . '</td>';
+            //     echo '<td>' . $data_exit_permit['division'] . '</td>';
+            //     echo '<td>' . $data_exit_permit['position'] . '</td>';
+            //     echo '<td>' . $data_exit_permit['date_in'] . '</td>';
+            //     echo '<td>' . $data_exit_permit['time_in'] . '</td>';
+            //     echo '<td>' . $data_exit_permit['date_out'] . '</td>';
+            //     echo '<td>' . $data_exit_permit['time_out'] . '</td>';
+            //     echo '<td>' . $data_exit_permit['necessity'] . '</td>';
+            //     echo '<td>' . $data_exit_permit['remark'] . '</td>';
+            //     echo '<td>' . $data_exit_permit['status_name'] . '</td>';
+            //     echo '</tr>';
+            //     $i++;
+            // }
             ?>
         </tbody>
     </table>

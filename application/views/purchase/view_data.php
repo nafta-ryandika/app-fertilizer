@@ -34,7 +34,7 @@
                     <a class="btn btn-info m-1" id="btnDetail" title="Detail" onclick="get('detail','<?= $data_purchase['id'] . '|' . $data_purchase['purchase_id']; ?>','')"><i class="fas fa-fw fa-solid fa-eye m-1"></i></a>
                     <a class="btn btn-warning m-1" id="btnEdit" title="Edit" onclick="get('edit','<?= $data_purchase['id']; ?>','')"><i class="fas fa-fw fa-solid fa-pen-to-square m-1"></i></a>
                     <a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove('data','<?= $data_purchase['id'] . '|' . $data_purchase['purchase_id']; ?>')"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
-                    <a class="btn btn-primary m-1" id="btnDelete" title="Delete" onclick="report('data','<?= $data_purchase['id'] . '|' . $data_purchase['purchase_id']; ?>')"><i class="fas fa-fw fa-solid fa-print m-1"></i></a>
+                    <a class="btn btn-primary m-1" id="btnPrint" title="Delete" onclick="report('data','<?= $data_purchase['id'] . '|' . $data_purchase['purchase_id']; ?>')"><i class="fas fa-fw fa-solid fa-print m-1"></i></a>
                 </td>
             </tr>
         <?php

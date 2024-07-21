@@ -211,8 +211,6 @@ function get(param,obj,callBack) {
 				var data_header = data.header;
 				var data_detail = data.detail;
 
-				console.log(data_detail.length);
-
 				$('#modalDetail').modal('show').after(function (data) {
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtId").text(data_header.purchase_id);
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDate").text(data_header.date);
@@ -409,6 +407,10 @@ function report(param,obj){
 		if (obj == "user") {
 			window.open(base_url+'report/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
 		}
+	} else if (param == "data") {
+		$('#modalPrint').modal('show').after(function (data) {
+			$("#contentPrint").attr("src",base_url+'report/purchase?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere));
+		})
 	}
 }
 
