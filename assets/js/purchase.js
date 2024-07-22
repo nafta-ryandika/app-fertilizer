@@ -407,9 +407,9 @@ function report(param,obj){
 		if (obj == "user") {
 			window.open(base_url+'report/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
 		}
-	} else if (param == "data") {
+	} else if (param == "print") {
 		$('#modalPrint').modal('show').after(function (data) {
-			$("#contentPrint").attr("src",base_url+'report/purchase?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere));
+			$("#contentPrint").attr("src",base_url+'purchase/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere));
 		})
 	}
 }

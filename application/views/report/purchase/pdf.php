@@ -79,44 +79,60 @@
         <thead>
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Company</th>
-                <th scope="col">Department</th>
-                <th scope="col">Division</th>
-                <th scope="col">Position</th>
-                <th scope="col">Date IN</th>
-                <th scope="col">Time IN</th>
-                <th scope="col">Date OUT</th>
-                <th scope="col">Time OUT</th>
-                <th scope="col">Necessity</th>
-                <th scope="col">Remark</th>
-                <th scope="col">Status</th>
+                <th scope="col">Goods</th>
+                <th scope="col">Qty</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Price</th>
+                <th scope="col">Discount</th>
+                <th scope="col">total</th>
             </tr>
         </thead>
         <tbody>
             <?php
-            // $i = 1;
-            // foreach ($exit_permit as $data_exit_permit) {
-            //     echo '<tr>';
-            //     echo '<td>' . $i . '</td>';
-            //     echo '<td style="text-align: center;">' . $data_exit_permit['employee_id'] . '</td>';
-            //     echo '<td style="text-align: center;">' . $data_exit_permit['name'] . '</td>';
-            //     echo '<td>' . $data_exit_permit['company'] . '</td>';
-            //     echo '<td>' . $data_exit_permit['department'] . '</td>';
-            //     echo '<td>' . $data_exit_permit['division'] . '</td>';
-            //     echo '<td>' . $data_exit_permit['position'] . '</td>';
-            //     echo '<td>' . $data_exit_permit['date_in'] . '</td>';
-            //     echo '<td>' . $data_exit_permit['time_in'] . '</td>';
-            //     echo '<td>' . $data_exit_permit['date_out'] . '</td>';
-            //     echo '<td>' . $data_exit_permit['time_out'] . '</td>';
-            //     echo '<td>' . $data_exit_permit['necessity'] . '</td>';
-            //     echo '<td>' . $data_exit_permit['remark'] . '</td>';
-            //     echo '<td>' . $data_exit_permit['status_name'] . '</td>';
-            //     echo '</tr>';
-            //     $i++;
-            // }
+            $i = 1;
+            $subtotal = 0;
+            foreach ($detail as $data_detail) {
+                echo '<tr>';
+                echo '<td style="text-align: center;">' . $i . '</td>';
+                echo '<td style="text-align: center;">' . $data_detail['goods'] . '</td>';
+                echo '<td style="text-align: right;">' . number_format($data_detail['qty'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: center;">' . $data_detail['unit'] . '</td>';
+                echo '<td style="text-align: right;">' . number_format($data_detail['price'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: center;">' . $data_detail['discount'] . '</td>';
+                echo '<td style="text-align: right;">Rp ' . number_format($data_detail['subtotal'], 2, ",", ".") . '</td>';
+                echo '</tr>';
+                $i++;
+                $subtotal += $data_detail['subtotal'];
+
+                $discount = $header["discount"];
+                $discount = ($discount / 100) * $discount;
+
+                $tax = $header["tax"];
+                $tax = ($tax / 100) * $tax;
+
+                $total = $subtotal - $discount + $tax;
+            }
             ?>
+            <tr>
+                <td colspan="5"></td>
+                <td style="text-align: center;">Subtotal</td>
+                <td style="text-align: right;"> Rp <?= number_format($subtotal, 2, ",", "."); ?></td>
+            </tr>
+            <tr>
+                <td colspan="5"></td>
+                <td style="text-align: center;">Discount</td>
+                <td style="text-align: right;"> Rp <?= number_format($discount, 2, ",", "."); ?></td>
+            </tr>
+            <tr>
+                <td colspan="5"></td>
+                <td style="text-align: center;">Tax</td>
+                <td style="text-align: right;"> Rp <?= number_format($tax, 2, ",", "."); ?></td>
+            </tr>
+            <tr>
+                <td colspan="5"></td>
+                <td style="text-align: center;">Total</td>
+                <td style="text-align: right;"> Rp <?= number_format($total, 2, ",", "."); ?></td>
+            </tr>
         </tbody>
     </table>
 </body>
