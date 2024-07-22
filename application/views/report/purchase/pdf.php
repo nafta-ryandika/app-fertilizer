@@ -114,6 +114,9 @@
             }
             ?>
             <tr>
+                <td colspan="7"></td>
+            </tr>
+            <tr>
                 <td colspan="5"></td>
                 <td style="text-align: center;">Subtotal</td>
                 <td style="text-align: right;"> Rp <?= number_format($subtotal, 2, ",", "."); ?></td>

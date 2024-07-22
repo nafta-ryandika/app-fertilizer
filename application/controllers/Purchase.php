@@ -151,9 +151,7 @@ class Purchase extends CI_Controller
 
             $mpdf->SetTitle($fileName);
 
-            $header =   "
-                        
-                        <br/>
+            $header =   "<br/>
                         <div class=\"row col-12\">
                             <table style=\"width: 100%; table-layout: fixed;\">
                                 <tr>
