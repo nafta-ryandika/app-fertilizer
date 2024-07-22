@@ -244,7 +244,7 @@ class Purchase extends CI_Controller
                 0, // margin header
                 1 // margin footer
             );
-            // $mpdf->showImageErrors = true;
+            $mpdf->showImageErrors = true;
             $mpdf->WriteHTML($html);
             $mpdf->Output($fileName . ".pdf", 'I');
         } else if ($param == "excel") {
