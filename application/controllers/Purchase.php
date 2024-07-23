@@ -240,10 +240,9 @@ class Purchase extends CI_Controller
                         </table>";
 
             $mpdf->SetHTMLFooter($footer);
-            // $mpdf->setFooter($footer);
 
             $html = $this->load->view('report/purchase/pdf', $data, true);
-            // $html = "test";
+
             $mpdf->AddPage(
                 'P', // L - landscape, P - portrait 
                 '',
