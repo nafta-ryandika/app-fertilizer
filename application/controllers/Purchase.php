@@ -141,13 +141,7 @@ class Purchase extends CI_Controller
             $fileName = $datax[1];
             $data['title_pdf'] = $fileName;
 
-            $mpdf = new \Mpdf\Mpdf([
-                'orientation' => 'P',
-                'format' => 'A4',
-                'margin_left' => '5',
-                'margin_right' => '5',
-                'margin_top' => '10'
-            ]);
+            $mpdf = new \Mpdf\Mpdf();
 
             $mpdf->SetTitle($fileName);
 
@@ -212,22 +206,41 @@ class Purchase extends CI_Controller
 
             $mpdf->SetHTMLHeader($header);
 
-            $footer = array(
-                'odd' => array(
-                    'L' => array(
-                        'content' =>  $this->session->userdata['name'] . " - " . date("Y-m-d H:i:s"),
-                        'font-size' => 10
-                    ),
-                    'R' => array(
-                        'content' => '{PAGENO} of {nbpg}',
-                        'font-size' => 10
-                    ),
-                    'line' => 0,
-                ),
-                'even' => array()
-            );
+            $footer = " <table width=\"100%\" border=\"1\">
+                            <tr>
+                                <td width=\"66%\">
+                                    Due Date : " . $due_date . "
+                                </td>
+                                <td width=\"33%\" style=\"text-align: center;\">
+                                    Approved By    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width=\"66%\" style=\"vertical-align: top;\">
+                                    Remark : " . $remark . "
+                                </td>
+                                <td width=\"33%\" style=\"text-align: center; vertical-align: top;\">
+                                    <table style=\"text-align: center;\">
+                                        <tr>
+                                            <td><br><br><br><br></td>
+                                        </tr>
+                                        <tr>
+                                            <td><u>Purchase</u></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <table width=\"100%\">
+                            <tr>
+                                <td width=\"33%\">" . $this->session->userdata['name'] . " - {DATE d-m-Y H:i:s}</td>
+                                <td width=\"33%\" align=\"center\">{PAGENO}/{nbpg}</td>
+                                <td width=\"33%\" style=\"text-align: right;\">" . $purchase_id . "</td>
+                            </tr>
+                        </table>";
 
-            $mpdf->setFooter($footer);
+            $mpdf->SetHTMLFooter($footer);
+            // $mpdf->setFooter($footer);
 
             $html = $this->load->view('report/purchase/pdf', $data, true);
             // $html = "test";
@@ -240,7 +253,7 @@ class Purchase extends CI_Controller
                 5, // margin_left
                 5, // margin right
                 70, // margin top
-                10, // margin bottom
+                70, // margin bottom
                 0, // margin header
                 1 // margin footer
             );

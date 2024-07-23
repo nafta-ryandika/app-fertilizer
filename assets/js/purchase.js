@@ -355,7 +355,7 @@ function report(param,obj){
 		var inSearchinput = $('.inSearchinput').val();
 
 		if (inSearchcolumn.trim() != "" && inSearchinput.trim() != "") {
-			if (inSearchparameter == "=") {
+			if (inSearchparameter == "=" || inSearchparameter == ">" || inSearchparameter == "<") {
 				inWhere = "AND " + inSearchcolumn + " " + inSearchparameter + " " +"'" + inSearchinput + "'"; 
 			} else if (inSearchparameter == "like") {
 				inWhere = "AND " + inSearchcolumn + " " + inSearchparameter + " " +"'%" + inSearchinput.replace(" ","%") + "%'";
@@ -389,7 +389,7 @@ function report(param,obj){
 			inSearchinput = xSearchinput[i];
 
 			if (inSearchcolumn.trim() != "" && inSearchinput.trim() != "") {
-				if (inSearchparameter == "=") {
+				if (inSearchparameter == "=" || inSearchparameter == ">" || inSearchparameter == "<") {
 					inWhere += " AND " + inSearchcolumn + " " + inSearchparameter + " " +"'" + inSearchinput + "'"; 
 				} else if (inSearchparameter == "like") {
 					inWhere += " AND " + inSearchcolumn + " " + inSearchparameter + " " +"'%" + inSearchinput.replace(" ","%") + "%'";
@@ -399,17 +399,17 @@ function report(param,obj){
 	}
 
 	if (param == "pdf") {
-		if (obj == "user") {
-			window.open(base_url+'report/user_management?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
+		if (obj == "purchase") {
+			window.open(base_url+'purchase/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
 		}
 	}
 	else if (param == "excel") {
-		if (obj == "user") {
-			window.open(base_url+'report/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
+		if (obj == "purchase") {
+			window.open(base_url+'purchase/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
 		}
 	} else if (param == "print") {
 		$('#modalPrint').modal('show').after(function (data) {
-			$("#contentPrint").attr("src",base_url+'purchase/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere));
+			$("#contentPrint").attr("src",base_url+'purchase/report?param='+param+'&obj='+obj);
 		})
 	}
 }

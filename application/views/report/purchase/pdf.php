@@ -105,10 +105,10 @@
                 $subtotal += $data_detail['subtotal'];
 
                 $discount = $header["discount"];
-                $discount = ($discount / 100) * $discount;
+                $discount = ($discount / 100) * $subtotal;
 
                 $tax = $header["tax"];
-                $tax = ($tax / 100) * $tax;
+                $tax = ($tax / 100) * $subtotal;
 
                 $total = $subtotal - $discount + $tax;
             }
@@ -117,22 +117,19 @@
                 <td colspan="7"></td>
             </tr>
             <tr>
-                <td colspan="5"></td>
+                <td colspan="5" rowspan="4"></td>
                 <td style="text-align: center;">Subtotal</td>
                 <td style="text-align: right;"> Rp <?= number_format($subtotal, 2, ",", "."); ?></td>
             </tr>
             <tr>
-                <td colspan="5"></td>
                 <td style="text-align: center;">Discount</td>
                 <td style="text-align: right;"> Rp <?= number_format($discount, 2, ",", "."); ?></td>
             </tr>
             <tr>
-                <td colspan="5"></td>
                 <td style="text-align: center;">Tax</td>
                 <td style="text-align: right;"> Rp <?= number_format($tax, 2, ",", "."); ?></td>
             </tr>
             <tr>
-                <td colspan="5"></td>
                 <td style="text-align: center;">Total</td>
                 <td style="text-align: right;"> Rp <?= number_format($total, 2, ",", "."); ?></td>
             </tr>

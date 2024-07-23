@@ -60,12 +60,12 @@
                                         <div class="form-group float-right row">
                                             <a class="btn btn-info col-6" id="btnSearch" title="Search" onclick="viewData()"><i class="fas fa-fw fa-solid fa-magnifying-glass m-1"></i>Search</a>
                                             <div class="dropdown ml-2 col-1">
-                                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" disabled>
+                                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-fw fa-solid fa-file-export m-1"></i>Export
                                                 </button>
                                                 <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" style="">
-                                                    <a class="dropdown-item" href="#" onclick="report('pdf','exitPermit')">PDF</a>
-                                                    <a class="dropdown-item" href="#" onclick="report('excel','exitPermit')">Excel</a>
+                                                    <a class="dropdown-item" href="#" onclick="report('pdf','purchase')">PDF</a>
+                                                    <a class="dropdown-item" href="#" onclick="report('excel','purchase')">Excel</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -182,7 +182,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <iframe src="" frameborder="0" id="contentPrint"></iframe>
+                <iframe src="" frameborder="0" id="contentPrint" style="overflow:hidden;height:100%;width:100%; min-height:600px; " height="100%" width="100%"></iframe>
             </div>
             <div class="modal-footer">
                 <!-- <button type="button" class="btn btn-secondary btn-md col-2" data-dismiss="modal">Close</button> -->
