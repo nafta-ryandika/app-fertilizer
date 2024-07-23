@@ -79,49 +79,60 @@
         <thead>
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">Purchase Id</th>
-                <th scope="col">Date</th>
-                <th scope="col">Type</th>
-                <th scope="col">Supplier</th>
-                <th scope="col">Due Date</th>
-                <th scope="col">Discount</th>
-                <th scope="col">Tax</th>
-                <th scope="col">Total</th>
                 <th scope="col">Goods</th>
                 <th scope="col">Qty</th>
                 <th scope="col">Unit</th>
                 <th scope="col">Price</th>
                 <th scope="col">Discount</th>
-                <th scope="col">Subtotal</th>
-                <th scope="col">Qty Received</th>
+                <th scope="col">Total</th>
             </tr>
         </thead>
         <tbody>
             <?php
             $i = 1;
-
-            foreach ($purchase as $data_purchase) {
+            $subtotal = 0;
+            foreach ($detail as $data_detail) {
                 echo '<tr>';
                 echo '<td style="text-align: center;">' . $i . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['purchase_id'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['date'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['type'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['supplier'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['due_date'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['discount'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['tax'] . '</td>';
-                echo '<td style="text-align: right;">Rp ' . number_format($data_purchase['total'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['goods'] . '</td>';
-                echo '<td style="text-align: right;">' . number_format($data_purchase['qty'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['unit'] . '</td>';
-                echo '<td style="text-align: right;">Rp ' . number_format($data_purchase['price'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['discount'] . '</td>';
-                echo '<td style="text-align: right;">Rp ' . number_format($data_purchase['subtotal'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: right;">' . number_format($data_purchase['qty_received'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: center;">' . $data_detail['goods'] . '</td>';
+                echo '<td style="text-align: right;">' . number_format($data_detail['qty'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: center;">' . $data_detail['unit'] . '</td>';
+                echo '<td style="text-align: right;">' . number_format($data_detail['price'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: center;">' . $data_detail['discount'] . '</td>';
+                echo '<td style="text-align: right;">Rp ' . number_format($data_detail['subtotal'], 2, ",", ".") . '</td>';
                 echo '</tr>';
                 $i++;
+                $subtotal += $data_detail['subtotal'];
+
+                $discount = $header["discount"];
+                $discount = ($discount / 100) * $subtotal;
+
+                $tax = $header["tax"];
+                $tax = ($tax / 100) * $subtotal;
+
+                $total = $subtotal - $discount + $tax;
             }
             ?>
+            <tr>
+                <td colspan="7"></td>
+            </tr>
+            <tr>
+                <td colspan="5" rowspan="4"></td>
+                <td style="text-align: center;">Subtotal</td>
+                <td style="text-align: right;"> Rp <?= number_format($subtotal, 2, ",", "."); ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">Discount</td>
+                <td style="text-align: right;"> Rp <?= number_format($discount, 2, ",", "."); ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">Tax</td>
+                <td style="text-align: right;"> Rp <?= number_format($tax, 2, ",", "."); ?></td>
+            </tr>
+            <tr>
+                <td style="text-align: center;">Total</td>
+                <td style="text-align: right;"> Rp <?= number_format($total, 2, ",", "."); ?></td>
+            </tr>
         </tbody>
     </table>
 </body>
