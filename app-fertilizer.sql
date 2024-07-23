@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.51-log - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.5.0.6677
+-- HeidiSQL Version:             12.6.0.6765
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `m_access` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
--- Dumping data for table app-fertilizer.m_access: ~16 rows (approximately)
+-- Dumping data for table app-fertilizer.m_access: ~10 rows (approximately)
 DELETE FROM `m_access`;
 INSERT INTO `m_access` (`id`, `role_id`, `menu_id`, `created_by`, `created_at`) VALUES
 	(1, 1, 1, 'Administrator', '2023-12-12 10:31:47'),
@@ -261,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `m_menu` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_menu: ~9 rows (approximately)
+-- Dumping data for table app-fertilizer.m_menu: ~5 rows (approximately)
 DELETE FROM `m_menu`;
 INSERT INTO `m_menu` (`id`, `menu`, `status`, `created_by`, `created_at`) VALUES
 	(1, 'Administrator', 1, 'Administrator', '2023-12-12 10:43:22'),
@@ -345,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `m_submenu` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_submenu: ~11 rows (approximately)
+-- Dumping data for table app-fertilizer.m_submenu: ~8 rows (approximately)
 DELETE FROM `m_submenu`;
 INSERT INTO `m_submenu` (`id`, `menu_id`, `title`, `url`, `icon`, `status`, `created_by`, `created_at`) VALUES
 	(1, 1, 'Dashboard', 'administrator', 'fas fa-fw fa-tachometer-alt', 1, 'Administrator', '2023-12-12 10:28:19'),
@@ -408,7 +408,7 @@ CREATE TABLE IF NOT EXISTS `m_unit` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_unit: ~5 rows (approximately)
+-- Dumping data for table app-fertilizer.m_unit: ~0 rows (approximately)
 DELETE FROM `m_unit`;
 INSERT INTO `m_unit` (`id`, `unit`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'Pcs', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
@@ -436,7 +436,7 @@ CREATE TABLE IF NOT EXISTS `m_user` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
--- Dumping data for table app-fertilizer.m_user: ~8 rows (approximately)
+-- Dumping data for table app-fertilizer.m_user: ~0 rows (approximately)
 DELETE FROM `m_user`;
 INSERT INTO `m_user` (`id`, `user_id`, `name`, `email`, `image`, `password`, `company_id`, `department_id`, `division_id`, `role_id`, `status`, `created_by`, `created_at`) VALUES
 	(1, 'admin', 'admin', 'sysdev@megamarinepride.com', 'default.png', '$2y$10$31nTmbo9IVv6NnjV7FHNHetkM4aIr18q8XRsRsI/y7qHXaNvtYKxK', 1, 4, 1, 1, 1, 'administrator', '2023-11-29 07:41:59'),
@@ -474,16 +474,16 @@ CREATE TABLE IF NOT EXISTS `t_purchase` (
   KEY `purchase_id` (`purchase_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_purchase: ~6 rows (approximately)
+-- Dumping data for table app-fertilizer.t_purchase: ~7 rows (approximately)
 DELETE FROM `t_purchase`;
 INSERT INTO `t_purchase` (`id`, `purchase_id`, `date`, `purchase_type_id`, `supplier_id`, `due_date`, `remark`, `discount`, `tax`, `total`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(2, 'PO/072024/00013', '2024-07-07', 1, 6, '2024-07-07', 'test', 10, 11, 0, 1, 'admin', '2024-07-07 10:16:55', 'admin', '2024-07-21 08:57:46'),
 	(3, 'PO/072024/00014', '2024-07-07', 1, 6, '2024-07-07', 'test', 10, 0, 108, 1, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:45:23'),
 	(4, 'PO/072024/00015', '2024-07-07', 1, 6, '2024-07-07', 'test', 10, 11, 44033, 1, 'admin', '2024-07-07 10:33:35', 'admin', '2024-07-18 17:01:47'),
 	(6, 'PO/072024/00017', '2024-07-07', 1, 4, '2024-07-07', '', 5, 11, 85950, 1, 'admin', '2024-07-07 14:04:00', 'admin', '2024-07-18 16:58:41'),
-	(7, 'PO/072024/00018', '2024-07-09', 2, 1, '2024-07-16', 'test edit', 20, 0, 1984908, 1, 'admin', '2024-07-09 09:48:45', 'admin', '2024-07-18 10:53:58'),
+	(7, 'PO/072024/00018', '2024-07-09', 2, 1, '2024-07-16', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 20, 0, 1985806, 1, 'admin', '2024-07-09 09:48:45', 'admin', '2024-07-23 16:39:59'),
 	(8, 'PO/072024/00019', '2024-07-21', 1, 6, '2024-07-21', 'test', 0, 0, 29500, 0, 'admin', '2024-07-21 08:57:14', 'admin', '2024-07-21 09:50:29'),
-	(9, 'PO/072024/00020', '2024-07-21', 1, 1, '2024-07-21', 'test', 0, 0, 1000, 1, 'admin', '2024-07-21 21:20:33', NULL, NULL);
+	(9, 'PO/072024/00020', '2024-07-21', 1, 1, '2024-07-21', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 0, 0, 1000, 1, 'admin', '2024-07-21 21:20:33', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.t_purchase_detail
 CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
@@ -508,7 +508,7 @@ CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
   KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_purchase_detail: ~40 rows (approximately)
+-- Dumping data for table app-fertilizer.t_purchase_detail: ~0 rows (approximately)
 DELETE FROM `t_purchase_detail`;
 INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_received`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(3, 'PO/072024/00014', '2', 20, '4', 2000, 5, 38000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:43:43'),
@@ -520,29 +520,29 @@ INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_i
 	(9, 'PO/072024/00016', '', 0, '', 0, 1, 0, NULL, 1, 'admin', '2024-07-07 10:59:07', NULL, NULL),
 	(10, 'PO/072024/00017', '2', 100, '4', 500, 1, 47500, NULL, 1, 'admin', '2024-07-07 14:04:00', 'admin', '2024-07-18 16:58:41'),
 	(11, 'PO/072024/00017', '5', 2, '3', 10000, 0, 20000, NULL, 1, 'admin', '2024-07-07 14:04:00', 'admin', '2024-07-18 16:58:41'),
-	(12, 'PO/072024/00018', '2', 500, '4', 2001, 0, 890445, NULL, 1, 'admin', '2024-07-09 09:48:45', 'admin', '2024-07-18 10:53:58'),
-	(13, 'PO/072024/00018', '1', 300, '1', 1001, 0, 240240, NULL, 1, 'admin', '2024-07-09 09:48:45', 'admin', '2024-07-18 10:53:58'),
-	(14, 'PO/072024/00018', '4', 2100, '1', 101, 0, 180285, NULL, 1, 'admin', '2024-07-16 14:31:05', 'admin', '2024-07-18 10:53:58'),
-	(15, 'PO/072024/00018', '4', 2200, '1', 101, 0, 211090, NULL, 1, 'admin', '2024-07-16 14:52:56', 'admin', '2024-07-18 10:53:58'),
-	(16, 'PO/072024/00018', '1', 100, '1', 500, 0, 48500, NULL, 1, 'admin', '2024-07-16 14:56:11', 'admin', '2024-07-18 10:53:58'),
-	(17, 'PO/072024/00018', '2', 1000, '4', 500, 0, 475000, NULL, 1, 'admin', '2024-07-16 17:41:16', 'admin', '2024-07-18 10:53:58'),
-	(18, 'PO/072024/00018', '2', 1, '4', 5000, 0, 4700, NULL, 1, 'admin', '2024-07-17 10:33:51', 'admin', '2024-07-18 10:53:58'),
-	(19, 'PO/072024/00018', '2', 1, '4', 5000, 0, 4650, NULL, 1, 'admin', '2024-07-17 10:36:03', 'admin', '2024-07-18 10:53:58'),
-	(20, 'PO/072024/00018', '1', 1, '1', 1000, 0, 920, NULL, 1, 'admin', '2024-07-17 10:36:03', 'admin', '2024-07-18 10:53:58'),
-	(21, 'PO/072024/00018', '4', 10, '1', 10, 0, 91, NULL, 1, 'admin', '2024-07-17 11:08:32', 'admin', '2024-07-18 10:53:58'),
-	(22, 'PO/072024/00018', '4', 10, '1', 10, 0, 90, NULL, 1, 'admin', '2024-07-17 13:25:31', 'admin', '2024-07-18 10:53:58'),
-	(23, 'PO/072024/00018', '1', 100, '1', 100, 0, 8900, NULL, 1, 'admin', '2024-07-17 13:25:31', 'admin', '2024-07-18 10:53:58'),
-	(24, 'PO/072024/00018', '4', 10, '1', 10, 0, 88, NULL, 1, 'admin', '2024-07-17 14:22:21', 'admin', '2024-07-18 10:53:58'),
-	(25, 'PO/072024/00018', '1', 100, '1', 100, 0, 8700, NULL, 1, 'admin', '2024-07-17 14:22:21', 'admin', '2024-07-18 10:53:58'),
-	(26, 'PO/072024/00018', '4', 10, '1', 10, 0, 86, NULL, 1, 'admin', '2024-07-17 14:22:21', 'admin', '2024-07-18 10:53:58'),
-	(27, 'PO/072024/00018', '4', 10, '1', 10, 0, 85, NULL, 1, 'admin', '2024-07-17 15:20:34', 'admin', '2024-07-18 10:53:58'),
-	(28, 'PO/072024/00018', '1', 100, '1', 100, 0, 10000, NULL, 1, 'admin', '2024-07-17 15:20:34', 'admin', '2024-07-18 10:53:58'),
-	(29, 'PO/072024/00018', '4', 10, '1', 10, 0, 99, NULL, 1, 'admin', '2024-07-17 15:20:34', 'admin', '2024-07-18 10:53:58'),
-	(30, 'PO/072024/00018', '2', 123, '4', 456, 0, 54966.2, NULL, 1, 'admin', '2024-07-17 15:32:59', 'admin', '2024-07-18 10:53:58'),
-	(31, 'PO/072024/00018', '2', 10, '4', 200, 0, 2000, NULL, 1, 'admin', '2024-07-18 10:18:13', 'admin', '2024-07-18 10:53:58'),
-	(32, 'PO/072024/00018', '2', 100, '4', 123, 0, 12300, NULL, 1, 'admin', '2024-07-18 10:50:39', 'admin', '2024-07-18 10:53:58'),
-	(33, 'PO/072024/00018', '2', 200, '4', 456, 0, 91200, NULL, 1, 'admin', '2024-07-18 10:52:22', 'admin', '2024-07-18 10:53:58'),
-	(34, 'PO/072024/00018', '4', 300, '1', 789, NULL, 236700, NULL, 1, 'admin', '2024-07-18 10:53:58', NULL, NULL),
+	(12, 'PO/072024/00018', '2', 500, '4', 2001, 0, 890445, NULL, 1, 'admin', '2024-07-09 09:48:45', 'admin', '2024-07-23 16:39:59'),
+	(13, 'PO/072024/00018', '1', 300, '1', 1001, 0, 240240, NULL, 1, 'admin', '2024-07-09 09:48:45', 'admin', '2024-07-23 16:39:59'),
+	(14, 'PO/072024/00018', '4', 2100, '1', 101, 0, 180285, NULL, 1, 'admin', '2024-07-16 14:31:05', 'admin', '2024-07-23 16:39:59'),
+	(15, 'PO/072024/00018', '4', 2200, '1', 101, 0, 211090, NULL, 1, 'admin', '2024-07-16 14:52:56', 'admin', '2024-07-23 16:39:59'),
+	(16, 'PO/072024/00018', '1', 100, '1', 500, 0, 48500, NULL, 1, 'admin', '2024-07-16 14:56:11', 'admin', '2024-07-23 16:39:59'),
+	(17, 'PO/072024/00018', '2', 1000, '4', 500, 0, 475000, NULL, 1, 'admin', '2024-07-16 17:41:16', 'admin', '2024-07-23 16:39:59'),
+	(18, 'PO/072024/00018', '2', 1, '4', 5000, 0, 4700, NULL, 1, 'admin', '2024-07-17 10:33:51', 'admin', '2024-07-23 16:39:59'),
+	(19, 'PO/072024/00018', '2', 1, '4', 5000, 0, 4650, NULL, 1, 'admin', '2024-07-17 10:36:03', 'admin', '2024-07-23 16:39:59'),
+	(20, 'PO/072024/00018', '1', 1, '1', 1000, 0, 920, NULL, 1, 'admin', '2024-07-17 10:36:03', 'admin', '2024-07-23 16:39:59'),
+	(21, 'PO/072024/00018', '4', 10, '1', 10, 0, 91, NULL, 1, 'admin', '2024-07-17 11:08:32', 'admin', '2024-07-23 16:39:59'),
+	(22, 'PO/072024/00018', '4', 10, '1', 10, 0, 90, NULL, 1, 'admin', '2024-07-17 13:25:31', 'admin', '2024-07-23 16:39:59'),
+	(23, 'PO/072024/00018', '1', 100, '1', 100, 0, 8900, NULL, 1, 'admin', '2024-07-17 13:25:31', 'admin', '2024-07-23 16:39:59'),
+	(24, 'PO/072024/00018', '4', 10, '1', 10, 0, 88, NULL, 1, 'admin', '2024-07-17 14:22:21', 'admin', '2024-07-23 16:39:59'),
+	(25, 'PO/072024/00018', '1', 100, '1', 100, 0, 8700, NULL, 1, 'admin', '2024-07-17 14:22:21', 'admin', '2024-07-23 16:39:59'),
+	(26, 'PO/072024/00018', '4', 10, '1', 10, 0, 86, NULL, 1, 'admin', '2024-07-17 14:22:21', 'admin', '2024-07-23 16:39:59'),
+	(27, 'PO/072024/00018', '4', 10, '1', 10, 0, 85, NULL, 1, 'admin', '2024-07-17 15:20:34', 'admin', '2024-07-23 16:39:59'),
+	(28, 'PO/072024/00018', '1', 100, '1', 100, 0, 10000, NULL, 1, 'admin', '2024-07-17 15:20:34', 'admin', '2024-07-23 16:39:59'),
+	(29, 'PO/072024/00018', '4', 10, '1', 10, 0, 99, NULL, 1, 'admin', '2024-07-17 15:20:34', 'admin', '2024-07-23 16:39:59'),
+	(30, 'PO/072024/00018', '2', 123, '4', 456, 0, 56088, NULL, 1, 'admin', '2024-07-17 15:32:59', 'admin', '2024-07-23 16:39:59'),
+	(31, 'PO/072024/00018', '2', 10, '4', 200, 0, 2000, NULL, 1, 'admin', '2024-07-18 10:18:13', 'admin', '2024-07-23 16:39:59'),
+	(32, 'PO/072024/00018', '2', 100, '4', 123, 0, 12300, NULL, 1, 'admin', '2024-07-18 10:50:39', 'admin', '2024-07-23 16:39:59'),
+	(33, 'PO/072024/00018', '2', 200, '4', 456, 0, 91200, NULL, 1, 'admin', '2024-07-18 10:52:22', 'admin', '2024-07-23 16:39:59'),
+	(34, 'PO/072024/00018', '4', 300, '1', 789, 0, 236700, NULL, 1, 'admin', '2024-07-18 10:53:58', 'admin', '2024-07-23 16:39:59'),
 	(35, 'PO/072024/00017', '1', 200, '1', 50, 10, 9000, NULL, 1, 'admin', '2024-07-18 16:04:35', 'admin', '2024-07-18 16:58:41'),
 	(36, 'PO/072024/00017', '2', 500, '4', 10, 0, 5000, NULL, 1, 'admin', '2024-07-18 16:19:55', 'admin', '2024-07-18 16:58:41'),
 	(37, 'PO/072024/00017', '4', 1, '1', 2, 0, 2, NULL, 1, 'admin', '2024-07-18 16:58:41', NULL, NULL),
