@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `m_access` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
--- Dumping data for table app-fertilizer.m_access: ~6 rows (approximately)
+-- Dumping data for table app-fertilizer.m_access: ~16 rows (approximately)
 DELETE FROM `m_access`;
 INSERT INTO `m_access` (`id`, `role_id`, `menu_id`, `created_by`, `created_at`) VALUES
 	(1, 1, 1, 'Administrator', '2023-12-12 10:31:47'),
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `m_counter` (
 -- Dumping data for table app-fertilizer.m_counter: ~0 rows (approximately)
 DELETE FROM `m_counter`;
 INSERT INTO `m_counter` (`id`, `transaction`, `counter`, `period`, `status`, `created_by`, `created_at`) VALUES
-	(2, 'purchase', 20, '072024', 1, 'admin', '2024-07-21 21:20:33');
+	(2, 'purchase', 21, '072024', 1, 'admin', '2024-07-24 09:38:12');
 
 -- Dumping structure for table app-fertilizer.m_department
 CREATE TABLE IF NOT EXISTS `m_department` (
@@ -405,7 +405,7 @@ CREATE TABLE IF NOT EXISTS `m_unit` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_unit: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.m_unit: ~5 rows (approximately)
 DELETE FROM `m_unit`;
 INSERT INTO `m_unit` (`id`, `unit`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'Pcs', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
@@ -463,7 +463,7 @@ CREATE TABLE IF NOT EXISTS `t_purchase` (
   KEY `supplier_id` (`supplier_id`),
   KEY `status` (`status`),
   KEY `purchase_id` (`purchase_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.t_purchase: ~7 rows (approximately)
 DELETE FROM `t_purchase`;
@@ -474,7 +474,8 @@ INSERT INTO `t_purchase` (`id`, `purchase_id`, `date`, `purchase_type_id`, `supp
 	(6, 'PO/072024/00017', '2024-07-07', 1, 4, '2024-07-07', '', 5, 11, 85950, 1, 'admin', '2024-07-07 14:04:00', 'admin', '2024-07-18 16:58:41'),
 	(7, 'PO/072024/00018', '2024-07-09', 2, 1, '2024-07-16', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 20, 0, 1985806, 1, 'admin', '2024-07-09 09:48:45', 'admin', '2024-07-23 16:39:59'),
 	(8, 'PO/072024/00019', '2024-07-21', 1, 6, '2024-07-21', 'test', 0, 0, 29500, 0, 'admin', '2024-07-21 08:57:14', 'admin', '2024-07-21 09:50:29'),
-	(9, 'PO/072024/00020', '2024-07-21', 1, 1, '2024-07-21', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 0, 0, 1000, 1, 'admin', '2024-07-21 21:20:33', NULL, NULL);
+	(9, 'PO/072024/00020', '2024-07-21', 1, 1, '2024-07-21', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 0, 0, 1000, 1, 'admin', '2024-07-21 21:20:33', NULL, NULL),
+	(10, 'PO/072024/00021', '2024-07-24', 1, 5, '2024-07-24', 'test', 0, 0, 4000000, 1, 'admin', '2024-07-24 09:38:12', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.t_purchase_detail
 CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
@@ -497,9 +498,9 @@ CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
   KEY `goods_id` (`goods_id`),
   KEY `unit_id` (`unit_id`),
   KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_purchase_detail: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.t_purchase_detail: ~50 rows (approximately)
 DELETE FROM `t_purchase_detail`;
 INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_received`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(3, 'PO/072024/00014', '2', 20, '4', 2000, 5, 38000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:43:43'),
@@ -551,7 +552,9 @@ INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_i
 	(49, 'PO/072024/00013', '3', 200, '1', 100, 0, 20000, NULL, 0, 'admin', '2024-07-21 08:12:27', 'admin', '2024-07-21 08:57:46'),
 	(50, 'PO/072024/00019', '2', 100, '4', 100, 5, 9500, NULL, 0, 'admin', '2024-07-21 08:57:14', 'admin', '2024-07-21 09:50:29'),
 	(51, 'PO/072024/00019', '5', 200, '3', 100, 0, 20000, NULL, 0, 'admin', '2024-07-21 08:57:14', 'admin', '2024-07-21 09:50:29'),
-	(53, 'PO/072024/00020', '2', 100, '4', 10, 0, 1000, NULL, 1, 'admin', '2024-07-21 21:20:33', NULL, NULL);
+	(53, 'PO/072024/00020', '2', 100, '4', 10, 0, 1000, NULL, 1, 'admin', '2024-07-21 21:20:33', NULL, NULL),
+	(54, 'PO/072024/00021', '3', 100, '1', 20000, 0, 2000000, NULL, 1, 'admin', '2024-07-24 09:38:12', NULL, NULL),
+	(55, 'PO/072024/00021', '4', 100, '1', 20000, 0, 2000000, NULL, 1, 'admin', '2024-07-24 09:38:12', NULL, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
