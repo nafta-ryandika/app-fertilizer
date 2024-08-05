@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.51-log - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.5.0.6677
+-- HeidiSQL Version:             12.6.0.6765
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -27,9 +27,9 @@ CREATE TABLE IF NOT EXISTS `m_access` (
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
--- Dumping data for table app-fertilizer.m_access: ~6 rows (approximately)
+-- Dumping data for table app-fertilizer.m_access: ~16 rows (approximately)
 DELETE FROM `m_access`;
 INSERT INTO `m_access` (`id`, `role_id`, `menu_id`, `created_by`, `created_at`) VALUES
 	(1, 1, 1, 'Administrator', '2023-12-12 10:31:47'),
@@ -47,8 +47,7 @@ INSERT INTO `m_access` (`id`, `role_id`, `menu_id`, `created_by`, `created_at`) 
 	(26, 5, 2, NULL, '2024-05-18 16:21:53'),
 	(27, 1, 8, NULL, '2024-05-21 10:23:59'),
 	(29, 6, 8, NULL, '2024-05-23 23:27:36'),
-	(30, 1, 9, NULL, '2024-06-18 14:53:00'),
-	(31, 2, 9, NULL, '2024-07-23 23:28:45');
+	(30, 1, 9, NULL, '2024-06-18 14:53:00');
 
 -- Dumping structure for table app-fertilizer.m_company
 CREATE TABLE IF NOT EXISTS `m_company` (
@@ -83,6 +82,26 @@ CREATE TABLE IF NOT EXISTS `m_counter` (
 DELETE FROM `m_counter`;
 INSERT INTO `m_counter` (`id`, `transaction`, `counter`, `period`, `status`, `created_by`, `created_at`) VALUES
 	(2, 'purchase', 20, '072024', 1, 'admin', '2024-07-21 21:20:33');
+
+-- Dumping structure for table app-fertilizer.m_currency
+CREATE TABLE IF NOT EXISTS `m_currency` (
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `unit` varchar(256) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.m_currency: ~4 rows (approximately)
+DELETE FROM `m_currency`;
+INSERT INTO `m_currency` (`id`, `unit`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'IDR', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
+	(2, 'USD', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(3, 'CNY', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(4, 'RMB', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.m_department
 CREATE TABLE IF NOT EXISTS `m_department` (
@@ -327,7 +346,11 @@ CREATE TABLE IF NOT EXISTS `m_role` (
 DELETE FROM `m_role`;
 INSERT INTO `m_role` (`id`, `role`, `created_by`, `created_at`) VALUES
 	(1, 'Administrator', 'Administrator', '2023-12-12 10:38:47'),
-	(2, 'User', 'Administrator', '2023-12-12 10:38:50');
+	(2, 'User', 'Administrator', '2023-12-12 10:38:50'),
+	(3, 'Hrd', 'admin', '2024-05-18 16:20:32'),
+	(4, 'Security', 'admin', '2024-05-18 16:21:12'),
+	(5, 'Audit', 'admin', '2024-05-18 16:21:48'),
+	(6, 'Vote', 'admin', '2024-05-23 23:26:56');
 
 -- Dumping structure for table app-fertilizer.m_submenu
 CREATE TABLE IF NOT EXISTS `m_submenu` (
@@ -405,7 +428,7 @@ CREATE TABLE IF NOT EXISTS `m_unit` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_unit: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.m_unit: ~5 rows (approximately)
 DELETE FROM `m_unit`;
 INSERT INTO `m_unit` (`id`, `unit`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'Pcs', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
@@ -433,11 +456,17 @@ CREATE TABLE IF NOT EXISTS `m_user` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
--- Dumping data for table app-fertilizer.m_user: ~2 rows (approximately)
+-- Dumping data for table app-fertilizer.m_user: ~8 rows (approximately)
 DELETE FROM `m_user`;
 INSERT INTO `m_user` (`id`, `user_id`, `name`, `email`, `image`, `password`, `company_id`, `department_id`, `division_id`, `role_id`, `status`, `created_by`, `created_at`) VALUES
-	(1, 'admin', 'admin', 'sysdev@gmail.com', 'default.png', '$2y$10$31nTmbo9IVv6NnjV7FHNHetkM4aIr18q8XRsRsI/y7qHXaNvtYKxK', 1, 20, 38, 1, 1, 'admin', '2024-07-23 23:26:34'),
-	(2, 'user', 'user', 'user@gmail.com', 'default.png', '$2y$10$mqX3iwzex/G/K2cEd5Yer.2DOAYn2AF0G1rFyW249xPh6dS5pX8Fq', 1, 20, 38, 2, 1, 'admin', '2024-07-23 23:26:48');
+	(1, 'admin', 'admin', 'sysdev@megamarinepride.com', 'default.png', '$2y$10$31nTmbo9IVv6NnjV7FHNHetkM4aIr18q8XRsRsI/y7qHXaNvtYKxK', 1, 4, 1, 1, 1, 'administrator', '2023-11-29 07:41:59'),
+	(2, 'user', 'user', 'user@gmail.com', 'default.png', '$2y$10$mqX3iwzex/G/K2cEd5Yer.2DOAYn2AF0G1rFyW249xPh6dS5pX8Fq', 1, 4, 1, 2, 1, 'administrator', '2023-12-08 05:19:30'),
+	(6, 'coba', 'coba', 'sysdev@megamarinepride.com', 'default.png', '$2y$10$6XJQ75PwG6mkgr3iOILQKudcwHW/a3Dv3ROLJOQ3yGGscsLkolFDa', 1, 20, 38, 1, 0, 'admin', '2024-05-16 16:50:37'),
+	(23, '1234', 'test edit', 'sysdev@megamarinepride.com', 'default.png', '$2y$10$a8vOjhMDIznyMK9PiJqwWuD4r2pLFnJF8vdEIDPvItqZl09EPjvMW', 1, 20, 38, 1, 1, 'admin', '2024-05-16 16:49:35'),
+	(24, 'hrd', 'hrd', '', 'default.png', '$2y$10$.qPGVgOxVSxvJWcPnAiEM.e70Jf4RIGvFaoUeLFm5cPUhVFROHVJC', 1, 12, 22, 3, 1, 'admin', '2024-05-18 16:22:42'),
+	(25, 'security', 'security', '', 'default.png', '$2y$10$swhOc3ETAs0BBgw8Ih7Ek.sTFYnlpmD76JUfh0oDx3FSqcNmqbpfS', 1, 14, 23, 4, 1, 'admin', '2024-05-18 16:25:26'),
+	(26, 'audit', 'audit', '', 'default.png', '$2y$10$NDfADe49btw6ciicwTs6qeyXrQCAMgi9MEjyM/Sr2WF5w1UF4rONW', 1, 12, 22, 5, 1, 'admin', '2024-05-18 16:26:15'),
+	(27, 'vote', 'vote', '', 'default.png', '$2y$10$2c08SzztPfP2Rd1Tij37HeGgbqpOE54mksVgF/IWwiMuSE/3QRAjC', 1, 20, 38, 6, 1, 'admin', '2024-05-23 23:31:11');
 
 -- Dumping structure for table app-fertilizer.t_purchase
 CREATE TABLE IF NOT EXISTS `t_purchase` (
@@ -499,7 +528,7 @@ CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
   KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_purchase_detail: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.t_purchase_detail: ~50 rows (approximately)
 DELETE FROM `t_purchase_detail`;
 INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_received`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(3, 'PO/072024/00014', '2', 20, '4', 2000, 5, 38000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:43:43'),

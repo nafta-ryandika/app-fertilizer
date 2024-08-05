@@ -37,7 +37,7 @@ if (isset($param)) {
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inName" class="col-sm-3 col-form-label">Type</label>
+                    <label for="inType" class="col-sm-3 col-form-label">Type</label>
                     <div class="col-sm-3">
                         <select class="form-control inType" id="inType" style="width: 100%;">
                             <option value="">Select</option>
@@ -72,9 +72,35 @@ if (isset($param)) {
             </div>
             <div class="col-6">
                 <div class="form-group row">
+                    <label for="inCurrency" class="col-sm-3 col-form-label">Currency</label>
+                    <div class="col-sm-3">
+                        <select class="form-control inCurrency" id="inCurrency" style="width: 100%;">
+                            <option value="">Select</option>
+                            <?php
+                            foreach ($type as $data_type) :
+                                echo '<option value="' . $data_type['id'] . '">' . $data_type['type'] . '</option>';
+                            endforeach;
+                            ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="inDiscount" class="col-sm-3 col-form-label">Discount</label>
                     <div class="col-sm-3">
                         <input type="number" class="form-control text-right" id="inDiscount" name="inDiscount" value="0" onkeyup="count('total',this)" onfocus="$(this).select();" required>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inTaxtype" class="col-sm-3 col-form-label">Tax Type</label>
+                    <div class="col-sm-3">
+                        <select class="form-control inTaxtype" id="inTaxtype" style="width: 100%;">
+                            <option value="">Select</option>
+                            <?php
+                            foreach ($type as $data_type) :
+                                echo '<option value="' . $data_type['id'] . '">' . $data_type['type'] . '</option>';
+                            endforeach;
+                            ?>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row">

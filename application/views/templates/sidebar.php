@@ -7,7 +7,7 @@
             <!-- <i class="fas fa-globe"></i> -->
             <img src="<?php echo base_url(); ?>assets/img/favicon-border.png">
         </div>
-        <div class="sidebar-brand-text mx-1">App-Feritilizer</div>
+        <!-- <div class="sidebar-brand-text mx-1">Management Information System</div> -->
     </a>
 
     <!-- Divider -->

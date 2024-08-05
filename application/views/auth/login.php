@@ -14,7 +14,9 @@
                                     <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;" src="<?= base_url('assets/'); ?>img/icon.png" alt="...">
                                 </div>
                                 <div class="text-center mb-3">
-                                    <b style="font-size: 30px;">Management</b><a style="font-size: 24px;"> Information System</a>
+                                    <text style="font-size: 22px;">PT AGRI MAKMUR MEGA PERKASA INDO</text>
+                                    <hr />
+                                    <b style="font-size: 20px;">Management</b><a style="font-size: 15px;"> Information System</a><br>
                                 </div>
                                 <?= $this->session->flashdata('message'); ?>
                                 <form class="user" method="post" action="<?= base_url('auth'); ?>">
