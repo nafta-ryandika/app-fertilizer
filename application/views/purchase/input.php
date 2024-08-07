@@ -8,7 +8,9 @@ if (isset($param)) {
         $inSupplier = $data["header"]["supplier_id"];
         $inDuedate = $data["header"]["due_date"];
         $inRemark = $data["header"]["remark"];
+        $inCurrency = $data["header"]["currency_id"];
         $inDiscount = $data["header"]["discount"];
+        $inTaxtype = $data["header"]["tax_type"];
         $inTax = $data["header"]["tax"];
         $inTotal = $data["header"]["total"];
     }
@@ -77,8 +79,8 @@ if (isset($param)) {
                         <select class="form-control inCurrency" id="inCurrency" style="width: 100%;">
                             <option value="">Select</option>
                             <?php
-                            foreach ($type as $data_type) :
-                                echo '<option value="' . $data_type['id'] . '">' . $data_type['type'] . '</option>';
+                            foreach ($currency as $data_currency) :
+                                echo '<option value="' . $data_currency['id'] . '">' . $data_currency['currency'] . '</option>';
                             endforeach;
                             ?>
                         </select>
@@ -95,11 +97,8 @@ if (isset($param)) {
                     <div class="col-sm-3">
                         <select class="form-control inTaxtype" id="inTaxtype" style="width: 100%;">
                             <option value="">Select</option>
-                            <?php
-                            foreach ($type as $data_type) :
-                                echo '<option value="' . $data_type['id'] . '">' . $data_type['type'] . '</option>';
-                            endforeach;
-                            ?>
+                            <option value="1">Include (PKP)</option>
+                            <option value="0">Exclude (Non - PKP)</option>
                         </select>
                     </div>
                 </div>
@@ -232,7 +231,7 @@ if (isset($param)) {
                                                         <input type="number" class="form-control inDdiscount" name="inDdiscount" onkeyup="count('subtotal',this)" onfocus="$(this).select();">
                                                     </td>
                                                     <td scope="row">
-                                                        <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" required>
+                                                        <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" readonly disabled required>
                                                     </td>
                                                     <td>
                                                         <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
@@ -266,7 +265,7 @@ if (isset($param)) {
                                                     <input type="number" class="form-control inDdiscount" name="inDdiscount" onkeyup="count('subtotal',this)" onfocus="$(this).select();">
                                                 </td>
                                                 <td scope="row">
-                                                    <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" required>
+                                                    <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" readonly disabled required>
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
@@ -306,7 +305,9 @@ if (isset($param)) {
     get("inSupplier", "<?= $inSupplier ?>", "");
     $("#inDuedate").val('<?= $inDuedate ?>');
     $("#inRemark").val('<?= $inRemark ?>');
+    $("#inCurrency").val('<?= $inCurrency ?>');
     $("#inDiscount").val('<?= $inDiscount ?>');
+    $("#inTaxtype").val('<?= $inTaxtype ?>');
     $("#inTax").val('<?= $inTax ?>');
     $("#inTotal").val($.number(<?= $inTotal ?>, 2));
 

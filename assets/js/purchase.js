@@ -219,9 +219,11 @@ function get(param,obj,callBack) {
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDuedate").text(data_header.due_date);
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtRemark").text(data_header.remark);
 					
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtCurrency").text(data_header.currency);
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDiscount").text(data_header.discount);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTaxtype").text(data_header.tax_type);
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTax").text(data_header.tax);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTotal").text("Rp " + parseFloat(data_header.total).toLocaleString('id-ID'));
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTotal").text(parseFloat(data_header.total).toLocaleString('id-ID'));
 
 					if (data_detail.length > 0){
 						var html = "<table class=\"table table-hover\" id=\"tableDetailpurchase\">\n\
@@ -241,7 +243,7 @@ function get(param,obj,callBack) {
 										<td style=\"text-align: center !important;\">"+ data_detail[i].unit +"</td>\n\
 										<td style=\"text-align: right !important;\">"+ parseFloat(data_detail[i].price).toLocaleString('id-ID') +"</td>\n\
 										<td style=\"text-align: right !important;\">"+ data_detail[i].discount +"</td>\n\
-										<td style=\"text-align: right !important;\">"+ "Rp " + parseFloat(data_detail[i].subtotal).toLocaleString('id-ID') +"</td>\n\
+										<td style=\"text-align: right !important;\">"+ parseFloat(data_detail[i].subtotal).toLocaleString('id-ID') +"</td>\n\
 									</tr>";
 						}
 
@@ -480,7 +482,7 @@ function add(param,obj){
 							<input type="number" class="form-control inDdiscount" name="inDdiscount" onkeyup="count(\'subtotal\',this)">\n\
 						</td>\n\
 						<td scope="row">\n\
-							<input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" required>\n\
+							<input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" readonly disabled required>\n\
 						</td>\n\
 						<td>\n\
 							<a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add(\'detail\',\'\')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>\n\
@@ -503,7 +505,9 @@ function save(param,obj){
 		var  inSupplier = $('#inSupplier').val();
 		var  inDuedate = $('#inDuedate').val();
 		var  inRemark = $('#inRemark').val();
+		var  inCurrency = $('#inCurrency').val();
 		var  inDiscount = parseFloat($('#inDiscount').val());
+		var  inTaxtype = parseFloat($('#inTaxtype').val());
 		var  inTax = parseFloat($('#inTax').val());
 		var  inTotal = parseFloat($('#inTotal').val());
 
@@ -613,7 +617,9 @@ function save(param,obj){
 					inSupplier: inSupplier,
 					inDuedate: inDuedate,
 					inRemark: inRemark,
+					inCurrency: inCurrency,
 					inDiscount: inDiscount,
+					inTaxtype: inTaxtype,
 					inTax: inTax,
 					inTotal: inTotal,
 					inDidx: inDidx,

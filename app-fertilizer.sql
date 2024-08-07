@@ -76,17 +76,18 @@ CREATE TABLE IF NOT EXISTS `m_counter` (
   KEY `period` (`period`),
   KEY `counter` (`counter`),
   KEY `transaction` (`transaction`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.m_counter: ~0 rows (approximately)
 DELETE FROM `m_counter`;
 INSERT INTO `m_counter` (`id`, `transaction`, `counter`, `period`, `status`, `created_by`, `created_at`) VALUES
-	(2, 'purchase', 21, '072024', 1, 'admin', '2024-07-24 09:38:12');
+	(2, 'purchase', 20, '072024', 1, 'admin', '2024-07-21 21:20:33'),
+	(3, 'purchase', 3, '082024', 1, 'admin', '2024-08-07 14:22:46');
 
 -- Dumping structure for table app-fertilizer.m_currency
 CREATE TABLE IF NOT EXISTS `m_currency` (
   `id` int(16) NOT NULL AUTO_INCREMENT,
-  `unit` varchar(256) DEFAULT NULL,
+  `currency` varchar(256) DEFAULT NULL,
   `status` tinyint(4) DEFAULT '1',
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -97,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `m_currency` (
 
 -- Dumping data for table app-fertilizer.m_currency: ~4 rows (approximately)
 DELETE FROM `m_currency`;
-INSERT INTO `m_currency` (`id`, `unit`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+INSERT INTO `m_currency` (`id`, `currency`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'IDR', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
 	(2, 'USD', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
 	(3, 'CNY', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
@@ -477,7 +478,9 @@ CREATE TABLE IF NOT EXISTS `t_purchase` (
   `supplier_id` int(11) NOT NULL DEFAULT '0',
   `due_date` date DEFAULT NULL,
   `remark` text,
+  `currency_id` int(11) unsigned DEFAULT NULL,
   `discount` int(11) DEFAULT NULL,
+  `tax_type` tinyint(4) DEFAULT NULL COMMENT ' 1 = Include; 0 = Exclude;',
   `tax` int(11) DEFAULT NULL,
   `total` int(11) DEFAULT NULL,
   `status` tinyint(4) DEFAULT '1',
@@ -491,20 +494,24 @@ CREATE TABLE IF NOT EXISTS `t_purchase` (
   KEY `purchase_type_id` (`purchase_type_id`),
   KEY `supplier_id` (`supplier_id`),
   KEY `status` (`status`),
-  KEY `purchase_id` (`purchase_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+  KEY `purchase_id` (`purchase_id`),
+  KEY `currency_id` (`currency_id`),
+  KEY `tax_type` (`tax_type`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_purchase: ~7 rows (approximately)
+-- Dumping data for table app-fertilizer.t_purchase: ~9 rows (approximately)
 DELETE FROM `t_purchase`;
-INSERT INTO `t_purchase` (`id`, `purchase_id`, `date`, `purchase_type_id`, `supplier_id`, `due_date`, `remark`, `discount`, `tax`, `total`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
-	(2, 'PO/072024/00013', '2024-07-07', 1, 6, '2024-07-07', 'test', 10, 11, 0, 1, 'admin', '2024-07-07 10:16:55', 'admin', '2024-07-21 08:57:46'),
-	(3, 'PO/072024/00014', '2024-07-07', 1, 6, '2024-07-07', 'test', 10, 0, 108, 1, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:45:23'),
-	(4, 'PO/072024/00015', '2024-07-07', 1, 6, '2024-07-07', 'test', 10, 11, 44033, 1, 'admin', '2024-07-07 10:33:35', 'admin', '2024-07-18 17:01:47'),
-	(6, 'PO/072024/00017', '2024-07-07', 1, 4, '2024-07-07', '', 5, 11, 85950, 1, 'admin', '2024-07-07 14:04:00', 'admin', '2024-07-18 16:58:41'),
-	(7, 'PO/072024/00018', '2024-07-09', 2, 1, '2024-07-16', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 20, 0, 1985806, 1, 'admin', '2024-07-09 09:48:45', 'admin', '2024-07-23 16:39:59'),
-	(8, 'PO/072024/00019', '2024-07-21', 1, 6, '2024-07-21', 'test', 0, 0, 29500, 0, 'admin', '2024-07-21 08:57:14', 'admin', '2024-07-21 09:50:29'),
-	(9, 'PO/072024/00020', '2024-07-21', 1, 1, '2024-07-21', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 0, 0, 1000, 1, 'admin', '2024-07-21 21:20:33', NULL, NULL),
-	(10, 'PO/072024/00021', '2024-07-24', 1, 5, '2024-07-24', 'test', 0, 0, 4000000, 1, 'admin', '2024-07-24 09:38:12', NULL, NULL);
+INSERT INTO `t_purchase` (`id`, `purchase_id`, `date`, `purchase_type_id`, `supplier_id`, `due_date`, `remark`, `currency_id`, `discount`, `tax_type`, `tax`, `total`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(2, 'PO/072024/00013', '2024-07-07', 1, 6, '2024-07-07', 'test', NULL, 10, NULL, 11, 0, 1, 'admin', '2024-07-07 10:16:55', 'admin', '2024-07-21 08:57:46'),
+	(3, 'PO/072024/00014', '2024-07-07', 1, 6, '2024-07-07', 'test', NULL, 10, NULL, 0, 108, 1, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:45:23'),
+	(4, 'PO/072024/00015', '2024-07-07', 1, 6, '2024-07-07', 'test', NULL, 10, NULL, 11, 44033, 1, 'admin', '2024-07-07 10:33:35', 'admin', '2024-07-18 17:01:47'),
+	(6, 'PO/072024/00017', '2024-07-07', 1, 4, '2024-07-07', '', NULL, 5, NULL, 11, 85950, 1, 'admin', '2024-07-07 14:04:00', 'admin', '2024-07-18 16:58:41'),
+	(7, 'PO/072024/00018', '2024-07-09', 2, 1, '2024-07-16', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 20, NULL, 0, 1985806, 1, 'admin', '2024-07-09 09:48:45', 'admin', '2024-07-23 16:39:59'),
+	(8, 'PO/072024/00019', '2024-07-21', 1, 6, '2024-07-21', 'test', NULL, 0, NULL, 0, 29500, 0, 'admin', '2024-07-21 08:57:14', 'admin', '2024-07-21 09:50:29'),
+	(9, 'PO/072024/00020', '2024-07-21', 1, 1, '2024-07-21', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 0, NULL, 0, 1000, 1, 'admin', '2024-07-21 21:20:33', NULL, NULL),
+	(10, 'PO/082024/00001', '2024-08-06', 1, 1, '2024-08-07', 'test', NULL, 0, NULL, 11, 5, 1, 'admin', '2024-08-06 15:08:56', NULL, NULL),
+	(11, 'PO/082024/00002', '2024-08-06', 1, 1, '2024-08-07', 'test 2', 1, 1, 0, 2, 5, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-08-06 15:53:35'),
+	(12, 'PO/082024/00003', '2024-08-07', 1, 1, '2024-08-07', 'test', 3, 1, 1, 2, 5, 1, 'admin', '2024-08-07 14:22:46', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.t_purchase_detail
 CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
@@ -527,7 +534,7 @@ CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
   KEY `goods_id` (`goods_id`),
   KEY `unit_id` (`unit_id`),
   KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.t_purchase_detail: ~50 rows (approximately)
 DELETE FROM `t_purchase_detail`;
@@ -582,8 +589,12 @@ INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_i
 	(50, 'PO/072024/00019', '2', 100, '4', 100, 5, 9500, NULL, 0, 'admin', '2024-07-21 08:57:14', 'admin', '2024-07-21 09:50:29'),
 	(51, 'PO/072024/00019', '5', 200, '3', 100, 0, 20000, NULL, 0, 'admin', '2024-07-21 08:57:14', 'admin', '2024-07-21 09:50:29'),
 	(53, 'PO/072024/00020', '2', 100, '4', 10, 0, 1000, NULL, 1, 'admin', '2024-07-21 21:20:33', NULL, NULL),
-	(54, 'PO/072024/00021', '3', 100, '1', 20000, 0, 2000000, NULL, 1, 'admin', '2024-07-24 09:38:12', NULL, NULL),
-	(55, 'PO/072024/00021', '4', 100, '1', 20000, 0, 2000000, NULL, 1, 'admin', '2024-07-24 09:38:12', NULL, NULL);
+	(54, 'PO/082024/00001', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-06 15:08:56', NULL, NULL),
+	(55, 'PO/082024/00001', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-06 15:08:56', NULL, NULL),
+	(56, 'PO/082024/00002', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-08-06 15:53:35'),
+	(57, 'PO/082024/00002', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-08-06 15:53:35'),
+	(58, 'PO/082024/00003', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-07 14:22:46', NULL, NULL),
+	(59, 'PO/082024/00003', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-07 14:22:46', NULL, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

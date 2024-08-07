@@ -35,7 +35,8 @@ class Purchase extends CI_Controller
                 DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
                 DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
                 (SELECT `type` FROM m_purchase_type WHERE id = a.purchase_type_id) AS `type`,
-                (SELECT supplier FROM m_supplier WHERE id = a.supplier_id) AS supplier
+                (SELECT supplier FROM m_supplier WHERE id = a.supplier_id) AS supplier,
+                (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency
                 FROM t_purchase a 
                 WHERE `status` = 1  " . $inWhere . " 
                 ORDER BY created_at DESC";
@@ -52,6 +53,10 @@ class Purchase extends CI_Controller
         if ($param == "input") {
             $sql = "SELECT id, `type` FROM m_purchase_type a WHERE `status` = 1  ORDER BY `type` ASC";
             $data['type'] = $this->db->query($sql)->result_array();
+
+            $sql2 = "SELECT id, currency FROM m_currency a WHERE `status` = 1  ORDER BY `currency` ASC";
+            $data['currency'] = $this->db->query($sql2)->result_array();
+
             $this->load->view('purchase/input', $data);
         } elseif ($param == "edit") {
             $data['data'] = $this->Purchase_M->get($param, $obj);
@@ -67,6 +72,9 @@ class Purchase extends CI_Controller
                     WHERE `status` = 1  
                     ORDER BY goods ASC";
             $data['goods'] = $this->db->query($sql2)->result_array();
+
+            $sql3 = "SELECT id, currency FROM m_currency a WHERE `status` = 1  ORDER BY `currency` ASC";
+            $data['currency'] = $this->db->query($sql3)->result_array();
 
             $data['html'] = $this->load->view('purchase/input', $data);
             // echo (json_encode($data));

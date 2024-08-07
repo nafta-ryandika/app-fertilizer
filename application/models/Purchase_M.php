@@ -50,7 +50,7 @@ class Purchase_M extends CI_Model
         } else if ($param == "edit") {
 
             $query = "SELECT 
-                    id, purchase_id, `date`, purchase_type_id, supplier_id, due_date, remark, discount, tax, total, `status` 
+                    id, purchase_id, `date`, purchase_type_id, supplier_id, due_date, remark, discount, currency_id, tax_type, tax, total, `status` 
                     FROM t_purchase
                     WHERE 
                     id = '" . $obj . "' AND 
@@ -87,7 +87,9 @@ class Purchase_M extends CI_Model
                         DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
                         DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
                         (SELECT `type` FROM m_purchase_type WHERE id = a.purchase_type_id) AS `type`,
-                        (SELECT supplier FROM m_supplier WHERE id = a.supplier_id) AS supplier
+                        (SELECT supplier FROM m_supplier WHERE id = a.supplier_id) AS supplier,
+                        (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency,
+                        IF(a.tax_type = 1 , 'Include (PKP)', 'Exclude (Non - PKP)') AS tax_type
                         FROM t_purchase a 
                         WHERE id = '" . $datax[0] . "' AND `status` = 1";
 
@@ -134,7 +136,9 @@ class Purchase_M extends CI_Model
             $inSupplier = $data[$i]["inSupplier"];
             $inDuedate = $data[$i]["inDuedate"];
             $inRemark = $data[$i]["inRemark"];
+            $inCurrency = $data[$i]["inCurrency"];
             $inDiscount = $data[$i]["inDiscount"];
+            $inTaxtype = $data[$i]["inTaxtype"];
             $inTax = $data[$i]["inTax"];
             $inTotal = $data[$i]["inTotal"];
 
@@ -220,7 +224,9 @@ class Purchase_M extends CI_Model
                 'supplier_id' => $inSupplier,
                 'due_date' => $inDuedate,
                 'remark' => $inRemark,
+                'currency_id' => $inCurrency,
                 'discount' => $inDiscount,
+                'tax_type' => $inTaxtype,
                 'tax' => $inTax,
                 'total' => $inTotal,
                 'created_by' => $_SESSION['user_id']
@@ -293,7 +299,9 @@ class Purchase_M extends CI_Model
                 'supplier_id' => $inSupplier,
                 'due_date' => $inDuedate,
                 'remark' => $inRemark,
+                'currency_id' => $inCurrency,
                 'discount' => $inDiscount,
+                'tax_type' => $inTaxtype,
                 'tax' => $inTax,
                 'total' => $inTotal,
                 'log_by' => $_SESSION['user_id'],

@@ -13,6 +13,7 @@
             <th scope="col" style="text-align: center !important;">Type</th>
             <th scope="col" style="text-align: center !important;">Supplier</th>
             <th scope="col" style="text-align: center !important;">Due Date</th>
+            <th scope="col" style="text-align: center !important;">Currency</th>
             <th scope="col" style="text-align: center !important;">Total</th>
             <th scope="col" style="text-align: center !important;">Action</th>
         </tr>
@@ -29,7 +30,8 @@
                 <td style="text-align: center !important;"><?= $data_purchase['type']; ?></td>
                 <td><?= $data_purchase['supplier']; ?></td>
                 <td style="text-align: center !important;"><?= $data_purchase['due_date']; ?></td>
-                <td style="text-align: right !important;"><?= "Rp " . number_format($data_purchase['total'], 2, ",", "."); ?></td>
+                <td style="text-align: center !important;"><?= $data_purchase['currency']; ?></td>
+                <td style="text-align: right !important;"><?= number_format($data_purchase['total'], 2, ",", "."); ?></td>
                 <td style="text-align: center !important;">
                     <a class="btn btn-info m-1" id="btnDetail" title="Detail" onclick="get('detail','<?= $data_purchase['id'] . '|' . $data_purchase['purchase_id']; ?>','')"><i class="fas fa-fw fa-solid fa-eye m-1"></i></a>
                     <a class="btn btn-warning m-1" id="btnEdit" title="Edit" onclick="get('edit','<?= $data_purchase['id']; ?>','')"><i class="fas fa-fw fa-solid fa-pen-to-square m-1"></i></a>

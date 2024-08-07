@@ -119,8 +119,8 @@
                         <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtId"></div>
                     </div>
                     <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Discount</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtDiscount"></div>
+                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Currency</div>
+                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtCurrency"></div>
                     </div>
                 </div>
                 <div class="row">
@@ -129,8 +129,8 @@
                         <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtDate"></div>
                     </div>
                     <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Tax</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtTax"></div>
+                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Discount</div>
+                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtDiscount"></div>
                     </div>
                 </div>
                 <div class="row">
@@ -139,8 +139,8 @@
                         <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtType"></div>
                     </div>
                     <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Total</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtTotal"></div>
+                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Tax Type</div>
+                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtTaxtype"></div>
                     </div>
                 </div>
                 <div class="row">
@@ -148,11 +148,19 @@
                         <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Supplier</div>
                         <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtSupplier"></div>
                     </div>
+                    <div class="row col-6">
+                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Tax</div>
+                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtTax"></div>
+                    </div>
                 </div>
                 <div class="row">
                     <div class="row col-6">
                         <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Due Date</div>
                         <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtDuedate"></div>
+                    </div>
+                    <div class="row col-6">
+                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Total</div>
+                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtTotal"></div>
                     </div>
                 </div>
                 <div class="row">
