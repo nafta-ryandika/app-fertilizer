@@ -158,7 +158,15 @@ class Purchase extends CI_Controller
                             <table style=\"width: 100%; table-layout: fixed;\">
                                 <tr>
                                     <td style=\"min-width: 50%; vertical-align: top;\">
-                                        <img src='" . base_url() . "assets/img/icon-small.png'>
+                                        <div class=\"col-12 row\">
+                                            <div class=\"col-6\">
+                                                <img src='" . base_url() . "assets/img/icon-small.png'>
+                                            </div>
+                                            <div class=\"col-2\">
+                                                PT AGRI MAKMUR MEGA PERKASA INDO
+                                                Pasuruan Indonesia
+                                            </div>
+                                        </div>
                                     </td>
                                     <td style=\"min-width: 50%; vertical-align: top; text-align: right;\">
                                         <h1>PURCHASE ORDER</h1>
@@ -202,7 +210,7 @@ class Purchase extends CI_Controller
                                     <td style=\"min-width: 50%; text-align: right; vertical-align: top;\">
                                         <div class=\"col-6\">
                                             <h3>
-                                                PT XYZ
+                                                PT AGRI MAKMUR MEGA PERKASA INDO
                                             </h3>
                                             Pasuruan Indonesia<br/>
                                             (0343) xxxxx<br/>
@@ -331,7 +339,7 @@ class Purchase extends CI_Controller
             $drawing->setCoordinates('A' . $numrow);
             $drawing->setWorksheet($spreadsheet->getActiveSheet());
 
-            $sheet->setCellValue('B' . $numrow, "PT XYZ");
+            $sheet->setCellValue('B' . $numrow, "PT AGRI MAKMUR MEGA PERKASA INDO");
             $sheet->setCellValue('B' . $numrow + 1, "Pasuruan Indonesia");
             $sheet->setCellValue('B' . $numrow + 2, "Telp. (0343) xxxxxx");
 
@@ -472,7 +480,7 @@ class Purchase extends CI_Controller
                                     <img src='" . base_url() . "assets/img/icon-small.png'> 
                                 </td>
                                 <td>
-                                    <b style='font-size: 20px;'>PT XYZ</b><br/>
+                                    <b style='font-size: 20px;'>PT AGRI MAKMUR MEGA PERKASA INDO</b><br/>
                                     <b>Pasuruan Indonesia</b><br/>
                                     Telp. (0343) xxxxxx
                                 </td>

@@ -99,7 +99,7 @@
                 echo '<td style="text-align: center;">' . $data_detail['unit'] . '</td>';
                 echo '<td style="text-align: right;">' . number_format($data_detail['price'], 2, ",", ".") . '</td>';
                 echo '<td style="text-align: center;">' . $data_detail['discount'] . '</td>';
-                echo '<td style="text-align: right;">Rp ' . number_format($data_detail['subtotal'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: right;">' . number_format($data_detail['subtotal'], 2, ",", ".") . '</td>';
                 echo '</tr>';
                 $i++;
                 $subtotal += $data_detail['subtotal'];
@@ -119,19 +119,19 @@
             <tr>
                 <td colspan="5" rowspan="4"></td>
                 <td style="text-align: center;">Subtotal</td>
-                <td style="text-align: right;"> Rp <?= number_format($subtotal, 2, ",", "."); ?></td>
+                <td style="text-align: right;"><?= number_format($subtotal, 2, ",", "."); ?></td>
             </tr>
             <tr>
                 <td style="text-align: center;">Discount</td>
-                <td style="text-align: right;"> Rp <?= number_format($discount, 2, ",", "."); ?></td>
+                <td style="text-align: right;"><?= number_format($discount, 2, ",", "."); ?></td>
             </tr>
             <tr>
                 <td style="text-align: center;">Tax</td>
-                <td style="text-align: right;"> Rp <?= number_format($tax, 2, ",", "."); ?></td>
+                <td style="text-align: right;"><?= number_format($tax, 2, ",", "."); ?></td>
             </tr>
             <tr>
                 <td style="text-align: center;">Total</td>
-                <td style="text-align: right;"> Rp <?= number_format($total, 2, ",", "."); ?></td>
+                <td style="text-align: right;"><?= number_format($total, 2, ",", "."); ?></td>
             </tr>
         </tbody>
     </table>

@@ -184,7 +184,7 @@ if (isset($param)) {
                                                             <input type="number" class="form-control inDdiscount" name="inDdiscount" onkeyup="count('subtotal',this)" onfocus="$(this).select();" value="<?= $inDdiscount; ?>">
                                                         </td>
                                                         <td scope="row">
-                                                            <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" value="<?= $inDsubtotal; ?>" required>
+                                                            <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" value="<?= $inDsubtotal; ?>" readonly disabled required>
                                                         </td>
                                                         <td>
                                                             <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
