@@ -125,6 +125,7 @@ class Purchase extends CI_Controller
             $supplier_id = $data["header"]["supplier_id"];
             $due_date = $data["header"]["due_date"];
             $remark = $data["header"]["remark"];
+            $currency = $data["header"]["currency"];
             $discount = $data["header"]["discount"];
             $tax = $data["header"]["tax"];
             $total = $data["header"]["total"];
@@ -157,24 +158,30 @@ class Purchase extends CI_Controller
                         <div class=\"row col-12\">
                             <table style=\"width: 100%; table-layout: fixed;\">
                                 <tr>
-                                    <td style=\"min-width: 50%; vertical-align: top;\">
-                                        <div class=\"col-12 row\">
-                                            <div class=\"col-6\">
-                                                <img src='" . base_url() . "assets/img/icon-small.png'>
-                                            </div>
-                                            <div class=\"col-2\">
-                                                PT AGRI MAKMUR MEGA PERKASA INDO
-                                                Pasuruan Indonesia
-                                            </div>
-                                        </div>
+                                    <td style=\"width: 55%; vertical-align: top;\">
+                                        <table style=\"width: 100%; table-layout: fixed;\">
+                                            <tr>
+                                                <td>
+                                                    <img src='" . base_url() . "assets/img/icon-small.png'>
+                                                </td>
+                                                <td style=\"vertical-align: top;\">
+                                                    <h4>
+                                                        PT AGRI MAKMUR MEGA PERKASA INDO<br/>
+                                                    </h4>
+                                                    <h5>
+                                                        Pasuruan Indonesia
+                                                    </h5>
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </td>
-                                    <td style=\"min-width: 50%; vertical-align: top; text-align: right;\">
-                                        <h1>PURCHASE ORDER</h1>
+                                    <td style=\"width: 45%; vertical-align: top; text-align: right;\">
+                                        <h2>PURCHASE ORDER</h2>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td></td>
-                                    <td style=\"min-width: 50%; vertical-align: top; text-align: right;\">
+                                    <td style=\"vertical-align: top; text-align: right;\">
                                         <table>
                                             <tr>
                                                 <td style=\"text-align: left;\">Date</td>
@@ -193,25 +200,25 @@ class Purchase extends CI_Controller
                                     <td colspan=\"2\"><hr></td>
                                 </tr>
                                 <tr>
-                                    <td style=\"min-width: 50%; vertical-align: top;\">
+                                    <td style=\"vertical-align: top;\">
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td style=\"min-width: 50%; vertical-align: top;\">
+                                    <td style=\"vertical-align: top;\">
                                         <div class=\"col-6\">
-                                            <h3>
+                                            <h4>
                                                 " . $supplier . "
-                                            </h3>
+                                            </h4>
                                             " . $address . " <br/>
                                             " . $pic . " <br/>
                                             " . $phone . " <br/>
                                         </div>
                                     </td>
-                                    <td style=\"min-width: 50%; text-align: right; vertical-align: top;\">
+                                    <td style=\"text-align: right; vertical-align: top;\">
                                         <div class=\"col-6\">
-                                            <h3>
+                                            <h4>
                                                 PT AGRI MAKMUR MEGA PERKASA INDO
-                                            </h3>
+                                            </h4>
                                             Pasuruan Indonesia<br/>
                                             (0343) xxxxx<br/>
                                         </div>
@@ -225,18 +232,16 @@ class Purchase extends CI_Controller
             $footer = " <table width=\"100%\" border=\"1\">
                             <tr>
                                 <td width=\"66%\">
-                                    Due Date : " . $due_date . "
+                                    Due Date : " . $due_date . " <br/>
+                                    Currency : " . $currency . "
                                 </td>
-                                <td width=\"33%\" style=\"text-align: center;\">
-                                    Approved By    
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width=\"66%\" style=\"vertical-align: top;\">
-                                    Remark : " . $remark . "
-                                </td>
-                                <td width=\"33%\" style=\"text-align: center; vertical-align: top;\">
+                                <td width=\"33%\" style=\"text-align: center; vertical-align: top;\" rowspan=\"2\">
                                     <table style=\"text-align: center;\">
+                                        <tr>
+                                            <td width=\"33%\" style=\"text-align: center;\">
+                                                Approved By    
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td><br><br><br><br></td>
                                         </tr>
@@ -244,6 +249,11 @@ class Purchase extends CI_Controller
                                             <td><u>Purchase</u></td>
                                         </tr>
                                     </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style=\"vertical-align: top;\">
+                                    Remark : " . $remark . "
                                 </td>
                             </tr>
                         </table>
