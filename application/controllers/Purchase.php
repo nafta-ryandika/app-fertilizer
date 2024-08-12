@@ -231,9 +231,13 @@ class Purchase extends CI_Controller
 
             $footer = " <table width=\"100%\" border=\"1\">
                             <tr>
-                                <td>Due Date :" . $due_date . "</td>
-                                <td width=\"33%\" style=\"text-align: center; vertical-align: top;\">
-                                    <table style=\"text-align: center;\">
+                                <td width=\"70%\" style=\"text-align: left; vertical-align: top;\">
+                                    Due Date : " . $due_date . "<br/>
+                                    Currency : " . $currency . "<br/>
+                                    Remark : " . $remark . " <br/>
+                                </td>
+                                <td width=\"30%\" style=\"text-align: center; vertical-align: top;\">
+                                    <table style=\"text-align: center;\" border=\"0\">
                                         <tr>
                                             <td width=\"33%\" style=\"text-align: center;\">
                                                 Approved By    
@@ -248,16 +252,6 @@ class Purchase extends CI_Controller
                                     </table>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>Due Date</td>
-                                <td>:</td>
-                                <td>" . $currency . "</td>
-                            </tr>
-                            <tr>
-                                <td>Due Date</td>
-                                <td>:</td>
-                                <td>" . $remark . "</td>
-                            </tr>
                         </table>
                         <table width=\"100%\">
                             <tr>
@@ -266,53 +260,6 @@ class Purchase extends CI_Controller
                                 <td width=\"33%\" style=\"text-align: right;\">" . $purchase_id . "</td>
                             </tr>
                         </table>";
-
-            // $footer = " <table width=\"100%\" border=\"1\">
-            //                 <tr>
-            //                     <td>Due Date</td>
-            //                     <td>:</td>
-            //                     <td>" . $due_date . "</td>
-            //                     <td width=\"66%\" style=\"vertical-align: top;\">
-            //                         <table border=\"1\">
-            //                             <tr>
-
-            //                             </tr>
-            //                             <tr>
-            //                                 <td>Currency</td>
-            //                                 <td>:</td>
-            //                                 <td>" . $currency . "</td>
-            //                             </tr>
-            //                             <tr>
-            //                                 <td>Remark</td>
-            //                                 <td>:</td>
-            //                                 <td>" . $remark . "</td>
-            //                             </tr>
-            //                         </table>
-            //                     </td>
-            //                     <td width=\"33%\" style=\"text-align: center; vertical-align: top;\" rowspan=\"2\">
-            //                         <table style=\"text-align: center;\">
-            //                             <tr>
-            //                                 <td width=\"33%\" style=\"text-align: center;\">
-            //                                     Approved By    
-            //                                 </td>
-            //                             </tr>
-            //                             <tr>
-            //                                 <td><br><br><br><br></td>
-            //                             </tr>
-            //                             <tr>
-            //                                 <td><u>Purchase</u></td>
-            //                             </tr>
-            //                         </table>
-            //                     </td>
-            //                 </tr>
-            //             </table>
-            //             <table width=\"100%\">
-            //                 <tr>
-            //                     <td width=\"33%\">" . $this->session->userdata['name'] . " - {DATE d-m-Y H:i:s}</td>
-            //                     <td width=\"33%\" align=\"center\">{PAGENO}/{nbpg}</td>
-            //                     <td width=\"33%\" style=\"text-align: right;\">" . $purchase_id . "</td>
-            //                 </tr>
-            //             </table>";
 
             $mpdf->SetHTMLFooter($footer);
 
