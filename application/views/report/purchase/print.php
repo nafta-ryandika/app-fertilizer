@@ -118,19 +118,19 @@
             </tr>
             <tr>
                 <td colspan="5" rowspan="4"></td>
-                <td style="text-align: center;">Subtotal</td>
+                <td style="text-align: left;">Subtotal</td>
                 <td style="text-align: right;"><?= number_format($subtotal, 2, ",", "."); ?></td>
             </tr>
             <tr>
-                <td style="text-align: center;">Discount</td>
+                <td style="text-align: left;">Discount</td>
                 <td style="text-align: right;"><?= number_format($discount, 2, ",", "."); ?></td>
             </tr>
             <tr>
-                <td style="text-align: center;">Tax</td>
+                <td style="text-align: left;">Tax</td>
                 <td style="text-align: right;"><?= number_format($tax, 2, ",", "."); ?></td>
             </tr>
             <tr>
-                <td style="text-align: center;">Total</td>
+                <td style="text-align: left;">Total</td>
                 <td style="text-align: right;"><?= number_format($total, 2, ",", "."); ?></td>
             </tr>
         </tbody>

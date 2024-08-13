@@ -347,6 +347,13 @@ function get(param,obj,callBack) {
 	}
 }
 
+function set(param,obj){
+	if(param == "inTaxtype"){
+		$("#inTax").val(0);
+		
+	}
+}
+
 function report(param,obj){
 	var rowTable = $('#tableSearch tr').length;
 	var inWhere = "";

@@ -229,7 +229,7 @@ class Purchase extends CI_Controller
 
             $mpdf->SetHTMLHeader($header);
 
-            $footer = " <table width=\"100%\" border=\"1\">
+            $footer1 = "<table width=\"100%\" border=\"1\">
                             <tr>
                                 <td width=\"70%\" style=\"text-align: left; vertical-align: top;\">
                                     Due Date : " . $due_date . "<br/>
@@ -237,6 +237,54 @@ class Purchase extends CI_Controller
                                     Remark : " . $remark . " <br/>
                                 </td>
                                 <td width=\"30%\" style=\"text-align: center; vertical-align: top;\">
+                                    <table style=\"text-align: center;\" border=\"0\">
+                                        <tr>
+                                            <td width=\"33%\" style=\"text-align: center;\">
+                                                Approved By    
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><br><br><br><br></td>
+                                        </tr>
+                                        <tr>
+                                            <td><u>Purchase</u></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <table width=\"100%\">
+                            <tr>
+                                <td width=\"33%\">" . $this->session->userdata['name'] . " - {DATE d-m-Y H:i:s}</td>
+                                <td width=\"33%\" align=\"center\">{PAGENO}/{nbpg}</td>
+                                <td width=\"33%\" style=\"text-align: right;\">" . $purchase_id . "</td>
+                            </tr>
+                        </table>";
+
+            $footer = "<table style=\"border-collapse: collapse;\" width=\"100%\" border=\"1\">
+                            <tr>
+                                <td width=\"70%\" style=\"text-align: left; vertical-align: top;\">
+                                    <div>
+                                        <table>
+                                            <tr>
+                                                <td style=\"vertical-align: top;\">Due date</td>
+                                                <td style=\"vertical-align: top;\">:</td>
+                                                <td>" . $due_date . "</td>
+                                            </tr>
+                                            <tr>
+                                                <td style=\"vertical-align: top;\">Currency</td>
+                                                <td style=\"vertical-align: top;\">:</td>
+                                                <td>" . $currency . "</td>
+                                            </tr>
+                                            <tr>
+                                                <td style=\"vertical-align: top;\">Remark</td>
+                                                <td style=\"vertical-align: top;\">:</td>
+                                                <td>" . $remark . "</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </td>
+                                <td width=\"30%\" style=\"text-align: center; vertical-align: top;  border: 1px solid;\">
                                     <table style=\"text-align: center;\" border=\"0\">
                                         <tr>
                                             <td width=\"33%\" style=\"text-align: center;\">
