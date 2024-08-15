@@ -349,8 +349,14 @@ function get(param,obj,callBack) {
 
 function set(param,obj){
 	if(param == "inTaxtype"){
-		$("#inTax").val(0);
-		
+		var inTaxtype = $("#"+param).val();
+		if(inTaxtype == 0){
+			$("#inTax").val(0);
+			$("#inTax").prop('disabled', true);
+		} else if(inTaxtype == 1){
+			$("#inTax").val("");
+			$("#inTax").prop('disabled', false);
+		}
 	}
 }
 

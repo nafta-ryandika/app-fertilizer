@@ -95,7 +95,7 @@ if (isset($param)) {
                 <div class="form-group row">
                     <label for="inTaxtype" class="col-sm-3 col-form-label">Tax Type</label>
                     <div class="col-sm-3">
-                        <select class="form-control inTaxtype" id="inTaxtype" style="width: 100%;" onselect="set(this.id,'')">
+                        <select class="form-control inTaxtype" id="inTaxtype" style="width: 100%;" onChange="set(this.id,'')">
                             <option value="">Select</option>
                             <option value="1">Include (PKP)</option>
                             <option value="0">Exclude (Non - PKP)</option>
@@ -319,4 +319,12 @@ if (isset($param)) {
         $(this).closest('tr').find('.inDunitid').val(unit_id);
         $(this).closest('tr').find('.inDunit').val(unit);
     });
+
+    var inTaxtype = <?= $inTaxtype ?>;
+
+    if (inTaxtype == 0) {
+        $("#inTax").prop('disabled', true);
+    } else if (inTaxtype == 1) {
+        $("#inTax").prop('disabled', false);
+    }
 </script>
