@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.51-log - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.8.0.6908
+-- HeidiSQL Version:             12.8.0.6924
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `m_access` (
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table app-fertilizer.m_access: ~16 rows (approximately)
 DELETE FROM `m_access`;
@@ -47,7 +47,8 @@ INSERT INTO `m_access` (`id`, `role_id`, `menu_id`, `created_by`, `created_at`) 
 	(26, 5, 2, NULL, '2024-05-18 16:21:53'),
 	(27, 1, 8, NULL, '2024-05-21 10:23:59'),
 	(29, 6, 8, NULL, '2024-05-23 23:27:36'),
-	(30, 1, 9, NULL, '2024-06-18 14:53:00');
+	(30, 1, 9, NULL, '2024-06-18 14:53:00'),
+	(31, 1, 10, NULL, '2024-08-20 10:30:55');
 
 -- Dumping structure for table app-fertilizer.m_company
 CREATE TABLE IF NOT EXISTS `m_company` (
@@ -67,7 +68,7 @@ INSERT INTO `m_company` (`id`, `company`, `created_by`, `created_at`) VALUES
 CREATE TABLE IF NOT EXISTS `m_counter` (
   `id` int(16) NOT NULL AUTO_INCREMENT,
   `transaction` varchar(256) DEFAULT NULL,
-  `counter` int(11) DEFAULT NULL,
+  `counter` int(16) DEFAULT NULL,
   `period` varchar(16) DEFAULT NULL,
   `status` tinyint(4) DEFAULT '1',
   `created_by` varchar(256) DEFAULT NULL,
@@ -103,6 +104,33 @@ INSERT INTO `m_currency` (`id`, `currency`, `status`, `created_by`, `created_at`
 	(2, 'USD', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
 	(3, 'CNY', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
 	(4, 'RMB', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
+
+-- Dumping structure for table app-fertilizer.m_customer
+CREATE TABLE IF NOT EXISTS `m_customer` (
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `customer` varchar(256) DEFAULT NULL,
+  `pic` varchar(256) DEFAULT NULL,
+  `email` varchar(256) DEFAULT NULL,
+  `phone` varchar(16) DEFAULT NULL,
+  `address` text,
+  `remark` text,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.m_customer: ~6 rows (approximately)
+DELETE FROM `m_customer`;
+INSERT INTO `m_customer` (`id`, `customer`, `pic`, `email`, `phone`, `address`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'Abadi Jaya', 'Andi', NULL, '088847228293', 'Serang', NULL, 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
+	(2, 'Berkah Bersinar', 'Budi', NULL, '089518693827', 'Jakarta', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(3, 'Cahaya Alam', 'Caca', NULL, '083882515493', 'Bandung', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(4, 'Dadi Makmur', 'Dani', NULL, '084314134921', 'Semarang', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(5, 'Edi Putra', 'Edi', NULL, '083373986943', 'Yogyakarta', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(6, 'Fandi Utama', 'Fredi', NULL, '085324383234', 'Surabaya', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.m_department
 CREATE TABLE IF NOT EXISTS `m_department` (
@@ -251,8 +279,8 @@ INSERT INTO `m_division` (`id`, `department_id`, `division`, `created_by`, `crea
 CREATE TABLE IF NOT EXISTS `m_goods` (
   `id` int(16) NOT NULL AUTO_INCREMENT,
   `goods` varchar(256) DEFAULT NULL,
-  `unit_id` int(11) DEFAULT NULL,
-  `goods_type_id` int(11) DEFAULT NULL,
+  `unit_id` int(16) DEFAULT NULL,
+  `goods_type_id` int(16) DEFAULT NULL,
   `qty` varchar(256) DEFAULT NULL,
   `remark` text,
   `status` tinyint(4) DEFAULT '1',
@@ -303,7 +331,7 @@ CREATE TABLE IF NOT EXISTS `m_menu` (
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.m_menu: ~5 rows (approximately)
 DELETE FROM `m_menu`;
@@ -312,7 +340,8 @@ INSERT INTO `m_menu` (`id`, `menu`, `status`, `created_by`, `created_at`) VALUES
 	(2, 'User', 1, 'Administrator', '2023-12-12 10:43:22'),
 	(3, 'Menu', 1, 'Administrator', '2023-12-12 10:43:22'),
 	(7, 'User_management', 0, 'admin', '2024-03-18 15:24:16'),
-	(9, 'Purchase', 1, 'admin', '2024-06-18 14:49:21');
+	(9, 'Purchase', 1, 'admin', '2024-06-18 14:49:21'),
+	(10, 'Sales', 1, 'admin', '2024-08-20 10:25:01');
 
 -- Dumping structure for table app-fertilizer.m_position
 CREATE TABLE IF NOT EXISTS `m_position` (
@@ -376,6 +405,26 @@ INSERT INTO `m_role` (`id`, `role`, `created_by`, `created_at`) VALUES
 	(5, 'Audit', 'admin', '2024-05-18 16:21:48'),
 	(6, 'Vote', 'admin', '2024-05-23 23:26:56');
 
+-- Dumping structure for table app-fertilizer.m_sales_status
+CREATE TABLE IF NOT EXISTS `m_sales_status` (
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `type` varchar(256) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.m_sales_status: ~4 rows (approximately)
+DELETE FROM `m_sales_status`;
+INSERT INTO `m_sales_status` (`id`, `type`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'Pending', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
+	(2, 'Shipped', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(3, 'Delivered', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(4, 'Cancelled', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
+
 -- Dumping structure for table app-fertilizer.m_submenu
 CREATE TABLE IF NOT EXISTS `m_submenu` (
   `id` int(16) NOT NULL AUTO_INCREMENT,
@@ -387,7 +436,7 @@ CREATE TABLE IF NOT EXISTS `m_submenu` (
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.m_submenu: ~8 rows (approximately)
 DELETE FROM `m_submenu`;
@@ -399,13 +448,15 @@ INSERT INTO `m_submenu` (`id`, `menu_id`, `title`, `url`, `icon`, `status`, `cre
 	(5, 3, 'Submenu Management', 'menu/submenu', 'fas fa-fw fa-folder-open', 1, 'Administrator', '2023-12-12 10:28:19'),
 	(7, 1, 'Role', 'administrator/role', 'fas fa-fw fa-key', 1, 'Administrator', '2023-12-12 10:28:19'),
 	(11, 1, 'User', 'user_management', 'fas fa-fw fa-user', 1, NULL, '2024-03-18 14:51:33'),
-	(13, 9, 'Purchase', 'purchase', 'fas fa-fw fa-cart-shopping', 1, NULL, '2024-06-18 14:52:41');
+	(13, 9, 'Purchase', 'purchase', 'fas fa-fw fa-cart-shopping', 1, NULL, '2024-06-18 14:52:41'),
+	(14, 10, 'Sales', 'sales', 'fas fa-fw fa-file-invoice-dollar', 1, NULL, '2024-08-20 10:30:45');
 
 -- Dumping structure for table app-fertilizer.m_supplier
 CREATE TABLE IF NOT EXISTS `m_supplier` (
   `id` int(16) NOT NULL AUTO_INCREMENT,
   `supplier` varchar(256) DEFAULT NULL,
   `pic` varchar(256) DEFAULT NULL,
+  `email` varchar(256) DEFAULT NULL,
   `phone` varchar(16) DEFAULT NULL,
   `address` text,
   `remark` text,
@@ -419,13 +470,13 @@ CREATE TABLE IF NOT EXISTS `m_supplier` (
 
 -- Dumping data for table app-fertilizer.m_supplier: ~6 rows (approximately)
 DELETE FROM `m_supplier`;
-INSERT INTO `m_supplier` (`id`, `supplier`, `pic`, `phone`, `address`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
-	(1, 'Abadi Jaya', 'Andi', '088847228293', 'Serang', NULL, 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
-	(2, 'Berkah Bersinar', 'Budi', '089518693827', 'Jakarta', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
-	(3, 'Cahaya Alam', 'Caca', '083882515493', 'Bandung', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
-	(4, 'Dadi Makmur', 'Dani', '084314134921', 'Semarang', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
-	(5, 'Edi Putra', 'Edi', '083373986943', 'Yogyakarta', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
-	(6, 'Fandi Utama', 'Fredi', '085324383234', 'Surabaya', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
+INSERT INTO `m_supplier` (`id`, `supplier`, `pic`, `email`, `phone`, `address`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'Abadi Jaya', 'Andi', NULL, '088847228293', 'Serang', NULL, 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
+	(2, 'Berkah Bersinar', 'Budi', NULL, '089518693827', 'Jakarta', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(3, 'Cahaya Alam', 'Caca', NULL, '083882515493', 'Bandung', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(4, 'Dadi Makmur', 'Dani', NULL, '084314134921', 'Semarang', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(5, 'Edi Putra', 'Edi', NULL, '083373986943', 'Yogyakarta', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(6, 'Fandi Utama', 'Fredi', NULL, '085324383234', 'Surabaya', NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.m_token
 CREATE TABLE IF NOT EXISTS `m_token` (
@@ -473,7 +524,7 @@ CREATE TABLE IF NOT EXISTS `m_user` (
   `department_id` int(16) DEFAULT NULL,
   `division_id` int(16) DEFAULT NULL,
   `role_id` int(16) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
+  `status` int(16) DEFAULT NULL,
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -497,15 +548,15 @@ CREATE TABLE IF NOT EXISTS `t_purchase` (
   `id` int(16) NOT NULL AUTO_INCREMENT,
   `purchase_id` varchar(16) NOT NULL,
   `date` date DEFAULT NULL,
-  `purchase_type_id` int(11) NOT NULL DEFAULT '0',
-  `supplier_id` int(11) NOT NULL DEFAULT '0',
+  `purchase_type_id` int(16) NOT NULL DEFAULT '0',
+  `supplier_id` int(16) NOT NULL DEFAULT '0',
   `due_date` date DEFAULT NULL,
   `remark` text,
-  `currency_id` int(11) unsigned DEFAULT NULL,
-  `discount` int(11) DEFAULT NULL,
+  `currency_id` int(16) unsigned DEFAULT NULL,
+  `discount` int(16) DEFAULT NULL,
   `tax_type` tinyint(4) DEFAULT NULL COMMENT ' 1 = Include; 0 = Exclude;',
-  `tax` int(11) DEFAULT NULL,
-  `total` int(11) DEFAULT NULL,
+  `tax` int(16) DEFAULT NULL,
+  `total` int(16) DEFAULT NULL,
   `status` tinyint(4) DEFAULT '1',
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -538,7 +589,7 @@ INSERT INTO `t_purchase` (`id`, `purchase_id`, `date`, `purchase_type_id`, `supp
 
 -- Dumping structure for table app-fertilizer.t_purchase_detail
 CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(16) NOT NULL AUTO_INCREMENT,
   `purchase_id` varchar(16) NOT NULL,
   `goods_id` varchar(16) DEFAULT NULL,
   `qty` float DEFAULT NULL,
@@ -562,6 +613,118 @@ CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
 -- Dumping data for table app-fertilizer.t_purchase_detail: ~50 rows (approximately)
 DELETE FROM `t_purchase_detail`;
 INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_received`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(3, 'PO/072024/00014', '2', 20, '4', 2000, 5, 38000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:43:43'),
+	(4, 'PO/072024/00014', '3', 10, '1', 500, 0, 5000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:43:56'),
+	(5, 'PO/072024/00014', '4', 5, '1', 200, NULL, 1000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:21:07'),
+	(6, 'PO/072024/00015', '2', 20, '4', 2000, 1, 38000, NULL, 1, 'admin', '2024-07-07 10:33:35', 'admin', '2024-07-18 17:01:47'),
+	(7, 'PO/072024/00015', '3', 10, '1', 500, 0, 5000, NULL, 1, 'admin', '2024-07-07 10:33:35', 'admin', '2024-07-18 17:01:47'),
+	(8, 'PO/072024/00015', '4', 5, '1', 200, 0, 1000, NULL, 1, 'admin', '2024-07-07 10:33:35', 'admin', '2024-07-18 17:01:47'),
+	(9, 'PO/072024/00016', '', 0, '', 0, 1, 0, NULL, 1, 'admin', '2024-07-07 10:59:07', NULL, NULL),
+	(10, 'PO/072024/00017', '2', 100, '4', 500, 1, 47500, NULL, 1, 'admin', '2024-07-07 14:04:00', 'admin', '2024-07-18 16:58:41'),
+	(11, 'PO/072024/00017', '5', 2, '3', 10000, 0, 20000, NULL, 1, 'admin', '2024-07-07 14:04:00', 'admin', '2024-07-18 16:58:41'),
+	(12, 'PO/072024/00018', '2', 500, '4', 2001, 0, 890445, NULL, 1, 'admin', '2024-07-09 09:48:45', 'admin', '2024-07-23 16:39:59'),
+	(13, 'PO/072024/00018', '1', 300, '1', 1001, 0, 240240, NULL, 1, 'admin', '2024-07-09 09:48:45', 'admin', '2024-07-23 16:39:59'),
+	(14, 'PO/072024/00018', '4', 2100, '1', 101, 0, 180285, NULL, 1, 'admin', '2024-07-16 14:31:05', 'admin', '2024-07-23 16:39:59'),
+	(15, 'PO/072024/00018', '4', 2200, '1', 101, 0, 211090, NULL, 1, 'admin', '2024-07-16 14:52:56', 'admin', '2024-07-23 16:39:59'),
+	(16, 'PO/072024/00018', '1', 100, '1', 500, 0, 48500, NULL, 1, 'admin', '2024-07-16 14:56:11', 'admin', '2024-07-23 16:39:59'),
+	(17, 'PO/072024/00018', '2', 1000, '4', 500, 0, 475000, NULL, 1, 'admin', '2024-07-16 17:41:16', 'admin', '2024-07-23 16:39:59'),
+	(18, 'PO/072024/00018', '2', 1, '4', 5000, 0, 4700, NULL, 1, 'admin', '2024-07-17 10:33:51', 'admin', '2024-07-23 16:39:59'),
+	(19, 'PO/072024/00018', '2', 1, '4', 5000, 0, 4650, NULL, 1, 'admin', '2024-07-17 10:36:03', 'admin', '2024-07-23 16:39:59'),
+	(20, 'PO/072024/00018', '1', 1, '1', 1000, 0, 920, NULL, 1, 'admin', '2024-07-17 10:36:03', 'admin', '2024-07-23 16:39:59'),
+	(21, 'PO/072024/00018', '4', 10, '1', 10, 0, 91, NULL, 1, 'admin', '2024-07-17 11:08:32', 'admin', '2024-07-23 16:39:59'),
+	(22, 'PO/072024/00018', '4', 10, '1', 10, 0, 90, NULL, 1, 'admin', '2024-07-17 13:25:31', 'admin', '2024-07-23 16:39:59'),
+	(23, 'PO/072024/00018', '1', 100, '1', 100, 0, 8900, NULL, 1, 'admin', '2024-07-17 13:25:31', 'admin', '2024-07-23 16:39:59'),
+	(24, 'PO/072024/00018', '4', 10, '1', 10, 0, 88, NULL, 1, 'admin', '2024-07-17 14:22:21', 'admin', '2024-07-23 16:39:59'),
+	(25, 'PO/072024/00018', '1', 100, '1', 100, 0, 8700, NULL, 1, 'admin', '2024-07-17 14:22:21', 'admin', '2024-07-23 16:39:59'),
+	(26, 'PO/072024/00018', '4', 10, '1', 10, 0, 86, NULL, 1, 'admin', '2024-07-17 14:22:21', 'admin', '2024-07-23 16:39:59'),
+	(27, 'PO/072024/00018', '4', 10, '1', 10, 0, 85, NULL, 1, 'admin', '2024-07-17 15:20:34', 'admin', '2024-07-23 16:39:59'),
+	(28, 'PO/072024/00018', '1', 100, '1', 100, 0, 10000, NULL, 1, 'admin', '2024-07-17 15:20:34', 'admin', '2024-07-23 16:39:59'),
+	(29, 'PO/072024/00018', '4', 10, '1', 10, 0, 99, NULL, 1, 'admin', '2024-07-17 15:20:34', 'admin', '2024-07-23 16:39:59'),
+	(30, 'PO/072024/00018', '2', 123, '4', 456, 0, 56088, NULL, 1, 'admin', '2024-07-17 15:32:59', 'admin', '2024-07-23 16:39:59'),
+	(31, 'PO/072024/00018', '2', 10, '4', 200, 0, 2000, NULL, 1, 'admin', '2024-07-18 10:18:13', 'admin', '2024-07-23 16:39:59'),
+	(32, 'PO/072024/00018', '2', 100, '4', 123, 0, 12300, NULL, 1, 'admin', '2024-07-18 10:50:39', 'admin', '2024-07-23 16:39:59'),
+	(33, 'PO/072024/00018', '2', 200, '4', 456, 0, 91200, NULL, 1, 'admin', '2024-07-18 10:52:22', 'admin', '2024-07-23 16:39:59'),
+	(34, 'PO/072024/00018', '4', 300, '1', 789, 0, 236700, NULL, 1, 'admin', '2024-07-18 10:53:58', 'admin', '2024-07-23 16:39:59'),
+	(35, 'PO/072024/00017', '1', 200, '1', 50, 10, 9000, NULL, 1, 'admin', '2024-07-18 16:04:35', 'admin', '2024-07-18 16:58:41'),
+	(36, 'PO/072024/00017', '2', 500, '4', 10, 0, 5000, NULL, 1, 'admin', '2024-07-18 16:19:55', 'admin', '2024-07-18 16:58:41'),
+	(37, 'PO/072024/00017', '4', 1, '1', 2, 0, 2, NULL, 1, 'admin', '2024-07-18 16:58:41', NULL, NULL),
+	(38, 'PO/072024/00017', '3', 2, '1', 3, 4, 5.76, NULL, 1, 'admin', '2024-07-18 16:58:41', NULL, NULL),
+	(39, 'PO/072024/00015', '4', 1, '1', 2, 0, 2, NULL, 1, 'admin', '2024-07-18 17:01:18', 'admin', '2024-07-18 17:01:47'),
+	(40, 'PO/072024/00015', '4', 4, '1', 5, 6, 18.8, NULL, 1, 'admin', '2024-07-18 17:01:47', NULL, NULL),
+	(41, 'PO/072024/00015', '4', 7, '1', 8, 0, 56, NULL, 1, 'admin', '2024-07-18 17:01:47', NULL, NULL),
+	(42, 'PO/072024/00013', '5', 100, '3', 1, 0, 100, NULL, 0, 'admin', '2024-07-19 22:44:48', 'admin', '2024-07-21 08:12:27'),
+	(43, 'PO/072024/00013', '4', 200, '1', 1, 5, 190, NULL, 0, 'admin', '2024-07-19 22:46:03', 'admin', '2024-07-21 08:12:27'),
+	(44, 'PO/072024/00013', '5', 300, '3', 1, 10, 270, NULL, 0, 'admin', '2024-07-19 23:17:02', 'admin', '2024-07-21 08:12:27'),
+	(45, 'PO/072024/00013', '1', 400, '1', 1, 0, 400, NULL, 0, 'admin', '2024-07-19 23:17:02', 'admin', '2024-07-21 08:12:27'),
+	(46, 'PO/072024/00014', '4', 10, '1', 500, 0, 5000, NULL, 0, 'admin', '2024-07-19 23:43:43', 'admin', '2024-07-19 23:43:56'),
+	(47, 'PO/072024/00014', '3', 100, '1', 100, 0, 10000, NULL, 0, 'admin', '2024-07-19 23:43:56', 'admin', '2024-07-19 23:44:54'),
+	(48, 'PO/072024/00014', '1', 12, '1', 10, 0, 120, NULL, 1, 'admin', '2024-07-19 23:44:54', 'admin', '2024-07-19 23:45:23'),
+	(49, 'PO/072024/00013', '3', 200, '1', 100, 0, 20000, NULL, 0, 'admin', '2024-07-21 08:12:27', 'admin', '2024-07-21 08:57:46'),
+	(50, 'PO/072024/00019', '2', 100, '4', 100, 5, 9500, NULL, 0, 'admin', '2024-07-21 08:57:14', 'admin', '2024-07-21 09:50:29'),
+	(51, 'PO/072024/00019', '5', 200, '3', 100, 0, 20000, NULL, 0, 'admin', '2024-07-21 08:57:14', 'admin', '2024-07-21 09:50:29'),
+	(53, 'PO/072024/00020', '2', 100, '4', 10, 0, 1000, NULL, 1, 'admin', '2024-07-21 21:20:33', NULL, NULL),
+	(54, 'PO/082024/00001', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-06 15:08:56', NULL, NULL),
+	(55, 'PO/082024/00001', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-06 15:08:56', NULL, NULL),
+	(56, 'PO/082024/00002', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-08-06 15:53:35'),
+	(57, 'PO/082024/00002', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-08-06 15:53:35'),
+	(58, 'PO/082024/00003', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32'),
+	(59, 'PO/082024/00003', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32');
+
+-- Dumping structure for table app-fertilizer.t_sales
+CREATE TABLE IF NOT EXISTS `t_sales` (
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `sales_id` varchar(16) NOT NULL,
+  `date` date DEFAULT NULL,
+  `customer_id` int(16) NOT NULL DEFAULT '0',
+  `due_date` date DEFAULT NULL,
+  `currency_id` int(16) unsigned DEFAULT NULL,
+  `total` int(16) DEFAULT NULL,
+  `sales_status_id` tinyint(4) DEFAULT NULL COMMENT ' 1 = Include; 0 = Exclude;',
+  `remark` text,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`,`sales_id`) USING BTREE,
+  KEY `date` (`date`) USING BTREE,
+  KEY `due_date` (`due_date`) USING BTREE,
+  KEY `status` (`status`) USING BTREE,
+  KEY `currency_id` (`currency_id`) USING BTREE,
+  KEY `purchase_type_id` (`customer_id`) USING BTREE,
+  KEY `purchase_id` (`sales_id`) USING BTREE,
+  KEY `tax_type` (`sales_status_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.t_sales: ~0 rows (approximately)
+DELETE FROM `t_sales`;
+
+-- Dumping structure for table app-fertilizer.t_sales_detail
+CREATE TABLE IF NOT EXISTS `t_sales_detail` (
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `sales_id` varchar(16) NOT NULL,
+  `goods_id` varchar(16) DEFAULT NULL,
+  `qty` float DEFAULT NULL,
+  `unit_id` varchar(16) DEFAULT NULL,
+  `price` float DEFAULT NULL,
+  `discount` float DEFAULT NULL,
+  `subtotal` float DEFAULT NULL,
+  `qty_shipped` float DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`,`sales_id`) USING BTREE,
+  KEY `goods_id` (`goods_id`) USING BTREE,
+  KEY `unit_id` (`unit_id`) USING BTREE,
+  KEY `status` (`status`) USING BTREE,
+  KEY `purchase_id` (`sales_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.t_sales_detail: ~56 rows (approximately)
+DELETE FROM `t_sales_detail`;
+INSERT INTO `t_sales_detail` (`id`, `sales_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_shipped`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(3, 'PO/072024/00014', '2', 20, '4', 2000, 5, 38000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:43:43'),
 	(4, 'PO/072024/00014', '3', 10, '1', 500, 0, 5000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:43:56'),
 	(5, 'PO/072024/00014', '4', 5, '1', 200, NULL, 1000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:21:07'),

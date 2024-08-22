@@ -19,4 +19,6 @@ if ($title == 'Menu Management') {
     echo '<script type="text/javascript" src="' . base_url("assets/js/") . 'vote.js?version=' . $xyz . '"></script>';
 } else if ($title == 'Purchase') {
     echo '<script type="text/javascript" src="' . base_url("assets/js/") . 'purchase.js?version=' . $xyz . '"></script>';
+} else if ($title == 'Sales') {
+    echo '<script type="text/javascript" src="' . base_url("assets/js/") . 'sales.js?version=' . $xyz . '"></script>';
 }
