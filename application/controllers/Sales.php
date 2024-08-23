@@ -76,10 +76,10 @@ class Sales extends CI_Controller
             $sql3 = "SELECT id, currency FROM m_currency a WHERE `status` = 1  ORDER BY `currency` ASC";
             $data['currency'] = $this->db->query($sql3)->result_array();
 
-            $data['html'] = $this->load->view('purchase/input', $data);
+            $data['html'] = $this->load->view('sales/input', $data);
             // echo (json_encode($data));
         } else {
-            $data = $this->Purchase_M->get($param, $obj);
+            $data = $this->Sales_M->get($param, $obj);
 
             echo (json_encode($data));
         }

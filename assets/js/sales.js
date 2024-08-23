@@ -127,10 +127,10 @@ function get(param,obj,callBack) {
 			} else {
 				$('#tableSearch tr:eq('+rowIndex+') .inSearchinput').prop('type','text');
 			}
-	} else if (param == "inSupplier") {
+	} else if (param == "inCustomer") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"purchase/get",
+			url: base_url+"sales/get",
 			data: {
 				param: param,
 				obj: obj
@@ -148,14 +148,14 @@ function get(param,obj,callBack) {
 	
 					for (i=0; i<data.res.length; i++) {
 						if (obj.trim() != "" && obj == data.res[i].id) {
-							html += '<option value="' + data.res[i].id + '" selected>' + data.res[i].supplier + '</option>';	
+							html += '<option value="' + data.res[i].id + '" selected>' + data.res[i].customer + '</option>';	
 						}
 						else {
-							html += '<option value="' + data.res[i].id + '">' + data.res[i].supplier + '</option>';
+							html += '<option value="' + data.res[i].id + '">' + data.res[i].customer + '</option>';
 						}
 					}
 	
-					$('#inSupplier').html(html);
+					$('#inCustomer').html(html);
 			}
 		});
 	} else if (param == "inDgoods") {

@@ -16,8 +16,8 @@ class Sales_M extends CI_Model
     {
         $data = array();
 
-        if ($param == "inSupplier") {
-            $query = "SELECT id, supplier FROM m_supplier WHERE `status` = '1' ORDER BY supplier";
+        if ($param == "inCustomer") {
+            $query = "SELECT id, customer FROM m_customer WHERE `status` = '1' ORDER BY customer";
             $row = $this->db->query($query)->num_rows();
 
             if ($row > 0) {
