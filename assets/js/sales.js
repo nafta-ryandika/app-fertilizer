@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    // viewData();
-	add('add','');
+    viewData();
+	// add('add','');
 	$('#modalDetail').on('hidden.bs.modal', function () {
 		$("#contentDetailpurchase").html("");
 	})
@@ -73,7 +73,7 @@ function viewData() {
 
 	$.ajax({
 		type: "POST",
-		url: base_url+"purchase/viewData",
+		url: base_url+"sales/viewData",
 		data: {
 				inWhere: inWhere
 			},
@@ -161,7 +161,7 @@ function get(param,obj,callBack) {
 	} else if (param == "inDgoods") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"purchase/get",
+			url: base_url+"sales/get",
 			data: {
 				param: param,
 				obj: obj
@@ -336,8 +336,12 @@ function get(param,obj,callBack) {
 
 				var today = new Date().toISOString().split('T')[0];
 				$("#inDate").val(today);
-				get("inSupplier","","");
-				get("inDgoods","1","");	
+				get("inCustomer","","");
+				get("inDgoods","1","");
+				
+				$('#inCustomer').select2({
+					theme: 'bootstrap4'
+				})
 			},
 			complete: function (data) {
 				$("#inMode").val("add");
@@ -514,8 +518,7 @@ function save(param,obj){
 		var  inIdx = $('#inIdx').val();
 		var  inId = $('#inId').val();
 		var  inDate = $('#inDate').val();
-		var  inType = $('#inType').val();
-		var  inSupplier = $('#inSupplier').val();
+		var  inCustomer = $('#inCustomer').val();
 		var  inDuedate = $('#inDuedate').val();
 		var  inRemark = $('#inRemark').val();
 		var  inCurrency = $('#inCurrency').val();
@@ -561,20 +564,12 @@ function save(param,obj){
 			inDsubtotal  += $(this).val()+"|";
 		})
 
-		if (inType.trim() == "") {
+		if (inCustomer.trim() == "") {
 			Swal.fire({
-				title: "Input Type Empty !",
+				title: "Input Customer Empty !",
 				icon: "error"
 			}).then(function () { 
-				$("#inType").focus();
-				return;
-			});
-		} else if (inSupplier.trim() == "") {
-			Swal.fire({
-				title: "Input Supplier Empty !",
-				icon: "error"
-			}).then(function () { 
-				$("#inSupplier").focus();
+				$("#inCustomer").focus();
 				return;
 			});
 		} else if (inDuedate.trim() == "") {
@@ -597,7 +592,7 @@ function save(param,obj){
 				if ($(this).val().trim() == "") {
 					if (dqtyx.trim() != "" || dunitx.trim() != "" || dpricex.trim() != "" || dsubtotalx.trim() != ""){
 						Swal.fire({
-							title: "Please Check Puchase Order Details",
+							title: "Please Check Sales Order Details",
 							icon: "error"
 						}).then(function () { 
 							$(this).focus();
@@ -609,7 +604,7 @@ function save(param,obj){
 				} else if ($(this).val().trim() != "") {
 					if (dqtyx.trim() == "" || dunitx.trim() == "" || dpricex.trim() == "" || dsubtotalx.trim() == ""){
 						Swal.fire({
-							title: "Please Check Puchase Order Details",
+							title: "Please Check Sales Order Details",
 							icon: "error"
 						}).then(function () { 
 							$(this).focus();
@@ -626,8 +621,7 @@ function save(param,obj){
 					inIdx: inIdx,
 					inId: inId,
 					inDate: inDate,
-					inType: inType,
-					inSupplier: inSupplier,
+					inCustomer: inCustomer,
 					inDuedate: inDuedate,
 					inRemark: inRemark,
 					inCurrency: inCurrency,
@@ -646,7 +640,7 @@ function save(param,obj){
 		
 				$.ajax({
 					type: "POST",
-					url: base_url+"purchase/save",
+					url: base_url+"sales/save",
 					data: {
 							param: param,
 							obj: obj,

@@ -29,7 +29,9 @@ class Purchase_M extends CI_Model
             $query = "SELECT id, goods, unit_id,
                         (SELECT unit FROM m_unit where id = unit_id) AS unit
                         FROM m_goods 
-                        WHERE `status` = '1' 
+                        WHERE 
+                        `status` = '1' AND 
+                        goods_type_id = '1'
                         ORDER BY goods";
             $row = $this->db->query($query)->num_rows();
 

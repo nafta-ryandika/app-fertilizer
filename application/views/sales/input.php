@@ -5,7 +5,7 @@ if (isset($param)) {
         $inId = $data["header"]["purchase_id"];
         $inDate = $data["header"]["date"];
         $inType = $data["header"]["purchase_type_id"];
-        $inCustomer = $data["header"]["supplier_id"];
+        $inSupplier = $data["header"]["supplier_id"];
         $inDuedate = $data["header"]["due_date"];
         $inRemark = $data["header"]["remark"];
         $inCurrency = $data["header"]["currency_id"];
@@ -13,8 +13,6 @@ if (isset($param)) {
         $inTaxtype = $data["header"]["tax_type"];
         $inTax = $data["header"]["tax"];
         $inTotal = $data["header"]["total"];
-
-        $inCustomer = "";
     }
 }
 ?>
@@ -286,14 +284,12 @@ if (isset($param)) {
 </div>
 
 <script>
-    get("inCustomer", "", "");
-
-
     // $("#inMode").val('<?= $param ?>');
     // $("#inIdx").val('<?= $inIdx ?>');
     // $("#inId").val('<?= $inId ?>');
     // $("#inDate").val('<?= $inDate ?>');
     // $("#inType").val('<?= $inType ?>');
+    // get("inSupplier", "<?= $inSupplier ?>", "");
     // $("#inDuedate").val('<?= $inDuedate ?>');
     // $("#inRemark").val('<?= $inRemark ?>');
     // $("#inCurrency").val('<?= $inCurrency ?>');

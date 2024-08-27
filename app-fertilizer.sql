@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `m_access` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 
--- Dumping data for table app-fertilizer.m_access: ~16 rows (approximately)
+-- Dumping data for table app-fertilizer.m_access: ~17 rows (approximately)
 DELETE FROM `m_access`;
 INSERT INTO `m_access` (`id`, `role_id`, `menu_id`, `created_by`, `created_at`) VALUES
 	(1, 1, 1, 'Administrator', '2023-12-12 10:31:47'),
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `m_company` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_company: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.m_company: ~1 rows (approximately)
 DELETE FROM `m_company`;
 INSERT INTO `m_company` (`id`, `company`, `created_by`, `created_at`) VALUES
 	(1, 'PT MEGA MARINE PRIDE', 'administrator', '2024-01-30 11:13:48');
@@ -77,13 +77,14 @@ CREATE TABLE IF NOT EXISTS `m_counter` (
   KEY `period` (`period`),
   KEY `counter` (`counter`),
   KEY `transaction` (`transaction`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_counter: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.m_counter: ~3 rows (approximately)
 DELETE FROM `m_counter`;
 INSERT INTO `m_counter` (`id`, `transaction`, `counter`, `period`, `status`, `created_by`, `created_at`) VALUES
 	(2, 'purchase', 20, '072024', 1, 'admin', '2024-07-21 21:20:33'),
-	(3, 'purchase', 3, '082024', 1, 'admin', '2024-08-07 14:22:46');
+	(3, 'purchase', 3, '082024', 1, 'admin', '2024-08-07 14:22:46'),
+	(4, 'sales', 3, '082024', 1, 'admin', '2024-08-27 11:49:12');
 
 -- Dumping structure for table app-fertilizer.m_currency
 CREATE TABLE IF NOT EXISTS `m_currency` (
@@ -291,9 +292,9 @@ CREATE TABLE IF NOT EXISTS `m_goods` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `unit_id` (`unit_id`),
   KEY `type_id` (`goods_type_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_goods: ~6 rows (approximately)
+-- Dumping data for table app-fertilizer.m_goods: ~13 rows (approximately)
 DELETE FROM `m_goods`;
 INSERT INTO `m_goods` (`id`, `goods`, `unit_id`, `goods_type_id`, `qty`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'AMMONIUM CHLORIDE', 2, 1, NULL, NULL, 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
@@ -301,7 +302,14 @@ INSERT INTO `m_goods` (`id`, `goods`, `unit_id`, `goods_type_id`, `qty`, `remark
 	(3, 'AMMONIUM BICARBONATE', 2, 1, NULL, NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
 	(4, 'POTASSIUM CHLORIDE', 2, 1, NULL, NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
 	(5, 'CLAY', 2, 1, NULL, NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
-	(6, 'FILM COATING AGENT', 2, 1, NULL, NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
+	(6, 'FILM COATING AGENT', 2, 1, NULL, NULL, 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(7, 'UREA', 2, 2, NULL, NULL, 1, 'administrator', '2024-08-27 10:20:21', NULL, NULL),
+	(8, 'ZA (ZWAVELZURE AMONIUM)', 2, 2, NULL, NULL, 1, 'administrator', '2024-08-27 10:20:21', NULL, NULL),
+	(9, 'SP-36 (SUPER PHOSPHATE)', 2, 2, NULL, NULL, 1, 'administrator', '2024-08-27 10:20:21', NULL, NULL),
+	(10, 'KCL (KALIUM KLORIDA)', 2, 2, NULL, NULL, 1, 'administrator', '2024-08-27 10:20:21', NULL, NULL),
+	(11, 'NPK PHONSKA (NITROGEN PHOSPATE KALIUM)', 2, 2, NULL, NULL, 1, 'administrator', '2024-08-27 10:20:21', NULL, NULL),
+	(12, 'DOLOMITE (KAPUR KARBONAT)', 2, 2, NULL, NULL, 1, 'administrator', '2024-08-27 10:20:21', NULL, NULL),
+	(13, 'ZK (ZWAVELZURE KALI)', 2, 2, NULL, NULL, 1, 'administrator', '2024-08-27 10:20:21', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.m_goods_type
 CREATE TABLE IF NOT EXISTS `m_goods_type` (
@@ -315,7 +323,7 @@ CREATE TABLE IF NOT EXISTS `m_goods_type` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_goods_type: ~2 rows (approximately)
+-- Dumping data for table app-fertilizer.m_goods_type: ~4 rows (approximately)
 DELETE FROM `m_goods_type`;
 INSERT INTO `m_goods_type` (`id`, `type`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'Raw Material', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
@@ -333,7 +341,7 @@ CREATE TABLE IF NOT EXISTS `m_menu` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_menu: ~5 rows (approximately)
+-- Dumping data for table app-fertilizer.m_menu: ~6 rows (approximately)
 DELETE FROM `m_menu`;
 INSERT INTO `m_menu` (`id`, `menu`, `status`, `created_by`, `created_at`) VALUES
 	(1, 'Administrator', 1, 'Administrator', '2023-12-12 10:43:22'),
@@ -438,7 +446,7 @@ CREATE TABLE IF NOT EXISTS `m_submenu` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_submenu: ~8 rows (approximately)
+-- Dumping data for table app-fertilizer.m_submenu: ~9 rows (approximately)
 DELETE FROM `m_submenu`;
 INSERT INTO `m_submenu` (`id`, `menu_id`, `title`, `url`, `icon`, `status`, `created_by`, `created_at`) VALUES
 	(1, 1, 'Dashboard', 'administrator', 'fas fa-fw fa-tachometer-alt', 1, 'Administrator', '2023-12-12 10:28:19'),
@@ -573,7 +581,7 @@ CREATE TABLE IF NOT EXISTS `t_purchase` (
   KEY `tax_type` (`tax_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_purchase: ~7 rows (approximately)
+-- Dumping data for table app-fertilizer.t_purchase: ~10 rows (approximately)
 DELETE FROM `t_purchase`;
 INSERT INTO `t_purchase` (`id`, `purchase_id`, `date`, `purchase_type_id`, `supplier_id`, `due_date`, `remark`, `currency_id`, `discount`, `tax_type`, `tax`, `total`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(2, 'PO/072024/00013', '2024-07-07', 1, 6, '2024-07-07', 'test', NULL, 10, NULL, 11, 0, 1, 'admin', '2024-07-07 10:16:55', 'admin', '2024-07-21 08:57:46'),
@@ -610,7 +618,7 @@ CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
   KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_purchase_detail: ~50 rows (approximately)
+-- Dumping data for table app-fertilizer.t_purchase_detail: ~56 rows (approximately)
 DELETE FROM `t_purchase_detail`;
 INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_received`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(3, 'PO/072024/00014', '2', 20, '4', 2000, 5, 38000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:43:43'),
@@ -677,10 +685,13 @@ CREATE TABLE IF NOT EXISTS `t_sales` (
   `date` date DEFAULT NULL,
   `customer_id` int(16) NOT NULL DEFAULT '0',
   `due_date` date DEFAULT NULL,
+  `remark` text,
   `currency_id` int(16) unsigned DEFAULT NULL,
+  `discount` int(16) DEFAULT NULL,
+  `tax_type` tinyint(4) DEFAULT NULL COMMENT ' 1 = Include; 0 = Exclude;',
+  `tax` int(16) DEFAULT NULL,
   `total` int(16) DEFAULT NULL,
   `sales_status_id` tinyint(4) DEFAULT NULL COMMENT ' 1 = Include; 0 = Exclude;',
-  `remark` text,
   `status` tinyint(4) DEFAULT '1',
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
@@ -694,10 +705,12 @@ CREATE TABLE IF NOT EXISTS `t_sales` (
   KEY `purchase_type_id` (`customer_id`) USING BTREE,
   KEY `purchase_id` (`sales_id`) USING BTREE,
   KEY `tax_type` (`sales_status_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_sales: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.t_sales: ~1 rows (approximately)
 DELETE FROM `t_sales`;
+INSERT INTO `t_sales` (`id`, `sales_id`, `date`, `customer_id`, `due_date`, `remark`, `currency_id`, `discount`, `tax_type`, `tax`, `total`, `sales_status_id`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'SO/082024/00003', '2024-08-27', 1, '2024-08-27', 'insert', 3, 10, 1, 11, 8991, NULL, 1, 'admin', '2024-08-27 11:49:12', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.t_sales_detail
 CREATE TABLE IF NOT EXISTS `t_sales_detail` (
@@ -720,67 +733,12 @@ CREATE TABLE IF NOT EXISTS `t_sales_detail` (
   KEY `unit_id` (`unit_id`) USING BTREE,
   KEY `status` (`status`) USING BTREE,
   KEY `purchase_id` (`sales_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_sales_detail: ~56 rows (approximately)
+-- Dumping data for table app-fertilizer.t_sales_detail: ~1 rows (approximately)
 DELETE FROM `t_sales_detail`;
 INSERT INTO `t_sales_detail` (`id`, `sales_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_shipped`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
-	(3, 'PO/072024/00014', '2', 20, '4', 2000, 5, 38000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:43:43'),
-	(4, 'PO/072024/00014', '3', 10, '1', 500, 0, 5000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:43:56'),
-	(5, 'PO/072024/00014', '4', 5, '1', 200, NULL, 1000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-07-19 23:21:07'),
-	(6, 'PO/072024/00015', '2', 20, '4', 2000, 1, 38000, NULL, 1, 'admin', '2024-07-07 10:33:35', 'admin', '2024-07-18 17:01:47'),
-	(7, 'PO/072024/00015', '3', 10, '1', 500, 0, 5000, NULL, 1, 'admin', '2024-07-07 10:33:35', 'admin', '2024-07-18 17:01:47'),
-	(8, 'PO/072024/00015', '4', 5, '1', 200, 0, 1000, NULL, 1, 'admin', '2024-07-07 10:33:35', 'admin', '2024-07-18 17:01:47'),
-	(9, 'PO/072024/00016', '', 0, '', 0, 1, 0, NULL, 1, 'admin', '2024-07-07 10:59:07', NULL, NULL),
-	(10, 'PO/072024/00017', '2', 100, '4', 500, 1, 47500, NULL, 1, 'admin', '2024-07-07 14:04:00', 'admin', '2024-07-18 16:58:41'),
-	(11, 'PO/072024/00017', '5', 2, '3', 10000, 0, 20000, NULL, 1, 'admin', '2024-07-07 14:04:00', 'admin', '2024-07-18 16:58:41'),
-	(12, 'PO/072024/00018', '2', 500, '4', 2001, 0, 890445, NULL, 1, 'admin', '2024-07-09 09:48:45', 'admin', '2024-07-23 16:39:59'),
-	(13, 'PO/072024/00018', '1', 300, '1', 1001, 0, 240240, NULL, 1, 'admin', '2024-07-09 09:48:45', 'admin', '2024-07-23 16:39:59'),
-	(14, 'PO/072024/00018', '4', 2100, '1', 101, 0, 180285, NULL, 1, 'admin', '2024-07-16 14:31:05', 'admin', '2024-07-23 16:39:59'),
-	(15, 'PO/072024/00018', '4', 2200, '1', 101, 0, 211090, NULL, 1, 'admin', '2024-07-16 14:52:56', 'admin', '2024-07-23 16:39:59'),
-	(16, 'PO/072024/00018', '1', 100, '1', 500, 0, 48500, NULL, 1, 'admin', '2024-07-16 14:56:11', 'admin', '2024-07-23 16:39:59'),
-	(17, 'PO/072024/00018', '2', 1000, '4', 500, 0, 475000, NULL, 1, 'admin', '2024-07-16 17:41:16', 'admin', '2024-07-23 16:39:59'),
-	(18, 'PO/072024/00018', '2', 1, '4', 5000, 0, 4700, NULL, 1, 'admin', '2024-07-17 10:33:51', 'admin', '2024-07-23 16:39:59'),
-	(19, 'PO/072024/00018', '2', 1, '4', 5000, 0, 4650, NULL, 1, 'admin', '2024-07-17 10:36:03', 'admin', '2024-07-23 16:39:59'),
-	(20, 'PO/072024/00018', '1', 1, '1', 1000, 0, 920, NULL, 1, 'admin', '2024-07-17 10:36:03', 'admin', '2024-07-23 16:39:59'),
-	(21, 'PO/072024/00018', '4', 10, '1', 10, 0, 91, NULL, 1, 'admin', '2024-07-17 11:08:32', 'admin', '2024-07-23 16:39:59'),
-	(22, 'PO/072024/00018', '4', 10, '1', 10, 0, 90, NULL, 1, 'admin', '2024-07-17 13:25:31', 'admin', '2024-07-23 16:39:59'),
-	(23, 'PO/072024/00018', '1', 100, '1', 100, 0, 8900, NULL, 1, 'admin', '2024-07-17 13:25:31', 'admin', '2024-07-23 16:39:59'),
-	(24, 'PO/072024/00018', '4', 10, '1', 10, 0, 88, NULL, 1, 'admin', '2024-07-17 14:22:21', 'admin', '2024-07-23 16:39:59'),
-	(25, 'PO/072024/00018', '1', 100, '1', 100, 0, 8700, NULL, 1, 'admin', '2024-07-17 14:22:21', 'admin', '2024-07-23 16:39:59'),
-	(26, 'PO/072024/00018', '4', 10, '1', 10, 0, 86, NULL, 1, 'admin', '2024-07-17 14:22:21', 'admin', '2024-07-23 16:39:59'),
-	(27, 'PO/072024/00018', '4', 10, '1', 10, 0, 85, NULL, 1, 'admin', '2024-07-17 15:20:34', 'admin', '2024-07-23 16:39:59'),
-	(28, 'PO/072024/00018', '1', 100, '1', 100, 0, 10000, NULL, 1, 'admin', '2024-07-17 15:20:34', 'admin', '2024-07-23 16:39:59'),
-	(29, 'PO/072024/00018', '4', 10, '1', 10, 0, 99, NULL, 1, 'admin', '2024-07-17 15:20:34', 'admin', '2024-07-23 16:39:59'),
-	(30, 'PO/072024/00018', '2', 123, '4', 456, 0, 56088, NULL, 1, 'admin', '2024-07-17 15:32:59', 'admin', '2024-07-23 16:39:59'),
-	(31, 'PO/072024/00018', '2', 10, '4', 200, 0, 2000, NULL, 1, 'admin', '2024-07-18 10:18:13', 'admin', '2024-07-23 16:39:59'),
-	(32, 'PO/072024/00018', '2', 100, '4', 123, 0, 12300, NULL, 1, 'admin', '2024-07-18 10:50:39', 'admin', '2024-07-23 16:39:59'),
-	(33, 'PO/072024/00018', '2', 200, '4', 456, 0, 91200, NULL, 1, 'admin', '2024-07-18 10:52:22', 'admin', '2024-07-23 16:39:59'),
-	(34, 'PO/072024/00018', '4', 300, '1', 789, 0, 236700, NULL, 1, 'admin', '2024-07-18 10:53:58', 'admin', '2024-07-23 16:39:59'),
-	(35, 'PO/072024/00017', '1', 200, '1', 50, 10, 9000, NULL, 1, 'admin', '2024-07-18 16:04:35', 'admin', '2024-07-18 16:58:41'),
-	(36, 'PO/072024/00017', '2', 500, '4', 10, 0, 5000, NULL, 1, 'admin', '2024-07-18 16:19:55', 'admin', '2024-07-18 16:58:41'),
-	(37, 'PO/072024/00017', '4', 1, '1', 2, 0, 2, NULL, 1, 'admin', '2024-07-18 16:58:41', NULL, NULL),
-	(38, 'PO/072024/00017', '3', 2, '1', 3, 4, 5.76, NULL, 1, 'admin', '2024-07-18 16:58:41', NULL, NULL),
-	(39, 'PO/072024/00015', '4', 1, '1', 2, 0, 2, NULL, 1, 'admin', '2024-07-18 17:01:18', 'admin', '2024-07-18 17:01:47'),
-	(40, 'PO/072024/00015', '4', 4, '1', 5, 6, 18.8, NULL, 1, 'admin', '2024-07-18 17:01:47', NULL, NULL),
-	(41, 'PO/072024/00015', '4', 7, '1', 8, 0, 56, NULL, 1, 'admin', '2024-07-18 17:01:47', NULL, NULL),
-	(42, 'PO/072024/00013', '5', 100, '3', 1, 0, 100, NULL, 0, 'admin', '2024-07-19 22:44:48', 'admin', '2024-07-21 08:12:27'),
-	(43, 'PO/072024/00013', '4', 200, '1', 1, 5, 190, NULL, 0, 'admin', '2024-07-19 22:46:03', 'admin', '2024-07-21 08:12:27'),
-	(44, 'PO/072024/00013', '5', 300, '3', 1, 10, 270, NULL, 0, 'admin', '2024-07-19 23:17:02', 'admin', '2024-07-21 08:12:27'),
-	(45, 'PO/072024/00013', '1', 400, '1', 1, 0, 400, NULL, 0, 'admin', '2024-07-19 23:17:02', 'admin', '2024-07-21 08:12:27'),
-	(46, 'PO/072024/00014', '4', 10, '1', 500, 0, 5000, NULL, 0, 'admin', '2024-07-19 23:43:43', 'admin', '2024-07-19 23:43:56'),
-	(47, 'PO/072024/00014', '3', 100, '1', 100, 0, 10000, NULL, 0, 'admin', '2024-07-19 23:43:56', 'admin', '2024-07-19 23:44:54'),
-	(48, 'PO/072024/00014', '1', 12, '1', 10, 0, 120, NULL, 1, 'admin', '2024-07-19 23:44:54', 'admin', '2024-07-19 23:45:23'),
-	(49, 'PO/072024/00013', '3', 200, '1', 100, 0, 20000, NULL, 0, 'admin', '2024-07-21 08:12:27', 'admin', '2024-07-21 08:57:46'),
-	(50, 'PO/072024/00019', '2', 100, '4', 100, 5, 9500, NULL, 0, 'admin', '2024-07-21 08:57:14', 'admin', '2024-07-21 09:50:29'),
-	(51, 'PO/072024/00019', '5', 200, '3', 100, 0, 20000, NULL, 0, 'admin', '2024-07-21 08:57:14', 'admin', '2024-07-21 09:50:29'),
-	(53, 'PO/072024/00020', '2', 100, '4', 10, 0, 1000, NULL, 1, 'admin', '2024-07-21 21:20:33', NULL, NULL),
-	(54, 'PO/082024/00001', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-06 15:08:56', NULL, NULL),
-	(55, 'PO/082024/00001', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-06 15:08:56', NULL, NULL),
-	(56, 'PO/082024/00002', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-08-06 15:53:35'),
-	(57, 'PO/082024/00002', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-08-06 15:53:35'),
-	(58, 'PO/082024/00003', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32'),
-	(59, 'PO/082024/00003', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32');
+	(1, 'SO/082024/00003', '12', 1, '2', 10000, 10, 9000, NULL, 1, 'admin', '2024-08-27 11:49:12', NULL, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

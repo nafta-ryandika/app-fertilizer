@@ -31,18 +31,17 @@ class Sales extends CI_Controller
         $inWhere = $this->input->post('inWhere');
 
         $sql = "SELECT 
-                id, purchase_id, purchase_type_id, supplier_id, due_date, remark, discount, tax, total, `status`, created_by, created_at, log_by, log_at,
+                id, sales_id, customer_id, due_date, remark, discount, tax, total, `status`, created_by, created_at, log_by, log_at,
                 DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
                 DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
-                (SELECT `type` FROM m_purchase_type WHERE id = a.purchase_type_id) AS `type`,
-                (SELECT supplier FROM m_supplier WHERE id = a.supplier_id) AS supplier,
+                (SELECT customer FROM m_customer WHERE id = a.customer_id) AS customer,
                 (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency
-                FROM t_purchase a 
+                FROM t_sales a 
                 WHERE `status` = 1  " . $inWhere . " 
                 ORDER BY created_at DESC";
-        $data['purchase'] = $this->db->query($sql)->result_array();
+        $data['sales'] = $this->db->query($sql)->result_array();
 
-        $this->load->view('purchase/view_data', $data);
+        $this->load->view('sales/view_data', $data);
     }
 
     public function get()
@@ -92,7 +91,7 @@ class Sales extends CI_Controller
         $datax = $this->input->post('data');
 
         if ($param == 'data') {
-            $data = $this->Purchase_M->save($param, $obj, $datax);
+            $data = $this->Sales_M->save($param, $obj, $datax);
         }
 
         echo (json_encode($data));
