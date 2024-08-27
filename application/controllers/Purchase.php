@@ -69,7 +69,9 @@ class Purchase extends CI_Controller
                     id, goods ,unit_id, 
                     (SELECT unit FROM m_unit WHERE id = unit_id AND `status` = 1) AS unit
                     FROM m_goods 
-                    WHERE `status` = 1  
+                    WHERE 
+                    `status` = '1' AND 
+                    goods_type_id = '1'  
                     ORDER BY goods ASC";
             $data['goods'] = $this->db->query($sql2)->result_array();
 
