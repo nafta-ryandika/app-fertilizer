@@ -40,20 +40,11 @@ class Sales_M extends CI_Model
             } else {
                 return FALSE;
             }
-        } else if ($param == "type") {
-            $query = "SELECT id, `type` FROM m_purchase_type a WHERE `status` = 1  ORDER BY `type` ASC";
-            $row = $this->db->query($query)->num_rows();
-
-            if ($row > 0) {
-                $data["res"] = $this->db->query($query)->result_array();
-            } else {
-                return FALSE;
-            }
         } else if ($param == "edit") {
 
             $query = "SELECT 
-                    id, purchase_id, `date`, purchase_type_id, supplier_id, due_date, remark, discount, currency_id, tax_type, tax, total, `status` 
-                    FROM t_purchase
+                    id, sales_id, `date`, customer_id, due_date, remark, discount, currency_id, tax_type, tax, total, `status` 
+                    FROM t_sales
                     WHERE 
                     id = '" . $obj . "' AND 
                     `status` = 1";
@@ -66,14 +57,14 @@ class Sales_M extends CI_Model
                 return FALSE;
             }
 
-            $purchase_id = $data["header"]["purchase_id"];
+            $sales_id = $data["header"]["sales_id"];
 
             $query2 = "SELECT 
                         *,
                         (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
-                        FROM t_purchase_detail 
+                        FROM t_sales_detail 
                         WHERE 
-                        purchase_id = '" . $purchase_id . "' AND 
+                        sales_id = '" . $sales_id . "' AND 
                         `status` = 1";
 
             if ($row > 0) {

@@ -4,8 +4,7 @@ if (isset($param)) {
         $inIdx = $data["header"]["id"];
         $inId = $data["header"]["purchase_id"];
         $inDate = $data["header"]["date"];
-        $inType = $data["header"]["purchase_type_id"];
-        $inSupplier = $data["header"]["supplier_id"];
+        $inCustomer = $data["header"]["customer_id"];
         $inDuedate = $data["header"]["due_date"];
         $inRemark = $data["header"]["remark"];
         $inCurrency = $data["header"]["currency_id"];
@@ -284,19 +283,18 @@ if (isset($param)) {
 </div>
 
 <script>
-    // $("#inMode").val('<?= $param ?>');
-    // $("#inIdx").val('<?= $inIdx ?>');
-    // $("#inId").val('<?= $inId ?>');
-    // $("#inDate").val('<?= $inDate ?>');
-    // $("#inType").val('<?= $inType ?>');
-    // get("inSupplier", "<?= $inSupplier ?>", "");
-    // $("#inDuedate").val('<?= $inDuedate ?>');
-    // $("#inRemark").val('<?= $inRemark ?>');
-    // $("#inCurrency").val('<?= $inCurrency ?>');
-    // $("#inDiscount").val('<?= $inDiscount ?>');
-    // $("#inTaxtype").val('<?= $inTaxtype ?>');
-    // $("#inTax").val('<?= $inTax ?>');
-    // $("#inTotal").val($.number(<?= $inTotal ?>, 2));
+    $("#inMode").val('<?= $param ?>');
+    $("#inIdx").val('<?= $inIdx ?>');
+    $("#inId").val('<?= $inId ?>');
+    $("#inDate").val('<?= $inDate ?>');
+    get("inCustomer", "<?= $inCustomer ?>", "");
+    $("#inDuedate").val('<?= $inDuedate ?>');
+    $("#inRemark").val('<?= $inRemark ?>');
+    $("#inCurrency").val('<?= $inCurrency ?>');
+    $("#inDiscount").val('<?= $inDiscount ?>');
+    $("#inTaxtype").val('<?= $inTaxtype ?>');
+    $("#inTax").val('<?= $inTax ?>');
+    $("#inTotal").val($.number(<?= $inTotal ?>, 2));
 
 
     $('.inDgoods').on("select2:selecting", function() {

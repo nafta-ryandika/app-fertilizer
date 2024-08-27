@@ -91,7 +91,7 @@ function get(param,obj,callBack) {
 	if (param == "edit") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"purchase/get",
+			url: base_url+"sales/get",
 			data: {
 				param: param,
 				obj: obj
@@ -102,7 +102,7 @@ function get(param,obj,callBack) {
 				$("#searchArea").hide();
 				$("#dataArea").hide();
 				$("#inputArea").show();
-				get("inSupplier","","");
+				// get("inCustomer","","");
 			},
 			success: function (data) {
 				$("#inputArea").html(data);
