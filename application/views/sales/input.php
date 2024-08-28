@@ -2,7 +2,7 @@
 if (isset($param)) {
     if ($param == "edit") {
         $inIdx = $data["header"]["id"];
-        $inId = $data["header"]["purchase_id"];
+        $inId = $data["header"]["sales_id"];
         $inDate = $data["header"]["date"];
         $inCustomer = $data["header"]["customer_id"];
         $inDuedate = $data["header"]["due_date"];
