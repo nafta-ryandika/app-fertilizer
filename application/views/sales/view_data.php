@@ -34,7 +34,7 @@
                     <a class="btn btn-info m-1" id="btnDetail" title="Detail" onclick="get('detail','<?= $data_sales['id'] . '|' . $data_sales['sales_id']; ?>','')"><i class="fas fa-fw fa-solid fa-eye m-1"></i></a>
                     <a class="btn btn-warning m-1" id="btnEdit" title="Edit" onclick="get('edit','<?= $data_sales['id']; ?>','')"><i class="fas fa-fw fa-solid fa-pen-to-square m-1"></i></a>
                     <a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove('data','<?= $data_sales['id'] . '|' . $data_sales['sales_id']; ?>')"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
-                    <a class="btn btn-primary m-1" id="btnPrint" title="Delete" onclick="report('print','<?= $data_sales['id'] . '|' . $data_sales['sales_id']; ?>')"><i class="fas fa-fw fa-solid fa-print m-1"></i></a>
+                    <a class="btn btn-primary m-1" id="btnPrint" title="Print" onclick="report('print','<?= $data_sales['id'] . '|' . $data_sales['sales_id']; ?>')"><i class="fas fa-fw fa-solid fa-print m-1"></i></a>
                 </td>
             </tr>
         <?php

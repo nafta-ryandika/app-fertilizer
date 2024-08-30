@@ -101,7 +101,7 @@ class Sales extends CI_Controller
         $param = $this->input->post('param');
         $obj = $this->input->post('obj');
 
-        $data = $this->Purchase_M->remove($param, $obj);
+        $data = $this->Sales_M->remove($param, $obj);
 
         echo (json_encode($data));
     }
@@ -114,13 +114,12 @@ class Sales extends CI_Controller
         $where = $this->input->get('where');
 
         if ($param == "print") {
-            $data = $this->Purchase_M->get("detail", $obj);
+            $data = $this->Sales_M->get("detail", $obj);
 
             $id = $data["header"]["id"];
-            $purchase_id = $data["header"]["purchase_id"];
+            $sales_id = $data["header"]["sales_id"];
             $date = $data["header"]["date"];
-            $purchase_type_id = $data["header"]["purchase_type_id"];
-            $supplier_id = $data["header"]["supplier_id"];
+            $customer_id = $data["header"]["customer_id"];
             $due_date = $data["header"]["due_date"];
             $remark = $data["header"]["remark"];
             $currency = $data["header"]["currency"];
@@ -128,13 +127,13 @@ class Sales extends CI_Controller
             $tax = $data["header"]["tax"];
             $total = $data["header"]["total"];
             $type = $data["header"]["type"];
-            $supplier = $data["header"]["supplier"];
+            $customer = $data["header"]["customer"];
 
             $query1 = "SELECT 
-                        id, supplier, pic, phone, `address`, remark 
-                        FROM m_supplier 
+                        id, customer, pic, phone, `address`, remark 
+                        FROM m_customer 
                         WHERE 
-                        id = '" . $supplier_id . "' AND
+                        id = '" . $customer_id . "' AND
                         `status` = 1 ";
 
             $data1 =  $this->db->query($query1)->row_array();
@@ -142,8 +141,6 @@ class Sales extends CI_Controller
             $pic = $data1["pic"];
             $phone = $data1["phone"];
             $address = $data1["address"];
-
-            // $data['exit_permit'] = $this->db->query($sql_exit_permit)->result_array();
 
             $fileName = $datax[1];
             $data['title_pdf'] = $fileName;
@@ -174,7 +171,7 @@ class Sales extends CI_Controller
                                         </table>
                                     </td>
                                     <td style=\"width: 45%; vertical-align: top; text-align: right;\">
-                                        <h2>PURCHASE ORDER</h2>
+                                        <h2>SALES ORDER</h2>
                                     </td>
                                 </tr>
                                 <tr>
@@ -189,7 +186,7 @@ class Sales extends CI_Controller
                                             <tr>
                                                 <td style=\"text-align: left;\">Purchase No</td>
                                                 <td>:</td>
-                                                <td>" . $purchase_id . "</td>
+                                                <td>" . $sales_id . "</td>
                                             </tr>
                                         </table>
                                     </td>
@@ -205,7 +202,7 @@ class Sales extends CI_Controller
                                     <td style=\"vertical-align: top;\">
                                         <div class=\"col-6\">
                                             <h4>
-                                                " . $supplier . "
+                                                " . $customer . "
                                             </h4>
                                             " . $address . " <br/>
                                             " . $pic . " <br/>
@@ -245,7 +242,7 @@ class Sales extends CI_Controller
                                             <td><br><br><br><br></td>
                                         </tr>
                                         <tr>
-                                            <td><u>Purchase</u></td>
+                                            <td><u>Marketing</u></td>
                                         </tr>
                                     </table>
                                 </td>
@@ -255,7 +252,7 @@ class Sales extends CI_Controller
                             <tr>
                                 <td width=\"33%\">" . $this->session->userdata['name'] . " - {DATE d-m-Y H:i:s}</td>
                                 <td width=\"33%\" align=\"center\">{PAGENO}/{nbpg}</td>
-                                <td width=\"33%\" style=\"text-align: right;\">" . $purchase_id . "</td>
+                                <td width=\"33%\" style=\"text-align: right;\">" . $sales_id . "</td>
                             </tr>
                         </table>";
 
@@ -309,7 +306,7 @@ class Sales extends CI_Controller
 
             $mpdf->SetHTMLFooter($footer);
 
-            $html = $this->load->view('report/purchase/print', $data, true);
+            $html = $this->load->view('report/sales/print', $data, true);
 
             $mpdf->AddPage(
                 'P', // L - landscape, P - portrait 
@@ -496,30 +493,29 @@ class Sales extends CI_Controller
                     *, 
                     DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
                     DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
-                    (SELECT `type` FROM m_purchase_type WHERE id = a.purchase_type_id) AS `type`,
-                    (SELECT supplier FROM m_supplier WHERE id = a.supplier_id) AS supplier,
+                    (SELECT customer FROM m_customer WHERE id = a.customer_id) AS supplier,
                     (SELECT goods FROM m_goods WHERE id = b.goods_id) AS goods, 
                     (SELECT unit FROM m_unit WHERE id = b.unit_id) AS unit
                     FROM 
                         (
                         SELECT 
-                            id, purchase_id, `date`, purchase_type_id, supplier_id, due_date,remark, discount, tax, total, created_at
-                    FROM t_purchase
+                            id, sales_id, `date`, customer_id, due_date,remark, discount, tax, total, created_at
+                    FROM t_sales
                     WHERE `status` = 1 " . $where . "
                         )a 
                     INNER JOIN 
                         (
                         SELECT 
-                        id, purchase_id, goods_id, qty, unit_id, price, discount, subtotal, qty_received 
-                        FROM t_purchase_detail 
+                        id, sales_id, goods_id, qty, unit_id, price, discount, subtotal, qty_shipped 
+                        FROM t_sales_detail 
                         WHERE `status` = 1
                         )b
-                    ON a.purchase_id = b.purchase_id	 
+                    ON a.sales_id = b.sales_id	 
                     ORDER BY a.created_at DESC";
 
-            $data["purchase"] = $this->db->query($sql)->result_array();
+            $data["sales"] = $this->db->query($sql)->result_array();
 
-            $fileName = 'Report Data Purchase - ' . date("Y-m-d H:i:s");
+            $fileName = 'Report Data Sales - ' . date("Y-m-d H:i:s");
             $data['title_pdf'] = $fileName;
 
             $mpdf = new \Mpdf\Mpdf(['format' => 'Legal']);
@@ -533,13 +529,14 @@ class Sales extends CI_Controller
                                 </td>
                                 <td>
                                     <b style='font-size: 20px;'>PT AGRI MAKMUR MEGA PERKASA INDO</b><br/>
-                                    <b>Pasuruan Indonesia</b><br/>
-                                    Telp. (0343) xxxxxx
+                                    <b>Dsn. Gudang Ds. Cengkrong</b><br/>
+                                    <b>Paserpan, Pasuruan</b><br/>
+                                    <b>Telp. (+62) 82245536228</b>
                                 </td>
                             </tr>
                         </table>
                         <div style='text-align:center'>
-                            <h3>Report Data Purchase</h3>
+                            <h3>Report Data Sales</h3>
                         </div>";
 
             $mpdf->SetHTMLHeader($header);
@@ -554,7 +551,7 @@ class Sales extends CI_Controller
 
             $mpdf->SetHTMLFooter($footer);
 
-            $html = $this->load->view('report/purchase/pdf', $data, true);
+            $html = $this->load->view('report/sales/pdf', $data, true);
 
             $mpdf->AddPage(
                 'L', // L - landscape, P - portrait 

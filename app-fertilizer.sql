@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.51-log - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.5.0.6677
+-- HeidiSQL Version:             12.8.0.6924
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -84,7 +84,7 @@ DELETE FROM `m_counter`;
 INSERT INTO `m_counter` (`id`, `transaction`, `counter`, `period`, `status`, `created_by`, `created_at`) VALUES
 	(2, 'purchase', 20, '072024', 1, 'admin', '2024-07-21 21:20:33'),
 	(3, 'purchase', 3, '082024', 1, 'admin', '2024-08-07 14:22:46'),
-	(4, 'sales', 4, '082024', 1, 'admin', '2024-08-27 22:32:03');
+	(4, 'sales', 5, '082024', 1, 'admin', '2024-08-29 14:25:42');
 
 -- Dumping structure for table app-fertilizer.m_currency
 CREATE TABLE IF NOT EXISTS `m_currency` (
@@ -705,13 +705,14 @@ CREATE TABLE IF NOT EXISTS `t_sales` (
   KEY `purchase_type_id` (`customer_id`) USING BTREE,
   KEY `purchase_id` (`sales_id`) USING BTREE,
   KEY `tax_type` (`sales_status_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_sales: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.t_sales: ~3 rows (approximately)
 DELETE FROM `t_sales`;
 INSERT INTO `t_sales` (`id`, `sales_id`, `date`, `customer_id`, `due_date`, `remark`, `currency_id`, `discount`, `tax_type`, `tax`, `total`, `sales_status_id`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
-	(1, 'SO/082024/00003', '2024-08-27', 1, '2024-08-27', 'insert', 3, 10, 1, 11, 8991, NULL, 1, 'admin', '2024-08-27 11:49:12', NULL, NULL),
-	(2, 'SO/082024/00004', '2024-08-27', 2, '2024-08-27', 'test', 3, 10, 1, 11, 5, NULL, 1, 'admin', '2024-08-27 22:32:03', NULL, NULL);
+	(1, 'SO/082024/00003', '2024-08-27', 2, '2024-08-29', 'update', 1, 11, 0, 0, 21, NULL, 1, 'admin', '2024-08-27 11:49:12', 'admin', '2024-08-29 10:37:27'),
+	(2, 'SO/082024/00004', '2024-08-27', 2, '2024-08-27', 'test', 3, 10, 1, 11, 5, NULL, 1, 'admin', '2024-08-27 22:32:03', NULL, NULL),
+	(3, 'SO/082024/00005', '2024-08-29', 1, '2024-08-29', 'test', 3, 1, 1, 1, 1, NULL, 0, 'admin', '2024-08-29 14:25:42', 'admin', '2024-08-29 14:28:42');
 
 -- Dumping structure for table app-fertilizer.t_sales_detail
 CREATE TABLE IF NOT EXISTS `t_sales_detail` (
@@ -734,14 +735,17 @@ CREATE TABLE IF NOT EXISTS `t_sales_detail` (
   KEY `unit_id` (`unit_id`) USING BTREE,
   KEY `status` (`status`) USING BTREE,
   KEY `purchase_id` (`sales_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_sales_detail: ~3 rows (approximately)
+-- Dumping data for table app-fertilizer.t_sales_detail: ~6 rows (approximately)
 DELETE FROM `t_sales_detail`;
 INSERT INTO `t_sales_detail` (`id`, `sales_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_shipped`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
-	(1, 'SO/082024/00003', '12', 1, '2', 10000, 10, 9000, NULL, 1, 'admin', '2024-08-27 11:49:12', NULL, NULL),
+	(1, 'SO/082024/00003', '10', 2, '2', 2, 2, 3.92, NULL, 0, 'admin', '2024-08-27 11:49:12', 'admin', '2024-08-29 10:37:27'),
 	(2, 'SO/082024/00004', '12', 1, '2', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-27 22:32:03', NULL, NULL),
-	(3, 'SO/082024/00004', '10', 2, '2', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-27 22:32:03', NULL, NULL);
+	(3, 'SO/082024/00004', '10', 2, '2', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-27 22:32:03', NULL, NULL),
+	(4, 'SO/082024/00003', '11', 3, '2', 3, 3, 8.73, NULL, 1, 'admin', '2024-08-29 10:36:34', 'admin', '2024-08-29 10:37:27'),
+	(5, 'SO/082024/00003', '7', 4, '2', 4, 4, 15.36, NULL, 1, 'admin', '2024-08-29 10:37:27', NULL, NULL),
+	(6, 'SO/082024/00005', '12', 1, '2', 1, 1, 0.99, NULL, 0, 'admin', '2024-08-29 14:25:42', 'admin', '2024-08-29 14:28:42');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

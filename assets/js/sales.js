@@ -200,7 +200,7 @@ function get(param,obj,callBack) {
 	} else if (param == "detail") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"purchase/get",
+			url: base_url+"sales/get",
 			data: {
 				param: param,
 				obj: obj
@@ -212,10 +212,9 @@ function get(param,obj,callBack) {
 				var data_detail = data.detail;
 
 				$('#modalDetail').modal('show').after(function (data) {
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtId").text(data_header.purchase_id);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtId").text(data_header.sales_id);
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDate").text(data_header.date);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtType").text(data_header.type);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtSupplier").text(data_header.supplier);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtCustomer").text(data_header.customer);
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDuedate").text(data_header.due_date);
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtRemark").text(data_header.remark);
 					
@@ -249,7 +248,7 @@ function get(param,obj,callBack) {
 
 						html += "</table>";
 
-						$('#contentDetailpurchase').html(html);
+						$('#contentDetailsales').html(html);
 					}
 				})
 			}
@@ -418,17 +417,17 @@ function report(param,obj){
 	}
 
 	if (param == "pdf") {
-		if (obj == "purchase") {
-			window.open(base_url+'purchase/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
+		if (obj == "sales") {
+			window.open(base_url+'sales/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
 		}
 	}
 	else if (param == "excel") {
 		if (obj == "purchase") {
-			window.open(base_url+'purchase/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
+			window.open(base_url+'sales/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
 		}
 	} else if (param == "print") {
 		$('#modalPrint').modal('show').after(function (data) {
-			$("#contentPrint").attr("src",base_url+'purchase/report?param='+param+'&obj='+obj);
+			$("#contentPrint").attr("src",base_url+'sales/report?param='+param+'&obj='+obj);
 		})
 	}
 }
@@ -443,10 +442,9 @@ function add(param,obj){
 										<div class="col-3">\n\
 											<select class="form-control inSearchcolumn" style="width: 100%;" onchange="get(\'searchColumn\',this,\'\')">\n\
 												<option value="">Parameter</option>\n\
-												<option value="purchase_id">ID</option>\n\
+												<option value="sales_id">ID</option>\n\
 												<option value="date">Date</option>\n\
-												<option value="purchase_type_id">Type</option>\n\
-												<option value="supplier_id">Supplier</option>\n\
+												<option value="customer_id">Customer</option>\n\
 												<option value="due_date">Due Date</option>\n\
 												<option value="total">Total</option>\n\
 											</select>\n\
@@ -729,7 +727,7 @@ function remove(param,obj) {
 			if (result.isConfirmed) {
 				$.ajax({
 					type: "POST",
-					url: base_url+"purchase/remove",
+					url: base_url+"sales/remove",
 					data: {
 						param: param,
 						obj: obj

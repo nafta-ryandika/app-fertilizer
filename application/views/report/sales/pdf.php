@@ -79,10 +79,9 @@
         <thead>
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">Purchase Id</th>
+                <th scope="col">Sales Id</th>
                 <th scope="col">Date</th>
-                <th scope="col">Type</th>
-                <th scope="col">Supplier</th>
+                <th scope="col">Customer</th>
                 <th scope="col">Due Date</th>
                 <th scope="col">Discount</th>
                 <th scope="col">Tax</th>
@@ -93,31 +92,30 @@
                 <th scope="col">Price</th>
                 <th scope="col">Discount</th>
                 <th scope="col">Subtotal</th>
-                <th scope="col">Qty Received</th>
+                <th scope="col">Qty Shipped</th>
             </tr>
         </thead>
         <tbody>
             <?php
             $i = 1;
 
-            foreach ($purchase as $data_purchase) {
+            foreach ($sales as $data_sales) {
                 echo '<tr>';
                 echo '<td style="text-align: center;">' . $i . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['purchase_id'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['date'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['type'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['supplier'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['due_date'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['discount'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['tax'] . '</td>';
-                echo '<td style="text-align: right;">Rp ' . number_format($data_purchase['total'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['goods'] . '</td>';
-                echo '<td style="text-align: right;">' . number_format($data_purchase['qty'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['unit'] . '</td>';
-                echo '<td style="text-align: right;">Rp ' . number_format($data_purchase['price'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: center;">' . $data_purchase['discount'] . '</td>';
-                echo '<td style="text-align: right;">Rp ' . number_format($data_purchase['subtotal'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: right;">' . number_format($data_purchase['qty_received'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: center;">' . $data_sales['sales_id'] . '</td>';
+                echo '<td style="text-align: center;">' . $data_sales['date'] . '</td>';
+                echo '<td style="text-align: center;">' . $data_sales['customer'] . '</td>';
+                echo '<td style="text-align: center;">' . $data_sales['due_date'] . '</td>';
+                echo '<td style="text-align: center;">' . $data_sales['discount'] . '</td>';
+                echo '<td style="text-align: center;">' . $data_sales['tax'] . '</td>';
+                echo '<td style="text-align: right;">Rp ' . number_format($data_sales['total'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: center;">' . $data_sales['goods'] . '</td>';
+                echo '<td style="text-align: right;">' . number_format($data_sales['qty'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: center;">' . $data_sales['unit'] . '</td>';
+                echo '<td style="text-align: right;">Rp ' . number_format($data_sales['price'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: center;">' . $data_sales['discount'] . '</td>';
+                echo '<td style="text-align: right;">Rp ' . number_format($data_sales['subtotal'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: right;">' . number_format($data_sales['qty_shipped'], 2, ",", ".") . '</td>';
                 echo '</tr>';
                 $i++;
             }

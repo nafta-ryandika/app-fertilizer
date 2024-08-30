@@ -32,10 +32,9 @@
                                         <div class="form-group row">
                                             <div class="col-3">
                                                 <select class="form-control inSearchcolumn" style="width: 100%;" onchange="get('searchColumn',this,'')">
-                                                    <option value="purchase_id">ID</option>
+                                                    <option value="sales_id">ID</option>
                                                     <option value="date">Date</option>
-                                                    <option value="purchase_type_id">Type</option>
-                                                    <option value="supplier_id">Supplier</option>
+                                                    <option value="customer_id">Customer</option>
                                                     <option value="due_date">Due Date</option>
                                                     <option value="total">Total</option>
                                                 </select>
@@ -64,8 +63,8 @@
                                                     <i class="fas fa-fw fa-solid fa-file-export m-1"></i>Export
                                                 </button>
                                                 <div class="dropdown-menu animated--fade-in" aria-labelledby="dropdownMenuButton" style="">
-                                                    <a class="dropdown-item" href="#" onclick="report('pdf','purchase')">PDF</a>
-                                                    <a class="dropdown-item" href="#" onclick="report('excel','purchase')">Excel</a>
+                                                    <a class="dropdown-item" href="#" onclick="report('pdf','sales')">PDF</a>
+                                                    <a class="dropdown-item" href="#" onclick="report('excel','sales')">Excel</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -135,8 +134,8 @@
                 </div>
                 <div class="row">
                     <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Type</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtType"></div>
+                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Customer</div>
+                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtCustomer"></div>
                     </div>
                     <div class="row col-6">
                         <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Tax Type</div>
@@ -145,8 +144,8 @@
                 </div>
                 <div class="row">
                     <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Supplier</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtSupplier"></div>
+                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Due Date</div>
+                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtDuedate"></div>
                     </div>
                     <div class="row col-6">
                         <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Tax</div>
@@ -155,22 +154,16 @@
                 </div>
                 <div class="row">
                     <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Due Date</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtDuedate"></div>
+                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Remark</div>
+                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtRemark"></div>
                     </div>
                     <div class="row col-6">
                         <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Total</div>
                         <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtTotal"></div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Remark</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtRemark"></div>
-                    </div>
-                </div>
 
-                <div class="row m-2" id="contentDetailpurchase">
+                <div class="row m-2" id="contentDetailsales">
                 </div>
             </div>
             <div class="modal-footer">

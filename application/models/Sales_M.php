@@ -76,14 +76,13 @@ class Sales_M extends CI_Model
             $datax = explode("|", $obj);
 
             $query = "SELECT 
-                        id, purchase_id, purchase_type_id, supplier_id, due_date, remark, discount, tax, total, `status`, created_by, created_at, log_by, log_at,
+                        id, sales_id, customer_id, due_date, remark, discount, tax, total, `status`, created_by, created_at, log_by, log_at,
                         DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
                         DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
-                        (SELECT `type` FROM m_purchase_type WHERE id = a.purchase_type_id) AS `type`,
-                        (SELECT supplier FROM m_supplier WHERE id = a.supplier_id) AS supplier,
+                        (SELECT customer FROM m_customer WHERE id = a.customer_id) AS customer,
                         (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency,
                         IF(a.tax_type = 1 , 'Include (PKP)', 'Exclude (Non - PKP)') AS tax_type
-                        FROM t_purchase a 
+                        FROM t_sales a 
                         WHERE id = '" . $datax[0] . "' AND `status` = 1";
 
             $row = $this->db->query($query)->num_rows();
@@ -98,9 +97,9 @@ class Sales_M extends CI_Model
                         *,
                         (SELECT goods FROM m_goods WHERE id = goods_id) AS goods, 
                         (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
-                        FROM t_purchase_detail 
+                        FROM t_sales_detail 
                         WHERE 
-                        purchase_id = '" . $datax[1] . "' AND 
+                        sales_id = '" . $datax[1] . "' AND 
                         `status` = 1";
 
             $row1 = $this->db->query($query1)->num_rows();
@@ -286,8 +285,7 @@ class Sales_M extends CI_Model
         } else if ($inMode == "edit") {
             // header
             $data2 = array(
-                'purchase_type_id' => $inType,
-                'supplier_id' => $inSupplier,
+                'customer_id' => $inCustomer,
                 'due_date' => $inDuedate,
                 'remark' => $inRemark,
                 'currency_id' => $inCurrency,
@@ -303,12 +301,12 @@ class Sales_M extends CI_Model
 
             $where2 = array(
                 'id' => $inIdx,
-                'purchase_id' => $inId
+                'sales_id' => $inId
             );
 
             $this->db->where($where2);
 
-            if ($this->db->update("t_purchase", $data2)) {
+            if ($this->db->update("t_sales", $data2)) {
                 $res['res'] = 'success';
             } else {
                 $res['res'] =  $this->db->error();
@@ -365,12 +363,12 @@ class Sales_M extends CI_Model
 
                         $where3 = array(
                             'id' => $inDidx[$i],
-                            'purchase_id' => $inId
+                            'sales_id' => $inId
                         );
 
                         $this->db->where($where3);
 
-                        if ($this->db->update("t_purchase_detail", $data3)) {
+                        if ($this->db->update("t_sales_detail", $data3)) {
                             $res['res'] = 'success';
                         } else {
                             $res['res'] =  $this->db->error();
@@ -380,7 +378,7 @@ class Sales_M extends CI_Model
                     } else {
                         $data3 = array(
                             'id' => '',
-                            'purchase_id' => $inId,
+                            'sales_id' => $inId,
                             'goods_id' => $inDgoods[$i],
                             'qty' => $inDqty[$i],
                             'unit_id' => $inDunitid[$i],
@@ -392,7 +390,7 @@ class Sales_M extends CI_Model
 
                         $this->db->db_debug = false;
 
-                        if ($this->db->insert('t_purchase_detail', $data3)) {
+                        if ($this->db->insert('t_sales_detail', $data3)) {
                             $res['res'] = 'success';
                         } else {
                             $res['err'] =  $this->db->error();
@@ -418,12 +416,12 @@ class Sales_M extends CI_Model
 
                         $where4 = array(
                             'id' => $inDremove[$i],
-                            'purchase_id' => $inId
+                            'sales_id' => $inId
                         );
 
                         $this->db->where($where4);
 
-                        if ($this->db->update("t_purchase_detail", $data4)) {
+                        if ($this->db->update("t_sales_detail", $data4)) {
                             $res['res'] = 'success';
                         } else {
                             $res['res'] =  $this->db->error();
@@ -456,12 +454,12 @@ class Sales_M extends CI_Model
 
             $where1 = array(
                 'id' => $datax[0],
-                'purchase_id' => $datax[1]
+                'sales_id' => $datax[1]
             );
 
             $this->db->where($where1);
 
-            if ($this->db->update("t_purchase", $data1)) {
+            if ($this->db->update("t_sales", $data1)) {
                 $res['res'] = 'success';
             } else {
                 $res['res'] =  $this->db->error();
@@ -478,12 +476,12 @@ class Sales_M extends CI_Model
             $this->db->db_debug = false;
 
             $where2 = array(
-                'purchase_id' => $datax[1]
+                'sales_id' => $datax[1]
             );
 
             $this->db->where($where2);
 
-            if ($this->db->update("t_purchase_detail", $data2)) {
+            if ($this->db->update("t_sales_detail", $data2)) {
                 $res['res'] = 'success';
             } else {
                 $res['res'] =  $this->db->error();
