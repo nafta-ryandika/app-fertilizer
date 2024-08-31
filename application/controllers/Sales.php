@@ -329,32 +329,31 @@ class Sales extends CI_Controller
                     *, 
                     DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
                     DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
-                    (SELECT `type` FROM m_purchase_type WHERE id = a.purchase_type_id) AS `type`,
-                    (SELECT supplier FROM m_supplier WHERE id = a.supplier_id) AS supplier,
+                    (SELECT customer FROM m_customer WHERE id = a.customer_id) AS supplier,
                     (SELECT goods FROM m_goods WHERE id = b.goods_id) AS goods, 
                     (SELECT unit FROM m_unit WHERE id = b.unit_id) AS unit
                     FROM 
                         (
                         SELECT 
-                            id, purchase_id, `date`, purchase_type_id, supplier_id, due_date,remark, discount, tax, total, created_at
-                    FROM t_purchase
+                            id, sales_id, `date`, customer_id, due_date,remark, discount, tax, total, created_at
+                    FROM t_sales
                     WHERE `status` = 1 " . $where . "
                         )a 
                     INNER JOIN 
                         (
                         SELECT 
-                        id, purchase_id, goods_id, qty, unit_id, price, discount, subtotal, qty_received 
-                        FROM t_purchase_detail 
+                        id, sales_id, goods_id, qty, unit_id, price, discount, subtotal, qty_shipped 
+                        FROM t_sales_detail 
                         WHERE `status` = 1
                         )b
-                    ON a.purchase_id = b.purchase_id	 
+                    ON a.sales_id = b.sales_id	 
                     ORDER BY a.created_at DESC";
 
             $data = $this->db->query($sql)->result_array();
 
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
-            $fileName = 'Report Data Purchase - ' . date("Y-m-d H:i:s");
+            $fileName = 'Report Data Sales - ' . date("Y-m-d H:i:s");
 
             $style_col = [
                 'font' => ['bold' => true], // Set font nya jadi bold
@@ -389,8 +388,9 @@ class Sales extends CI_Controller
             $drawing->setWorksheet($spreadsheet->getActiveSheet());
 
             $sheet->setCellValue('B' . $numrow, "PT AGRI MAKMUR MEGA PERKASA INDO");
-            $sheet->setCellValue('B' . $numrow + 1, "Pasuruan Indonesia");
-            $sheet->setCellValue('B' . $numrow + 2, "Telp. (0343) xxxxxx");
+            $sheet->setCellValue('B' . $numrow + 1, "Dsn. Gudang Ds. Cengkrong");
+            $sheet->setCellValue('B' . $numrow + 1, "Paserpan, Pasuruan");
+            $sheet->setCellValue('B' . $numrow + 2, "Telp. 082245536228");
 
             $sheet->getStyle('D' . $numrow . ':D' . $numrow + 3)->getFont()->setBold(true);
 
@@ -405,8 +405,7 @@ class Sales extends CI_Controller
 
             $sheet->setCellValue('A' . $numrow, "Purchase Id");
             $sheet->setCellValue('B' . $numrow, "Date");
-            $sheet->setCellValue('C' . $numrow, "Type");
-            $sheet->setCellValue('D' . $numrow, "Supplier");
+            $sheet->setCellValue('D' . $numrow, "Customer");
             $sheet->setCellValue('E' . $numrow, "Due Date");
             $sheet->setCellValue('F' . $numrow, "Discount");
             $sheet->setCellValue('G' . $numrow, "Tax");
@@ -417,7 +416,7 @@ class Sales extends CI_Controller
             $sheet->setCellValue('L' . $numrow, "Price");
             $sheet->setCellValue('M' . $numrow, "Discount");
             $sheet->setCellValue('N' . $numrow, "Subtotal");
-            $sheet->setCellValue('O' . $numrow, "Qty Received");
+            $sheet->setCellValue('O' . $numrow, "Qty Shipped");
 
             $sheet->getStyle('A' . $numrow)->applyFromArray($style_col);
             $sheet->getStyle('B' . $numrow)->applyFromArray($style_col);
@@ -493,13 +492,14 @@ class Sales extends CI_Controller
                     *, 
                     DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
                     DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
-                    (SELECT customer FROM m_customer WHERE id = a.customer_id) AS supplier,
+                    (SELECT customer FROM m_customer WHERE id = a.customer_id) AS customer,
                     (SELECT goods FROM m_goods WHERE id = b.goods_id) AS goods, 
-                    (SELECT unit FROM m_unit WHERE id = b.unit_id) AS unit
+                    (SELECT unit FROM m_unit WHERE id = b.unit_id) AS unit,
+                    (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency
                     FROM 
                         (
                         SELECT 
-                            id, sales_id, `date`, customer_id, due_date,remark, discount, tax, total, created_at
+                            id, sales_id, `date`, customer_id, due_date,remark, currency_id,  discount, tax, total, created_at
                     FROM t_sales
                     WHERE `status` = 1 " . $where . "
                         )a 
@@ -528,10 +528,10 @@ class Sales extends CI_Controller
                                     <img src='" . base_url() . "assets/img/icon-small.png'> 
                                 </td>
                                 <td>
-                                    <b style='font-size: 20px;'>PT AGRI MAKMUR MEGA PERKASA INDO</b><br/>
-                                    <b>Dsn. Gudang Ds. Cengkrong</b><br/>
-                                    <b>Paserpan, Pasuruan</b><br/>
-                                    <b>Telp. (+62) 82245536228</b>
+                                    <b style='font-size: 18px;'>PT AGRI MAKMUR MEGA PERKASA INDO</b><br/>
+                                    <b style='font-size: 14px;'>Dsn. Gudang Ds. Cengkrong</b><br/>
+                                    <b style='font-size: 14px;'>Paserpan, Pasuruan</b><br/>
+                                    <b style='font-size: 12px;'>Telp. 082245536228</b>
                                 </td>
                             </tr>
                         </table>
