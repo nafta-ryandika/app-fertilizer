@@ -329,13 +329,17 @@ class Sales extends CI_Controller
                     *, 
                     DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
                     DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
-                    (SELECT customer FROM m_customer WHERE id = a.customer_id) AS supplier,
+                    (SELECT customer FROM m_customer WHERE id = a.customer_id) AS customer,
                     (SELECT goods FROM m_goods WHERE id = b.goods_id) AS goods, 
-                    (SELECT unit FROM m_unit WHERE id = b.unit_id) AS unit
+                    (SELECT unit FROM m_unit WHERE id = b.unit_id) AS unit,
+                    (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency,
+                    (a.discount) AS discount,
+                    (b.discount) AS discount_detail,
+                    (IF(a.tax_type = 1, 'Include', 'Exclude')) AS tax_type
                     FROM 
                         (
                         SELECT 
-                            id, sales_id, `date`, customer_id, due_date,remark, discount, tax, total, created_at
+                            id, sales_id, `date`, customer_id, due_date,remark, currency_id,  discount, tax_type, tax, total, created_at
                     FROM t_sales
                     WHERE `status` = 1 " . $where . "
                         )a 
@@ -403,20 +407,22 @@ class Sales extends CI_Controller
 
             $numrow = $numrow + 2;
 
-            $sheet->setCellValue('A' . $numrow, "Purchase Id");
+            $sheet->setCellValue('A' . $numrow, "Sales Id");
             $sheet->setCellValue('B' . $numrow, "Date");
-            $sheet->setCellValue('D' . $numrow, "Customer");
-            $sheet->setCellValue('E' . $numrow, "Due Date");
+            $sheet->setCellValue('C' . $numrow, "Customer");
+            $sheet->setCellValue('D' . $numrow, "Due Date");
+            $sheet->setCellValue('E' . $numrow, "Currency");
             $sheet->setCellValue('F' . $numrow, "Discount");
-            $sheet->setCellValue('G' . $numrow, "Tax");
-            $sheet->setCellValue('H' . $numrow, "Total");
-            $sheet->setCellValue('I' . $numrow, "Goods");
-            $sheet->setCellValue('J' . $numrow, "Qty");
-            $sheet->setCellValue('K' . $numrow, "Unit");
-            $sheet->setCellValue('L' . $numrow, "Price");
-            $sheet->setCellValue('M' . $numrow, "Discount");
-            $sheet->setCellValue('N' . $numrow, "Subtotal");
-            $sheet->setCellValue('O' . $numrow, "Qty Shipped");
+            $sheet->setCellValue('G' . $numrow, "Tax Type");
+            $sheet->setCellValue('H' . $numrow, "Tax");
+            $sheet->setCellValue('I' . $numrow, "Total");
+            $sheet->setCellValue('J' . $numrow, "Goods");
+            $sheet->setCellValue('K' . $numrow, "Qty");
+            $sheet->setCellValue('L' . $numrow, "Unit");
+            $sheet->setCellValue('M' . $numrow, "Price");
+            $sheet->setCellValue('N' . $numrow, "Discount");
+            $sheet->setCellValue('O' . $numrow, "Subtotal");
+            $sheet->setCellValue('P' . $numrow, "Qty Shipped");
 
             $sheet->getStyle('A' . $numrow)->applyFromArray($style_col);
             $sheet->getStyle('B' . $numrow)->applyFromArray($style_col);
@@ -433,26 +439,28 @@ class Sales extends CI_Controller
             $sheet->getStyle('M' . $numrow)->applyFromArray($style_col);
             $sheet->getStyle('N' . $numrow)->applyFromArray($style_col);
             $sheet->getStyle('O' . $numrow)->applyFromArray($style_col);
+            $sheet->getStyle('P' . $numrow)->applyFromArray($style_col);
 
 
             $i = 1;
             $numrow = $numrow + 1;
             foreach ($data as $data_purchase) {
-                $sheet->setCellValue('A' . $numrow, $data_purchase['purchase_id']);
+                $sheet->setCellValue('A' . $numrow, $data_purchase['sales_id']);
                 $sheet->setCellValue('B' . $numrow, $data_purchase['date']);
-                $sheet->setCellValue('C' . $numrow, $data_purchase['type']);
-                $sheet->setCellValue('D' . $numrow, $data_purchase['supplier']);
-                $sheet->setCellValue('E' . $numrow, $data_purchase['due_date']);
+                $sheet->setCellValue('C' . $numrow, $data_purchase['customer']);
+                $sheet->setCellValue('D' . $numrow, $data_purchase['due_date']);
+                $sheet->setCellValue('E' . $numrow, $data_purchase['currency']);
                 $sheet->setCellValue('F' . $numrow, $data_purchase['discount']);
-                $sheet->setCellValue('G' . $numrow, $data_purchase['tax']);
-                $sheet->setCellValue('H' . $numrow, $data_purchase['total']);
-                $sheet->setCellValue('I' . $numrow, $data_purchase['goods']);
-                $sheet->setCellValue('J' . $numrow, $data_purchase['qty']);
-                $sheet->setCellValue('K' . $numrow, $data_purchase['unit']);
-                $sheet->setCellValue('L' . $numrow, $data_purchase['price']);
-                $sheet->setCellValue('M' . $numrow, $data_purchase['discount']);
-                $sheet->setCellValue('N' . $numrow, $data_purchase['subtotal']);
-                $sheet->setCellValue('O' . $numrow, $data_purchase['qty_received']);
+                $sheet->setCellValue('G' . $numrow, $data_purchase['tax_type']);
+                $sheet->setCellValue('H' . $numrow, $data_purchase['tax']);
+                $sheet->setCellValue('I' . $numrow, $data_purchase['total']);
+                $sheet->setCellValue('J' . $numrow, $data_purchase['goods']);
+                $sheet->setCellValue('K' . $numrow, $data_purchase['qty']);
+                $sheet->setCellValue('L' . $numrow, $data_purchase['unit']);
+                $sheet->setCellValue('M' . $numrow, $data_purchase['price']);
+                $sheet->setCellValue('N' . $numrow, $data_purchase['discount_detail']);
+                $sheet->setCellValue('O' . $numrow, $data_purchase['subtotal']);
+                $sheet->setCellValue('P' . $numrow, $data_purchase['qty_received']);
 
                 $sheet->getStyle('A' . $numrow)->applyFromArray($style_row);
                 $sheet->getStyle('B' . $numrow)->applyFromArray($style_row);
@@ -469,19 +477,20 @@ class Sales extends CI_Controller
                 $sheet->getStyle('M' . $numrow)->applyFromArray($style_row);
                 $sheet->getStyle('N' . $numrow)->applyFromArray($style_row);
                 $sheet->getStyle('O' . $numrow)->applyFromArray($style_row);
+                $sheet->getStyle('P' . $numrow)->applyFromArray($style_row);
 
 
                 $i++;
                 $numrow++;
             }
 
-            foreach (range('A', 'O') as $columnID) {
+            foreach (range('A', 'P') as $columnID) {
                 $sheet->getColumnDimension($columnID)->setAutoSize(true);
             }
             $sheet->getDefaultRowDimension()->setRowHeight(-1);
             $sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
 
-            $sheet->setTitle("Report Data Purchase");
+            $sheet->setTitle("Report Data Sales");
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment; filename="' . $fileName . '.xlsx"'); // Set nama file excel nya
             header('Cache-Control: max-age=0');
@@ -495,11 +504,14 @@ class Sales extends CI_Controller
                     (SELECT customer FROM m_customer WHERE id = a.customer_id) AS customer,
                     (SELECT goods FROM m_goods WHERE id = b.goods_id) AS goods, 
                     (SELECT unit FROM m_unit WHERE id = b.unit_id) AS unit,
-                    (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency
+                    (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency,
+                    (a.discount) AS discount,
+                    (b.discount) AS discount_detail,
+                    (IF(a.tax_type = 1, 'Include', 'Exclude')) AS tax_type
                     FROM 
                         (
                         SELECT 
-                            id, sales_id, `date`, customer_id, due_date,remark, currency_id,  discount, tax, total, created_at
+                            id, sales_id, `date`, customer_id, due_date,remark, currency_id,  discount, tax_type, tax, total, created_at
                     FROM t_sales
                     WHERE `status` = 1 " . $where . "
                         )a 

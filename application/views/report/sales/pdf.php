@@ -85,6 +85,7 @@
                 <th scope="col">Due Date</th>
                 <th scope="col">Currency</th>
                 <th scope="col">Discount</th>
+                <th scope="col">Tax Type</th>
                 <th scope="col">Tax</th>
                 <th scope="col">Total</th>
                 <th scope="col">Goods</th>
@@ -108,15 +109,16 @@
                 echo '<td style="text-align: center;">' . $data_sales['customer'] . '</td>';
                 echo '<td style="text-align: center;">' . $data_sales['due_date'] . '</td>';
                 echo '<td style="text-align: center;">' . $data_sales['currency'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['discount'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['tax'] . '</td>';
-                echo '<td style="text-align: right;">Rp ' . number_format($data_sales['total'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: center;">' . $data_sales['discount'] . '% </td>';
+                echo '<td style="text-align: center;">' . $data_sales['tax_type'] . '</td>';
+                echo '<td style="text-align: center;">' . $data_sales['tax'] . '% </td>';
+                echo '<td style="text-align: right;">' . number_format($data_sales['total'], 2, ",", ".") . '</td>';
                 echo '<td style="text-align: center;">' . $data_sales['goods'] . '</td>';
                 echo '<td style="text-align: right;">' . number_format($data_sales['qty'], 2, ",", ".") . '</td>';
                 echo '<td style="text-align: center;">' . $data_sales['unit'] . '</td>';
-                echo '<td style="text-align: right;">Rp ' . number_format($data_sales['price'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['discount'] . '</td>';
-                echo '<td style="text-align: right;">Rp ' . number_format($data_sales['subtotal'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: right;">' . number_format($data_sales['price'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: center;">' . $data_sales['discount_detail'] . '% </td>';
+                echo '<td style="text-align: right;">' . number_format($data_sales['subtotal'], 2, ",", ".") . '</td>';
                 echo '<td style="text-align: right;">' . number_format($data_sales['qty_shipped'], 2, ",", ".") . '</td>';
                 echo '</tr>';
                 $i++;
