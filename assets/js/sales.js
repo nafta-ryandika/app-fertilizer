@@ -2,7 +2,7 @@ $(document).ready(function() {
     viewData();
 	// add('add','');
 	$('#modalDetail').on('hidden.bs.modal', function () {
-		$("#contentDetailpurchase").html("");
+		$("#contentDetailsales").html("");
 	})
 });
 
@@ -116,11 +116,7 @@ function get(param,obj,callBack) {
 
 			if (searchColumn == "date" || searchColumn == "due_date") {
 				$('#tableSearch tr:eq('+rowIndex+') .inSearchinput').prop('type','date');
-			} else if (searchColumn == "purchase_type_id") {
-				get("searchColumn_"+searchColumn,"",function(data){
-					$('#tableSearch tr:eq('+rowIndex+') .col-5').html(data);
-				})
-			} else if (searchColumn == "supplier_id") {
+			} else if (searchColumn == "customer_id") {
 				get("searchColumn_"+searchColumn,"",function(data){
 					$('#tableSearch tr:eq('+rowIndex+') .col-5').html(data);
 				})
@@ -219,13 +215,13 @@ function get(param,obj,callBack) {
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtRemark").text(data_header.remark);
 					
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtCurrency").text(data_header.currency);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDiscount").text(data_header.discount);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDiscount").text(data_header.discount+" %");
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTaxtype").text(data_header.tax_type);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTax").text(data_header.tax);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTax").text(data_header.tax+" %");
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTotal").text(parseFloat(data_header.total).toLocaleString('id-ID'));
 
 					if (data_detail.length > 0){
-						var html = "<table class=\"table table-hover\" id=\"tableDetailpurchase\">\n\
+						var html = "<table class=\"table table-hover\" id=\"tableDetailsales\">\n\
 										<tr>\n\
 											<th scope=\"col\" style=\"text-align: center !important;\">Goods</th>\n\
 											<th scope=\"col\" style=\"text-align: center !important;\">Qty</th>\n\
@@ -237,12 +233,12 @@ function get(param,obj,callBack) {
 
 						for (var i = 0; i < data_detail.length; i++) {
 							html += "<tr>\n\
-										<td style=\"text-align: center !important;\">"+ data_detail[i].goods +"</td>\n\
-										<td style=\"text-align: right !important;\">"+ parseFloat(data_detail[i].qty).toLocaleString('id-ID') +"</td>\n\
+										<td style=\"text-align: left !important;\">"+ data_detail[i].goods +"</td>\n\
+										<td style=\"text-align: center !important;\">"+ parseFloat(data_detail[i].qty).toLocaleString('id-ID') +"</td>\n\
 										<td style=\"text-align: center !important;\">"+ data_detail[i].unit +"</td>\n\
-										<td style=\"text-align: right !important;\">"+ parseFloat(data_detail[i].price).toLocaleString('id-ID') +"</td>\n\
-										<td style=\"text-align: right !important;\">"+ data_detail[i].discount +"</td>\n\
-										<td style=\"text-align: right !important;\">"+ parseFloat(data_detail[i].subtotal).toLocaleString('id-ID') +"</td>\n\
+										<td style=\"text-align: center !important;\">"+ parseFloat(data_detail[i].price).toLocaleString('id-ID') +"</td>\n\
+										<td style=\"text-align: center !important;\">"+ data_detail[i].discount +" %</td>\n\
+										<td style=\"text-align: center !important;\">"+ parseFloat(data_detail[i].subtotal).toLocaleString('id-ID') +"</td>\n\
 									</tr>";
 						}
 
@@ -253,36 +249,12 @@ function get(param,obj,callBack) {
 				})
 			}
 		})
-	} else if (param == "searchColumn_purchase_type_id") {
+	} else if (param == "searchColumn_customer_id") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"purchase/get",
+			url: base_url+"sales/get",
 			data: {
-				param: "type",
-				obj: obj
-			},
-			cache: false,
-			dataType: "JSON",
-			success: function (data) {
-					var html = '<select class="form-control inSearchinput" style="width: 100%;">\n\
-									<option value="">Select</option>';
-					var i;
-	
-					for (i=0; i<data.res.length; i++) {
-						html += '<option value="' + data.res[i].id + '">' + data.res[i].type + '</option>';
-					}
-
-					html += '</select>';
-
-					callBack(html);
-			}
-		});
-	} else if (param == "searchColumn_supplier_id") {
-		$.ajax({
-			type: "POST",
-			url: base_url+"purchase/get",
-			data: {
-				param: "inSupplier",
+				param: "inCustomer",
 				obj: obj
 			},
 			cache: false,
@@ -299,7 +271,7 @@ function get(param,obj,callBack) {
 					var i;
 
 					for (i=0; i<data.res.length; i++) {
-						html += '<option value="' + data.res[i].id + '">' + data.res[i].supplier + '</option>';
+						html += '<option value="' + data.res[i].id + '">' + data.res[i].customer + '</option>';
 					}
 
 					html += '</select>';
@@ -422,7 +394,7 @@ function report(param,obj){
 		}
 	}
 	else if (param == "excel") {
-		if (obj == "purchase") {
+		if (obj == "sales") {
 			window.open(base_url+'sales/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
 		}
 	} else if (param == "print") {
@@ -670,38 +642,7 @@ function save(param,obj){
 }
 
 function clear(param,obj) {
-	// console.log("test");
-	if (param == "user") {
-		$('#inId').val("");
-		$('#inName').val("");
-
-		if (obj == "add") {
-			$('#inMode').val('add');
-		} else {
-			$('#inMode').val("");
-		}
-		
-		$('#inDepartment').val("");
-		$('#inDivision').val("");
-		$('#inRole').val("");
-		$('#inEmail').val("");
-		$('#inImage').val("");
-		$('#inPassword').val("");
-		$('#inRepeatpassword').val("");
-		$('#inStatus').val("");
-
-		$("#formAdd").removeClass("was-validated");
-		$("input").removeClass("is-invalid");
-
-		get("inDepartment","inDepartment","");
-		get("inRole","inRole","");
-
-		$("#inPassword").closest("div").parent("div").show();
-		$("#inRepeatpassword").closest("div").parent("div").show();
-
-		$("#modalAdd #inPassword").prop("required",true);
-		$("#modalAdd #inRepeatpassword").prop("required",true);
-	}
+	
 }
 
 function remove(param,obj) {

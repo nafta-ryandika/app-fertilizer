@@ -50,11 +50,8 @@ class Sales extends CI_Controller
         $obj = $this->input->post('obj');
 
         if ($param == "input") {
-            $sql = "SELECT id, `type` FROM m_purchase_type a WHERE `status` = 1  ORDER BY `type` ASC";
-            $data['type'] = $this->db->query($sql)->result_array();
-
-            $sql2 = "SELECT id, currency FROM m_currency a WHERE `status` = 1  ORDER BY `currency` ASC";
-            $data['currency'] = $this->db->query($sql2)->result_array();
+            $sql = "SELECT id, currency FROM m_currency a WHERE `status` = 1  ORDER BY `currency` ASC";
+            $data['currency'] = $this->db->query($sql)->result_array();
 
             $this->load->view('sales/input', $data);
         } elseif ($param == "edit") {
@@ -393,15 +390,15 @@ class Sales extends CI_Controller
 
             $sheet->setCellValue('B' . $numrow, "PT AGRI MAKMUR MEGA PERKASA INDO");
             $sheet->setCellValue('B' . $numrow + 1, "Dsn. Gudang Ds. Cengkrong");
-            $sheet->setCellValue('B' . $numrow + 1, "Paserpan, Pasuruan");
-            $sheet->setCellValue('B' . $numrow + 2, "Telp. 082245536228");
+            $sheet->setCellValue('B' . $numrow + 2, "Paserpan, Pasuruan");
+            $sheet->setCellValue('B' . $numrow + 3, "Telp. 082245536228");
 
-            $sheet->getStyle('D' . $numrow . ':D' . $numrow + 3)->getFont()->setBold(true);
+            $sheet->getStyle('D' . $numrow . ':D' . $numrow + 4)->getFont()->setBold(true);
 
-            $numrow = $numrow + 4;
+            $numrow = $numrow + 5;
 
-            $sheet->setCellValue('A' . $numrow, "Report Data Purchase");
-            $sheet->mergeCells('A' . $numrow . ':O' . $numrow);
+            $sheet->setCellValue('A' . $numrow, "Report Data Sales");
+            $sheet->mergeCells('A' . $numrow . ':P' . $numrow);
             $sheet->getStyle('A' . $numrow)->getFont()->setBold(true);
             $sheet->getStyle('A' . $numrow)->getAlignment()->setHorizontal('center');
 
@@ -420,7 +417,7 @@ class Sales extends CI_Controller
             $sheet->setCellValue('K' . $numrow, "Qty");
             $sheet->setCellValue('L' . $numrow, "Unit");
             $sheet->setCellValue('M' . $numrow, "Price");
-            $sheet->setCellValue('N' . $numrow, "Discount");
+            $sheet->setCellValue('N' . $numrow, "Discount Item");
             $sheet->setCellValue('O' . $numrow, "Subtotal");
             $sheet->setCellValue('P' . $numrow, "Qty Shipped");
 
@@ -444,23 +441,23 @@ class Sales extends CI_Controller
 
             $i = 1;
             $numrow = $numrow + 1;
-            foreach ($data as $data_purchase) {
-                $sheet->setCellValue('A' . $numrow, $data_purchase['sales_id']);
-                $sheet->setCellValue('B' . $numrow, $data_purchase['date']);
-                $sheet->setCellValue('C' . $numrow, $data_purchase['customer']);
-                $sheet->setCellValue('D' . $numrow, $data_purchase['due_date']);
-                $sheet->setCellValue('E' . $numrow, $data_purchase['currency']);
-                $sheet->setCellValue('F' . $numrow, $data_purchase['discount']);
-                $sheet->setCellValue('G' . $numrow, $data_purchase['tax_type']);
-                $sheet->setCellValue('H' . $numrow, $data_purchase['tax']);
-                $sheet->setCellValue('I' . $numrow, $data_purchase['total']);
-                $sheet->setCellValue('J' . $numrow, $data_purchase['goods']);
-                $sheet->setCellValue('K' . $numrow, $data_purchase['qty']);
-                $sheet->setCellValue('L' . $numrow, $data_purchase['unit']);
-                $sheet->setCellValue('M' . $numrow, $data_purchase['price']);
-                $sheet->setCellValue('N' . $numrow, $data_purchase['discount_detail']);
-                $sheet->setCellValue('O' . $numrow, $data_purchase['subtotal']);
-                $sheet->setCellValue('P' . $numrow, $data_purchase['qty_received']);
+            foreach ($data as $data_sales) {
+                $sheet->setCellValue('A' . $numrow, $data_sales['sales_id']);
+                $sheet->setCellValue('B' . $numrow, $data_sales['date']);
+                $sheet->setCellValue('C' . $numrow, $data_sales['customer']);
+                $sheet->setCellValue('D' . $numrow, $data_sales['due_date']);
+                $sheet->setCellValue('E' . $numrow, $data_sales['currency']);
+                $sheet->setCellValue('F' . $numrow, $data_sales['discount']);
+                $sheet->setCellValue('G' . $numrow, $data_sales['tax_type']);
+                $sheet->setCellValue('H' . $numrow, $data_sales['tax']);
+                $sheet->setCellValue('I' . $numrow, $data_sales['total']);
+                $sheet->setCellValue('J' . $numrow, $data_sales['goods']);
+                $sheet->setCellValue('K' . $numrow, $data_sales['qty']);
+                $sheet->setCellValue('L' . $numrow, $data_sales['unit']);
+                $sheet->setCellValue('M' . $numrow, $data_sales['price']);
+                $sheet->setCellValue('N' . $numrow, $data_sales['discount_detail']);
+                $sheet->setCellValue('O' . $numrow, $data_sales['subtotal']);
+                $sheet->setCellValue('P' . $numrow, $data_sales['qty_shipped']);
 
                 $sheet->getStyle('A' . $numrow)->applyFromArray($style_row);
                 $sheet->getStyle('B' . $numrow)->applyFromArray($style_row);
