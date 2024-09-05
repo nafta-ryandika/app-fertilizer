@@ -220,9 +220,9 @@ function get(param,obj,callBack) {
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtRemark").text(data_header.remark);
 					
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtCurrency").text(data_header.currency);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDiscount").text(data_header.discount);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDiscount").text(data_header.discount+" %");
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTaxtype").text(data_header.tax_type);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTax").text(data_header.tax);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTax").text(data_header.tax+" %");
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTotal").text(parseFloat(data_header.total).toLocaleString('id-ID'));
 
 					if (data_detail.length > 0){
@@ -232,18 +232,18 @@ function get(param,obj,callBack) {
 											<th scope=\"col\" style=\"text-align: center !important;\">Qty</th>\n\
 											<th scope=\"col\" style=\"text-align: center !important;\">Unit</th>\n\
 											<th scope=\"col\" style=\"text-align: center !important;\">Price</th>\n\
-											<th scope=\"col\" style=\"text-align: center !important;\">Discount</th>\n\
+											<th scope=\"col\" style=\"text-align: center !important;\">Discount (%)</th>\n\
 											<th scope=\"col\" style=\"text-align: center !important;\">Subtotal</th>\n\
 										</tr>";
 
 						for (var i = 0; i < data_detail.length; i++) {
 							html += "<tr>\n\
-										<td style=\"text-align: center !important;\">"+ data_detail[i].goods +"</td>\n\
-										<td style=\"text-align: right !important;\">"+ parseFloat(data_detail[i].qty).toLocaleString('id-ID') +"</td>\n\
+										<td style=\"text-align: Left !important;\">"+ data_detail[i].goods +"</td>\n\
+										<td style=\"text-align: center !important;\">"+ parseFloat(data_detail[i].qty).toLocaleString('id-ID') +"</td>\n\
 										<td style=\"text-align: center !important;\">"+ data_detail[i].unit +"</td>\n\
-										<td style=\"text-align: right !important;\">"+ parseFloat(data_detail[i].price).toLocaleString('id-ID') +"</td>\n\
-										<td style=\"text-align: right !important;\">"+ data_detail[i].discount +"</td>\n\
-										<td style=\"text-align: right !important;\">"+ parseFloat(data_detail[i].subtotal).toLocaleString('id-ID') +"</td>\n\
+										<td style=\"text-align: center !important;\">"+ parseFloat(data_detail[i].price).toLocaleString('id-ID') +"</td>\n\
+										<td style=\"text-align: center !important;\">"+ data_detail[i].discount +"</td>\n\
+										<td style=\"text-align: center !important;\">"+ parseFloat(data_detail[i].subtotal).toLocaleString('id-ID') +"</td>\n\
 									</tr>";
 						}
 
@@ -678,38 +678,7 @@ function save(param,obj){
 }
 
 function clear(param,obj) {
-	// console.log("test");
-	if (param == "user") {
-		$('#inId').val("");
-		$('#inName').val("");
 
-		if (obj == "add") {
-			$('#inMode').val('add');
-		} else {
-			$('#inMode').val("");
-		}
-		
-		$('#inDepartment').val("");
-		$('#inDivision').val("");
-		$('#inRole').val("");
-		$('#inEmail').val("");
-		$('#inImage').val("");
-		$('#inPassword').val("");
-		$('#inRepeatpassword').val("");
-		$('#inStatus').val("");
-
-		$("#formAdd").removeClass("was-validated");
-		$("input").removeClass("is-invalid");
-
-		get("inDepartment","inDepartment","");
-		get("inRole","inRole","");
-
-		$("#inPassword").closest("div").parent("div").show();
-		$("#inRepeatpassword").closest("div").parent("div").show();
-
-		$("#modalAdd #inPassword").prop("required",true);
-		$("#modalAdd #inRepeatpassword").prop("required",true);
-	}
 }
 
 function remove(param,obj) {

@@ -83,7 +83,7 @@
                 <th scope="col">Qty</th>
                 <th scope="col">Unit</th>
                 <th scope="col">Price</th>
-                <th scope="col">Discount</th>
+                <th scope="col">Discount (%)</th>
                 <th scope="col">Total</th>
             </tr>
         </thead>
@@ -94,7 +94,7 @@
             foreach ($detail as $data_detail) {
                 echo '<tr>';
                 echo '<td style="text-align: center;">' . $i . '</td>';
-                echo '<td style="text-align: center;">' . $data_detail['goods'] . '</td>';
+                echo '<td style="text-align: left;">' . $data_detail['goods'] . '</td>';
                 echo '<td style="text-align: right;">' . number_format($data_detail['qty'], 2, ",", ".") . '</td>';
                 echo '<td style="text-align: center;">' . $data_detail['unit'] . '</td>';
                 echo '<td style="text-align: right;">' . number_format($data_detail['price'], 2, ",", ".") . '</td>';

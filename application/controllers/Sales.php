@@ -121,9 +121,9 @@ class Sales extends CI_Controller
             $remark = $data["header"]["remark"];
             $currency = $data["header"]["currency"];
             $discount = $data["header"]["discount"];
+            $tax_type = $data["header"]["tax_type"];
             $tax = $data["header"]["tax"];
             $total = $data["header"]["total"];
-            $type = $data["header"]["type"];
             $customer = $data["header"]["customer"];
 
             $query1 = "SELECT 
@@ -157,12 +157,10 @@ class Sales extends CI_Controller
                                                     <img src='" . base_url() . "assets/img/icon-small.png'>
                                                 </td>
                                                 <td style=\"vertical-align: top;\">
-                                                    <h4>
-                                                        PT AGRI MAKMUR MEGA PERKASA INDO<br/>
-                                                    </h4>
-                                                    <h5>
-                                                        Pasuruan Indonesia
-                                                    </h5>
+                                                    <b style='font-size: 15px;'>PT AGRI MAKMUR MEGA PERKASA INDO</b><br/>
+                                                    <b style='font-size: 14px;'>Dsn. Gudang Ds. Cengkrong</b><br/>
+                                                    <b style='font-size: 14px;'>Paserpan, Pasuruan</b><br/>
+                                                    <b style='font-size: 12px;'>Telp. 082245536228</b>
                                                 </td>
                                             </tr>
                                         </table>
@@ -181,7 +179,7 @@ class Sales extends CI_Controller
                                                 <td>" . $date . "</td>
                                             </tr>
                                             <tr>
-                                                <td style=\"text-align: left;\">Purchase No</td>
+                                                <td style=\"text-align: left;\">Sales No</td>
                                                 <td>:</td>
                                                 <td>" . $sales_id . "</td>
                                             </tr>
@@ -198,21 +196,18 @@ class Sales extends CI_Controller
                                 <tr>
                                     <td style=\"vertical-align: top;\">
                                         <div class=\"col-6\">
-                                            <h4>
-                                                " . $customer . "
-                                            </h4>
-                                            " . $address . " <br/>
-                                            " . $pic . " <br/>
-                                            " . $phone . " <br/>
+                                            <b style='font-size: 15px;'>" . $customer . "</b><br/>
+                                            <b style='font-size: 12px;'>" . $address . " </b><br/>
+                                            <b style='font-size: 12px;'>" . $pic . " <b/><br/>
+                                            <b style='font-size: 11px;'>" . $phone . " <b/><br/>
                                         </div>
                                     </td>
                                     <td style=\"text-align: right; vertical-align: top;\">
                                         <div class=\"col-6\">
-                                            <h4>
-                                                PT AGRI MAKMUR MEGA PERKASA INDO
-                                            </h4>
-                                            Pasuruan Indonesia<br/>
-                                            (0343) xxxxx<br/>
+                                            <b style='font-size: 15px;'>PT AGRI MAKMUR MEGA PERKASA INDO</b><br/>
+                                            <b style='font-size: 12px;'>Dsn. Gudang Ds. Cengkrong</b><br/>
+                                            <b style='font-size: 12px;'>Paserpan, Pasuruan</b><br/>
+                                            <b style='font-size: 11px;'>Telp. 082245536228</b>
                                         </div>
                                     </td>
                                 </tr>
@@ -220,38 +215,6 @@ class Sales extends CI_Controller
                         </div>";
 
             $mpdf->SetHTMLHeader($header);
-
-            $footer1 = "<table width=\"100%\" border=\"1\">
-                            <tr>
-                                <td width=\"70%\" style=\"text-align: left; vertical-align: top;\">
-                                    Due Date : " . $due_date . "<br/>
-                                    Currency : " . $currency . "<br/>
-                                    Remark : " . $remark . " <br/>
-                                </td>
-                                <td width=\"30%\" style=\"text-align: center; vertical-align: top;\">
-                                    <table style=\"text-align: center;\" border=\"0\">
-                                        <tr>
-                                            <td width=\"33%\" style=\"text-align: center;\">
-                                                Approved By    
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><br><br><br><br></td>
-                                        </tr>
-                                        <tr>
-                                            <td><u>Marketing</u></td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                        <table width=\"100%\">
-                            <tr>
-                                <td width=\"33%\">" . $this->session->userdata['name'] . " - {DATE d-m-Y H:i:s}</td>
-                                <td width=\"33%\" align=\"center\">{PAGENO}/{nbpg}</td>
-                                <td width=\"33%\" style=\"text-align: right;\">" . $sales_id . "</td>
-                            </tr>
-                        </table>";
 
             $footer = "<table style=\"border-collapse: collapse;\" width=\"100%\" border=\"1\">
                             <tr>
@@ -275,21 +238,6 @@ class Sales extends CI_Controller
                                             </tr>
                                         </table>
                                     </div>
-                                </td>
-                                <td width=\"30%\" style=\"text-align: center; vertical-align: top;  border: 1px solid;\">
-                                    <table style=\"text-align: center;\" border=\"0\">
-                                        <tr>
-                                            <td width=\"33%\" style=\"text-align: center;\">
-                                                Approved By    
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><br><br><br><br></td>
-                                        </tr>
-                                        <tr>
-                                            <td><u>Purchase</u></td>
-                                        </tr>
-                                    </table>
                                 </td>
                             </tr>
                         </table>
@@ -409,15 +357,15 @@ class Sales extends CI_Controller
             $sheet->setCellValue('C' . $numrow, "Customer");
             $sheet->setCellValue('D' . $numrow, "Due Date");
             $sheet->setCellValue('E' . $numrow, "Currency");
-            $sheet->setCellValue('F' . $numrow, "Discount");
+            $sheet->setCellValue('F' . $numrow, "Discount (%)");
             $sheet->setCellValue('G' . $numrow, "Tax Type");
-            $sheet->setCellValue('H' . $numrow, "Tax");
+            $sheet->setCellValue('H' . $numrow, "Tax (%)");
             $sheet->setCellValue('I' . $numrow, "Total");
             $sheet->setCellValue('J' . $numrow, "Goods");
             $sheet->setCellValue('K' . $numrow, "Qty");
             $sheet->setCellValue('L' . $numrow, "Unit");
             $sheet->setCellValue('M' . $numrow, "Price");
-            $sheet->setCellValue('N' . $numrow, "Discount Item");
+            $sheet->setCellValue('N' . $numrow, "Discount Item (%)");
             $sheet->setCellValue('O' . $numrow, "Subtotal");
             $sheet->setCellValue('P' . $numrow, "Qty Shipped");
 
@@ -508,7 +456,7 @@ class Sales extends CI_Controller
                     FROM 
                         (
                         SELECT 
-                            id, sales_id, `date`, customer_id, due_date,remark, currency_id,  discount, tax_type, tax, total, created_at
+                            id, sales_id, `date`, customer_id, due_date, remark, currency_id,  discount, tax_type, tax, total, created_at
                     FROM t_sales
                     WHERE `status` = 1 " . $where . "
                         )a 

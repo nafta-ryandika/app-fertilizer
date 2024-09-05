@@ -31,7 +31,7 @@ class Purchase_M extends CI_Model
                         FROM m_goods 
                         WHERE 
                         `status` = '1' AND 
-                        goods_type_id = '1'
+                        goods_type_id != '2'
                         ORDER BY goods";
             $row = $this->db->query($query)->num_rows();
 

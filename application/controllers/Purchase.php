@@ -167,12 +167,10 @@ class Purchase extends CI_Controller
                                                     <img src='" . base_url() . "assets/img/icon-small.png'>
                                                 </td>
                                                 <td style=\"vertical-align: top;\">
-                                                    <h4>
-                                                        PT AGRI MAKMUR MEGA PERKASA INDO<br/>
-                                                    </h4>
-                                                    <h5>
-                                                        Pasuruan Indonesia
-                                                    </h5>
+                                                    <b style='font-size: 15px;'>PT AGRI MAKMUR MEGA PERKASA INDO</b><br/>
+                                                    <b style='font-size: 14px;'>Dsn. Gudang Ds. Cengkrong</b><br/>
+                                                    <b style='font-size: 14px;'>Paserpan, Pasuruan</b><br/>
+                                                    <b style='font-size: 12px;'>Telp. 082245536228</b>
                                                 </td>
                                             </tr>
                                         </table>
@@ -208,21 +206,18 @@ class Purchase extends CI_Controller
                                 <tr>
                                     <td style=\"vertical-align: top;\">
                                         <div class=\"col-6\">
-                                            <h4>
-                                                " . $supplier . "
-                                            </h4>
-                                            " . $address . " <br/>
-                                            " . $pic . " <br/>
-                                            " . $phone . " <br/>
+                                            <b style='font-size: 15px;'>" . $supplier . "</b><br/>
+                                            <b style='font-size: 12px;'>" . $address . " </b><br/>
+                                            <b style='font-size: 12px;'>" . $pic . " <b/><br/>
+                                            <b style='font-size: 11px;'>" . $phone . " <b/><br/>
                                         </div>
                                     </td>
                                     <td style=\"text-align: right; vertical-align: top;\">
                                         <div class=\"col-6\">
-                                            <h4>
-                                                PT AGRI MAKMUR MEGA PERKASA INDO
-                                            </h4>
-                                            Pasuruan Indonesia<br/>
-                                            (0343) xxxxx<br/>
+                                            <b style='font-size: 15px;'>PT AGRI MAKMUR MEGA PERKASA INDO</b><br/>
+                                            <b style='font-size: 12px;'>Dsn. Gudang Ds. Cengkrong</b><br/>
+                                            <b style='font-size: 12px;'>Paserpan, Pasuruan</b><br/>
+                                            <b style='font-size: 11px;'>Telp. 082245536228</b>
                                         </div>
                                     </td>
                                 </tr>
@@ -339,11 +334,15 @@ class Purchase extends CI_Controller
                     (SELECT `type` FROM m_purchase_type WHERE id = a.purchase_type_id) AS `type`,
                     (SELECT supplier FROM m_supplier WHERE id = a.supplier_id) AS supplier,
                     (SELECT goods FROM m_goods WHERE id = b.goods_id) AS goods, 
-                    (SELECT unit FROM m_unit WHERE id = b.unit_id) AS unit
+                    (SELECT unit FROM m_unit WHERE id = b.unit_id) AS unit,
+                    (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency,
+                    (a.discount) AS discount,
+                    (b.discount) AS discount_detail,
+                    (IF(a.tax_type = 1, 'Include', 'Exclude')) AS tax_type
                     FROM 
                         (
                         SELECT 
-                            id, purchase_id, `date`, purchase_type_id, supplier_id, due_date,remark, discount, tax, total, created_at
+                            id, purchase_id, `date`, purchase_type_id, supplier_id, due_date, remark, currency_id, discount, tax_type, tax, total, created_at
                     FROM t_purchase
                     WHERE `status` = 1 " . $where . "
                         )a 
@@ -396,15 +395,16 @@ class Purchase extends CI_Controller
             $drawing->setWorksheet($spreadsheet->getActiveSheet());
 
             $sheet->setCellValue('B' . $numrow, "PT AGRI MAKMUR MEGA PERKASA INDO");
-            $sheet->setCellValue('B' . $numrow + 1, "Pasuruan Indonesia");
-            $sheet->setCellValue('B' . $numrow + 2, "Telp. (0343) xxxxxx");
+            $sheet->setCellValue('B' . $numrow + 1, "Dsn. Gudang Ds. Cengkrong");
+            $sheet->setCellValue('B' . $numrow + 2, "Paserpan, Pasuruan");
+            $sheet->setCellValue('B' . $numrow + 3, "Telp. 082245536228");
 
-            $sheet->getStyle('D' . $numrow . ':D' . $numrow + 3)->getFont()->setBold(true);
+            $sheet->getStyle('D' . $numrow . ':D' . $numrow + 4)->getFont()->setBold(true);
 
-            $numrow = $numrow + 4;
+            $numrow = $numrow + 5;
 
             $sheet->setCellValue('A' . $numrow, "Report Data Purchase");
-            $sheet->mergeCells('A' . $numrow . ':O' . $numrow);
+            $sheet->mergeCells('A' . $numrow . ':Q' . $numrow);
             $sheet->getStyle('A' . $numrow)->getFont()->setBold(true);
             $sheet->getStyle('A' . $numrow)->getAlignment()->setHorizontal('center');
 
@@ -415,16 +415,18 @@ class Purchase extends CI_Controller
             $sheet->setCellValue('C' . $numrow, "Type");
             $sheet->setCellValue('D' . $numrow, "Supplier");
             $sheet->setCellValue('E' . $numrow, "Due Date");
-            $sheet->setCellValue('F' . $numrow, "Discount");
-            $sheet->setCellValue('G' . $numrow, "Tax");
-            $sheet->setCellValue('H' . $numrow, "Total");
-            $sheet->setCellValue('I' . $numrow, "Goods");
-            $sheet->setCellValue('J' . $numrow, "Qty");
-            $sheet->setCellValue('K' . $numrow, "Unit");
-            $sheet->setCellValue('L' . $numrow, "Price");
-            $sheet->setCellValue('M' . $numrow, "Discount");
-            $sheet->setCellValue('N' . $numrow, "Subtotal");
-            $sheet->setCellValue('O' . $numrow, "Qty Received");
+            $sheet->setCellValue('F' . $numrow, "Currency");
+            $sheet->setCellValue('G' . $numrow, "Discount (%)");
+            $sheet->setCellValue('H' . $numrow, "Tax Type");
+            $sheet->setCellValue('I' . $numrow, "Tax (%)");
+            $sheet->setCellValue('J' . $numrow, "Total");
+            $sheet->setCellValue('K' . $numrow, "Goods");
+            $sheet->setCellValue('L' . $numrow, "Qty");
+            $sheet->setCellValue('M' . $numrow, "Unit");
+            $sheet->setCellValue('N' . $numrow, "Price");
+            $sheet->setCellValue('O' . $numrow, "Discount Item (%)");
+            $sheet->setCellValue('P' . $numrow, "Subtotal");
+            $sheet->setCellValue('Q' . $numrow, "Qty Received");
 
             $sheet->getStyle('A' . $numrow)->applyFromArray($style_col);
             $sheet->getStyle('B' . $numrow)->applyFromArray($style_col);
@@ -441,6 +443,8 @@ class Purchase extends CI_Controller
             $sheet->getStyle('M' . $numrow)->applyFromArray($style_col);
             $sheet->getStyle('N' . $numrow)->applyFromArray($style_col);
             $sheet->getStyle('O' . $numrow)->applyFromArray($style_col);
+            $sheet->getStyle('P' . $numrow)->applyFromArray($style_col);
+            $sheet->getStyle('Q' . $numrow)->applyFromArray($style_col);
 
 
             $i = 1;
@@ -451,16 +455,18 @@ class Purchase extends CI_Controller
                 $sheet->setCellValue('C' . $numrow, $data_purchase['type']);
                 $sheet->setCellValue('D' . $numrow, $data_purchase['supplier']);
                 $sheet->setCellValue('E' . $numrow, $data_purchase['due_date']);
-                $sheet->setCellValue('F' . $numrow, $data_purchase['discount']);
-                $sheet->setCellValue('G' . $numrow, $data_purchase['tax']);
-                $sheet->setCellValue('H' . $numrow, $data_purchase['total']);
-                $sheet->setCellValue('I' . $numrow, $data_purchase['goods']);
-                $sheet->setCellValue('J' . $numrow, $data_purchase['qty']);
-                $sheet->setCellValue('K' . $numrow, $data_purchase['unit']);
-                $sheet->setCellValue('L' . $numrow, $data_purchase['price']);
-                $sheet->setCellValue('M' . $numrow, $data_purchase['discount']);
-                $sheet->setCellValue('N' . $numrow, $data_purchase['subtotal']);
-                $sheet->setCellValue('O' . $numrow, $data_purchase['qty_received']);
+                $sheet->setCellValue('F' . $numrow, $data_purchase['currency']);
+                $sheet->setCellValue('G' . $numrow, $data_purchase['discount']);
+                $sheet->setCellValue('H' . $numrow, $data_purchase['tax_type']);
+                $sheet->setCellValue('I' . $numrow, $data_purchase['tax']);
+                $sheet->setCellValue('J' . $numrow, $data_purchase['total']);
+                $sheet->setCellValue('K' . $numrow, $data_purchase['goods']);
+                $sheet->setCellValue('L' . $numrow, $data_purchase['qty']);
+                $sheet->setCellValue('M' . $numrow, $data_purchase['unit']);
+                $sheet->setCellValue('N' . $numrow, $data_purchase['price']);
+                $sheet->setCellValue('O' . $numrow, $data_purchase['discount']);
+                $sheet->setCellValue('P' . $numrow, $data_purchase['subtotal']);
+                $sheet->setCellValue('Q' . $numrow, $data_purchase['qty_received']);
 
                 $sheet->getStyle('A' . $numrow)->applyFromArray($style_row);
                 $sheet->getStyle('B' . $numrow)->applyFromArray($style_row);
@@ -477,13 +483,15 @@ class Purchase extends CI_Controller
                 $sheet->getStyle('M' . $numrow)->applyFromArray($style_row);
                 $sheet->getStyle('N' . $numrow)->applyFromArray($style_row);
                 $sheet->getStyle('O' . $numrow)->applyFromArray($style_row);
+                $sheet->getStyle('P' . $numrow)->applyFromArray($style_row);
+                $sheet->getStyle('Q' . $numrow)->applyFromArray($style_row);
 
 
                 $i++;
                 $numrow++;
             }
 
-            foreach (range('A', 'O') as $columnID) {
+            foreach (range('A', 'Q') as $columnID) {
                 $sheet->getColumnDimension($columnID)->setAutoSize(true);
             }
             $sheet->getDefaultRowDimension()->setRowHeight(-1);
@@ -503,11 +511,15 @@ class Purchase extends CI_Controller
                     (SELECT `type` FROM m_purchase_type WHERE id = a.purchase_type_id) AS `type`,
                     (SELECT supplier FROM m_supplier WHERE id = a.supplier_id) AS supplier,
                     (SELECT goods FROM m_goods WHERE id = b.goods_id) AS goods, 
-                    (SELECT unit FROM m_unit WHERE id = b.unit_id) AS unit
+                    (SELECT unit FROM m_unit WHERE id = b.unit_id) AS unit,
+                    (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency,
+                    (a.discount) AS discount,
+                    (b.discount) AS discount_detail,
+                    (IF(a.tax_type = 1, 'Include', 'Exclude')) AS tax_type
                     FROM 
                         (
                         SELECT 
-                            id, purchase_id, `date`, purchase_type_id, supplier_id, due_date,remark, discount, tax, total, created_at
+                            id, purchase_id, `date`, purchase_type_id, supplier_id, due_date, remark, currency_id, discount, tax_type, tax, total, created_at
                     FROM t_purchase
                     WHERE `status` = 1 " . $where . "
                         )a 
@@ -536,9 +548,10 @@ class Purchase extends CI_Controller
                                     <img src='" . base_url() . "assets/img/icon-small.png'> 
                                 </td>
                                 <td>
-                                    <b style='font-size: 20px;'>PT AGRI MAKMUR MEGA PERKASA INDO</b><br/>
-                                    <b>Pasuruan Indonesia</b><br/>
-                                    Telp. (0343) xxxxxx
+                                    <b style='font-size: 18px;'>PT AGRI MAKMUR MEGA PERKASA INDO</b><br/>
+                                    <b style='font-size: 14px;'>Dsn. Gudang Ds. Cengkrong</b><br/>
+                                    <b style='font-size: 14px;'>Paserpan, Pasuruan</b><br/>
+                                    <b style='font-size: 12px;'>Telp. 082245536228</b>
                                 </td>
                             </tr>
                         </table>

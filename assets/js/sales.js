@@ -227,7 +227,7 @@ function get(param,obj,callBack) {
 											<th scope=\"col\" style=\"text-align: center !important;\">Qty</th>\n\
 											<th scope=\"col\" style=\"text-align: center !important;\">Unit</th>\n\
 											<th scope=\"col\" style=\"text-align: center !important;\">Price</th>\n\
-											<th scope=\"col\" style=\"text-align: center !important;\">Discount</th>\n\
+											<th scope=\"col\" style=\"text-align: center !important;\">Discount (%)</th>\n\
 											<th scope=\"col\" style=\"text-align: center !important;\">Subtotal</th>\n\
 										</tr>";
 
@@ -237,7 +237,7 @@ function get(param,obj,callBack) {
 										<td style=\"text-align: center !important;\">"+ parseFloat(data_detail[i].qty).toLocaleString('id-ID') +"</td>\n\
 										<td style=\"text-align: center !important;\">"+ data_detail[i].unit +"</td>\n\
 										<td style=\"text-align: center !important;\">"+ parseFloat(data_detail[i].price).toLocaleString('id-ID') +"</td>\n\
-										<td style=\"text-align: center !important;\">"+ data_detail[i].discount +" %</td>\n\
+										<td style=\"text-align: center !important;\">"+ data_detail[i].discount +"</td>\n\
 										<td style=\"text-align: center !important;\">"+ parseFloat(data_detail[i].subtotal).toLocaleString('id-ID') +"</td>\n\
 									</tr>";
 						}

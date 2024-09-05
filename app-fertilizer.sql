@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `m_company` (
 -- Dumping data for table app-fertilizer.m_company: ~0 rows (approximately)
 DELETE FROM `m_company`;
 INSERT INTO `m_company` (`id`, `company`, `created_by`, `created_at`) VALUES
-	(1, 'PT MEGA MARINE PRIDE', 'administrator', '2024-01-30 11:13:48');
+	(1, 'PT AGRI MAKMUR MEGA PERKASA INDO', 'administrator', '2024-01-30 11:13:48');
 
 -- Dumping structure for table app-fertilizer.m_counter
 CREATE TABLE IF NOT EXISTS `m_counter` (
@@ -142,14 +142,13 @@ CREATE TABLE IF NOT EXISTS `m_department` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
--- Dumping data for table app-fertilizer.m_department: ~25 rows (approximately)
+-- Dumping data for table app-fertilizer.m_department: ~21 rows (approximately)
 DELETE FROM `m_department`;
 INSERT INTO `m_department` (`id`, `department`, `created_by`, `created_at`) VALUES
 	(1, 'Director', 'administrator', '2024-04-29 15:58:54'),
 	(2, 'Production', 'administrator', '2024-04-29 15:58:54'),
 	(3, 'Engineering', 'administrator', '2024-04-29 15:58:54'),
 	(4, 'PPIC', 'administrator', '2024-04-29 15:58:54'),
-	(5, 'Crab', 'administrator', '2024-04-29 15:58:54'),
 	(6, 'Warehouse', 'administrator', '2024-04-29 15:58:54'),
 	(7, 'Civil Engineering', 'administrator', '2024-04-29 15:58:54'),
 	(8, 'HSE', 'administrator', '2024-04-29 15:58:54'),
@@ -166,10 +165,7 @@ INSERT INTO `m_department` (`id`, `department`, `created_by`, `created_at`) VALU
 	(19, 'Purchasing Non Raw Material', 'administrator', '2024-04-29 15:58:54'),
 	(20, 'I T', 'administrator', '2024-04-29 15:58:54'),
 	(21, 'Legal', 'administrator', '2024-04-29 15:58:54'),
-	(22, 'Kesehatan', 'administrator', '2024-04-29 15:58:54'),
-	(23, 'Food Product', 'administrator', '2024-04-29 15:58:54'),
-	(24, 'Fish Product', 'administrator', '2024-04-29 15:58:54'),
-	(25, 'Sanitasi', 'administrator', '2024-04-29 15:58:54');
+	(22, 'Kesehatan', 'administrator', '2024-04-29 15:58:54');
 
 -- Dumping structure for table app-fertilizer.m_division
 CREATE TABLE IF NOT EXISTS `m_division` (
@@ -182,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `m_division` (
   KEY `department_id` (`department_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_division: ~90 rows (approximately)
+-- Dumping data for table app-fertilizer.m_division: ~52 rows (approximately)
 DELETE FROM `m_division`;
 INSERT INTO `m_division` (`id`, `department_id`, `division`, `created_by`, `created_at`) VALUES
 	(1, 1, 'Managing Director', 'administrator', '2024-04-29 15:58:26'),
@@ -222,58 +218,20 @@ INSERT INTO `m_division` (`id`, `department_id`, `division`, `created_by`, `crea
 	(36, 18, 'Purchasing Raw Material', 'administrator', '2024-04-29 15:58:26'),
 	(37, 19, 'Purchasing Non Raw Material', 'administrator', '2024-04-29 15:58:26'),
 	(38, 20, 'IT', 'administrator', '2024-04-29 15:58:26'),
-	(39, 2, 'SOAKING', 'administrator', '2024-04-29 15:58:26'),
-	(40, 2, 'Soaking Raw', 'administrator', '2024-04-29 15:58:26'),
-	(41, 2, 'Soaking Cooked', 'administrator', '2024-04-29 15:58:26'),
 	(42, 21, 'Legal', 'administrator', '2024-04-29 15:58:26'),
 	(43, 21, 'Legal & Permit', 'administrator', '2024-04-29 15:58:26'),
 	(44, 22, 'Dokter', 'administrator', '2024-04-29 15:58:26'),
 	(45, 22, 'Admin Kesehatan/Bidan', 'administrator', '2024-04-29 15:58:26'),
-	(46, 2, 'Shrimp product', 'administrator', '2024-04-29 15:58:26'),
-	(47, 2, 'Receiving Area', 'administrator', '2024-04-29 15:58:26'),
-	(48, 2, 'RM Preparation-deheading', 'administrator', '2024-04-29 15:58:26'),
-	(49, 2, 'RM Preparation-sorting', 'administrator', '2024-04-29 15:58:26'),
-	(50, 2, 'Raw Product & Peeling', 'administrator', '2024-04-29 15:58:26'),
-	(51, 2, 'Nobashi Ebi 1', 'administrator', '2024-04-29 15:58:26'),
-	(52, 2, 'Nobashi Ebi 2', 'administrator', '2024-04-29 15:58:26'),
-	(53, 2, 'Cooked', 'administrator', '2024-04-29 15:58:26'),
-	(54, 2, 'Sushi Ebi', 'administrator', '2024-04-29 15:58:26'),
-	(55, 2, 'Freezing & Packing', 'administrator', '2024-04-29 15:58:26'),
 	(56, 2, 'Adm Produksi', 'administrator', '2024-04-29 15:58:26'),
 	(57, 2, 'Custom Proses', 'administrator', '2024-04-29 15:58:26'),
-	(58, 2, 'Raw Product & Peeling 2', 'administrator', '2024-04-29 15:58:26'),
-	(59, 2, 'Freezing Packing Raw', 'administrator', '2024-04-29 15:58:26'),
-	(60, 2, 'Freezing Packing Cooked', 'administrator', '2024-04-29 15:58:26'),
-	(61, 2, 'CIS', 'administrator', '2024-04-29 15:58:26'),
-	(62, 2, 'Boil', 'administrator', '2024-04-29 15:58:26'),
-	(63, 2, 'Raw Product & Peeling NE', 'administrator', '2024-04-29 15:58:26'),
-	(64, 2, 'Raw Product & Peeling Cooked', 'administrator', '2024-04-29 15:58:26'),
-	(65, 2, 'Raw Product & Peeling Raw', 'administrator', '2024-04-29 15:58:26'),
-	(66, 2, 'Shrimp Ring', 'administrator', '2024-04-29 15:58:26'),
-	(67, 2, 'Custom Proses Shrimp', 'administrator', '2024-04-29 15:58:26'),
-	(68, 2, 'Freezing Packing Custom Shrimp', 'administrator', '2024-04-29 15:58:26'),
-	(69, 2, 'Custom Proses Crab', 'administrator', '2024-04-29 15:58:26'),
-	(70, 2, 'Freezing Packing Custom Crab', 'administrator', '2024-04-29 15:58:26'),
-	(71, 5, 'Crab Product', 'administrator', '2024-04-29 15:58:26'),
-	(72, 5, 'Crab Meat Japan 1', 'administrator', '2024-04-29 15:58:26'),
-	(73, 5, 'Crab Meat USA 1', 'administrator', '2024-04-29 15:58:26'),
-	(74, 5, 'Crab In Shell Japan 1', 'administrator', '2024-04-29 15:58:26'),
-	(75, 5, 'Crab In Shell USA 1', 'administrator', '2024-04-29 15:58:26'),
-	(76, 23, 'Food Product', 'administrator', '2024-04-29 15:58:26'),
-	(77, 23, 'Breaded', 'administrator', '2024-04-29 15:58:26'),
-	(78, 24, 'Kabag Fish Product', 'administrator', '2024-04-29 15:58:26'),
-	(79, 24, 'Fish / Ikan', 'administrator', '2024-04-29 15:58:26'),
 	(80, 3, 'Mekanik', 'administrator', '2024-04-29 15:58:26'),
 	(81, 3, 'Maintenance', 'administrator', '2024-04-29 15:58:26'),
 	(82, 3, 'Refrigeration System', 'administrator', '2024-04-29 15:58:26'),
 	(83, 3, 'Welding', 'administrator', '2024-04-29 15:58:26'),
 	(84, 3, 'Boiler', 'administrator', '2024-04-29 15:58:26'),
 	(85, 3, 'Workshop', 'administrator', '2024-04-29 15:58:26'),
-	(86, 2, 'Production Engineering', 'administrator', '2024-04-29 15:58:26'),
 	(87, 15, 'Kendaraan', 'administrator', '2024-04-29 15:58:26'),
 	(88, 15, 'Limbah', 'administrator', '2024-04-29 15:58:26'),
-	(89, 25, 'Sanitasi Dalam', 'administrator', '2024-04-29 15:58:26'),
-	(90, 25, 'Sanitasi Luar', 'administrator', '2024-04-29 15:58:26'),
 	(91, 13, 'Accounting', 'administrator', '2024-04-29 15:58:26');
 
 -- Dumping structure for table app-fertilizer.m_goods
@@ -330,6 +288,29 @@ INSERT INTO `m_goods_type` (`id`, `type`, `status`, `created_by`, `created_at`, 
 	(2, 'Finish Goods', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
 	(3, 'Goods', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
 	(4, 'Services', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
+
+-- Dumping structure for table app-fertilizer.m_inventory_type
+CREATE TABLE IF NOT EXISTS `m_inventory_type` (
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `type` varchar(256) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.m_inventory_type: ~5 rows (approximately)
+DELETE FROM `m_inventory_type`;
+INSERT INTO `m_inventory_type` (`id`, `type`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'Receipt', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
+	(2, 'In', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
+	(3, 'Out', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(4, 'Return', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(5, 'Adjustment In', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(6, 'Adjustment Out', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(7, 'Transfer', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.m_menu
 CREATE TABLE IF NOT EXISTS `m_menu` (
@@ -391,8 +372,8 @@ CREATE TABLE IF NOT EXISTS `m_purchase_type` (
 -- Dumping data for table app-fertilizer.m_purchase_type: ~2 rows (approximately)
 DELETE FROM `m_purchase_type`;
 INSERT INTO `m_purchase_type` (`id`, `type`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
-	(1, 'Barang', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
-	(2, 'Jasa', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
+	(1, 'Goods', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
+	(2, 'Service', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.m_role
 CREATE TABLE IF NOT EXISTS `m_role` (
@@ -551,6 +532,49 @@ INSERT INTO `m_user` (`id`, `user_id`, `name`, `email`, `image`, `password`, `co
 	(26, 'audit', 'audit', '', 'default.png', '$2y$10$NDfADe49btw6ciicwTs6qeyXrQCAMgi9MEjyM/Sr2WF5w1UF4rONW', 1, 12, 22, 5, 1, 'admin', '2024-05-18 16:26:15'),
 	(27, 'vote', 'vote', '', 'default.png', '$2y$10$2c08SzztPfP2Rd1Tij37HeGgbqpOE54mksVgF/IWwiMuSE/3QRAjC', 1, 20, 38, 6, 1, 'admin', '2024-05-23 23:31:11');
 
+-- Dumping structure for table app-fertilizer.m_warehouse
+CREATE TABLE IF NOT EXISTS `m_warehouse` (
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `type` varchar(256) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.m_warehouse: ~4 rows (approximately)
+DELETE FROM `m_warehouse`;
+INSERT INTO `m_warehouse` (`id`, `type`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'Warehouse Raw Material', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
+	(2, 'Warehouse Finish Goods', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
+	(3, 'Warehouse Main', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
+
+-- Dumping structure for table app-fertilizer.t_inventory
+CREATE TABLE IF NOT EXISTS `t_inventory` (
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `inventory_id` varchar(16) NOT NULL,
+  `date` date DEFAULT NULL,
+  `warehouse_id` int(16) NOT NULL DEFAULT '0',
+  `transaction_id` int(16) DEFAULT NULL,
+  `remark` text,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`,`inventory_id`) USING BTREE,
+  KEY `date` (`date`) USING BTREE,
+  KEY `status` (`status`) USING BTREE,
+  KEY `purchase_type_id` (`warehouse_id`) USING BTREE,
+  KEY `purchase_id` (`inventory_id`) USING BTREE,
+  KEY `tax_type` (`transaction_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.t_inventory: ~0 rows (approximately)
+DELETE FROM `t_inventory`;
+
 -- Dumping structure for table app-fertilizer.t_purchase
 CREATE TABLE IF NOT EXISTS `t_purchase` (
   `id` int(16) NOT NULL AUTO_INCREMENT,
@@ -707,7 +731,7 @@ CREATE TABLE IF NOT EXISTS `t_sales` (
   KEY `tax_type` (`sales_status_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_sales: ~3 rows (approximately)
+-- Dumping data for table app-fertilizer.t_sales: ~2 rows (approximately)
 DELETE FROM `t_sales`;
 INSERT INTO `t_sales` (`id`, `sales_id`, `date`, `customer_id`, `due_date`, `remark`, `currency_id`, `discount`, `tax_type`, `tax`, `total`, `sales_status_id`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'SO/082024/00003', '2024-08-27', 2, '2024-08-29', 'update', 1, 11, 0, 0, 21, NULL, 1, 'admin', '2024-08-27 11:49:12', 'admin', '2024-08-29 10:37:27'),
@@ -737,7 +761,7 @@ CREATE TABLE IF NOT EXISTS `t_sales_detail` (
   KEY `purchase_id` (`sales_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_sales_detail: ~6 rows (approximately)
+-- Dumping data for table app-fertilizer.t_sales_detail: ~5 rows (approximately)
 DELETE FROM `t_sales_detail`;
 INSERT INTO `t_sales_detail` (`id`, `sales_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_shipped`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'SO/082024/00003', '10', 2, '2', 2, 2, 3.92, NULL, 0, 'admin', '2024-08-27 11:49:12', 'admin', '2024-08-29 10:37:27'),
