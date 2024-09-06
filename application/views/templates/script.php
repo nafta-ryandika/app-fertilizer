@@ -21,4 +21,6 @@ if ($title == 'Menu Management') {
     echo '<script type="text/javascript" src="' . base_url("assets/js/") . 'purchase.js?version=' . $xyz . '"></script>';
 } else if ($title == 'Sales') {
     echo '<script type="text/javascript" src="' . base_url("assets/js/") . 'sales.js?version=' . $xyz . '"></script>';
+} else if ($title == 'Inventory') {
+    echo '<script type="text/javascript" src="' . base_url("assets/js/") . 'inventory.js?version=' . $xyz . '"></script>';
 }
