@@ -27,9 +27,9 @@ CREATE TABLE IF NOT EXISTS `m_access` (
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 
--- Dumping data for table app-fertilizer.m_access: ~17 rows (approximately)
+-- Dumping data for table app-fertilizer.m_access: ~18 rows (approximately)
 DELETE FROM `m_access`;
 INSERT INTO `m_access` (`id`, `role_id`, `menu_id`, `created_by`, `created_at`) VALUES
 	(1, 1, 1, 'Administrator', '2023-12-12 10:31:47'),
@@ -48,7 +48,8 @@ INSERT INTO `m_access` (`id`, `role_id`, `menu_id`, `created_by`, `created_at`) 
 	(27, 1, 8, NULL, '2024-05-21 10:23:59'),
 	(29, 6, 8, NULL, '2024-05-23 23:27:36'),
 	(30, 1, 9, NULL, '2024-06-18 14:53:00'),
-	(31, 1, 10, NULL, '2024-08-20 10:30:55');
+	(31, 1, 10, NULL, '2024-08-20 10:30:55'),
+	(32, 1, 11, NULL, '2024-09-06 10:49:17');
 
 -- Dumping structure for table app-fertilizer.m_company
 CREATE TABLE IF NOT EXISTS `m_company` (
@@ -320,9 +321,9 @@ CREATE TABLE IF NOT EXISTS `m_menu` (
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_menu: ~6 rows (approximately)
+-- Dumping data for table app-fertilizer.m_menu: ~7 rows (approximately)
 DELETE FROM `m_menu`;
 INSERT INTO `m_menu` (`id`, `menu`, `status`, `created_by`, `created_at`) VALUES
 	(1, 'Administrator', 1, 'Administrator', '2023-12-12 10:43:22'),
@@ -330,7 +331,8 @@ INSERT INTO `m_menu` (`id`, `menu`, `status`, `created_by`, `created_at`) VALUES
 	(3, 'Menu', 1, 'Administrator', '2023-12-12 10:43:22'),
 	(7, 'User_management', 0, 'admin', '2024-03-18 15:24:16'),
 	(9, 'Purchase', 1, 'admin', '2024-06-18 14:49:21'),
-	(10, 'Sales', 1, 'admin', '2024-08-20 10:25:01');
+	(10, 'Sales', 1, 'admin', '2024-08-20 10:25:01'),
+	(11, 'Inventory', 1, 'admin', '2024-09-06 10:42:02');
 
 -- Dumping structure for table app-fertilizer.m_position
 CREATE TABLE IF NOT EXISTS `m_position` (
@@ -425,7 +427,7 @@ CREATE TABLE IF NOT EXISTS `m_submenu` (
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.m_submenu: ~9 rows (approximately)
 DELETE FROM `m_submenu`;
@@ -438,7 +440,8 @@ INSERT INTO `m_submenu` (`id`, `menu_id`, `title`, `url`, `icon`, `status`, `cre
 	(7, 1, 'Role', 'administrator/role', 'fas fa-fw fa-key', 1, 'Administrator', '2023-12-12 10:28:19'),
 	(11, 1, 'User', 'user_management', 'fas fa-fw fa-user', 1, NULL, '2024-03-18 14:51:33'),
 	(13, 9, 'Purchase', 'purchase', 'fas fa-fw fa-cart-shopping', 1, NULL, '2024-06-18 14:52:41'),
-	(14, 10, 'Sales', 'sales', 'fas fa-fw fa-file-invoice-dollar', 1, NULL, '2024-08-20 10:30:45');
+	(14, 10, 'Sales', 'sales', 'fas fa-fw fa-file-invoice-dollar', 1, NULL, '2024-08-20 10:30:45'),
+	(15, 11, 'Inventory', 'inventory', 'fas fa-fw fa-boxes-stacked', 1, NULL, '2024-09-06 10:47:59');
 
 -- Dumping structure for table app-fertilizer.m_supplier
 CREATE TABLE IF NOT EXISTS `m_supplier` (
@@ -524,13 +527,8 @@ CREATE TABLE IF NOT EXISTS `m_user` (
 DELETE FROM `m_user`;
 INSERT INTO `m_user` (`id`, `user_id`, `name`, `email`, `image`, `password`, `company_id`, `department_id`, `division_id`, `role_id`, `status`, `created_by`, `created_at`) VALUES
 	(1, 'admin', 'admin', 'sysdev@megamarinepride.com', 'default.png', '$2y$10$31nTmbo9IVv6NnjV7FHNHetkM4aIr18q8XRsRsI/y7qHXaNvtYKxK', 1, 4, 1, 1, 1, 'administrator', '2023-11-29 07:41:59'),
-	(2, 'user', 'user', 'user@gmail.com', 'default.png', '$2y$10$mqX3iwzex/G/K2cEd5Yer.2DOAYn2AF0G1rFyW249xPh6dS5pX8Fq', 1, 4, 1, 2, 1, 'administrator', '2023-12-08 05:19:30'),
 	(6, 'coba', 'coba', 'sysdev@megamarinepride.com', 'default.png', '$2y$10$6XJQ75PwG6mkgr3iOILQKudcwHW/a3Dv3ROLJOQ3yGGscsLkolFDa', 1, 20, 38, 1, 0, 'admin', '2024-05-16 16:50:37'),
-	(23, '1234', 'test edit', 'sysdev@megamarinepride.com', 'default.png', '$2y$10$a8vOjhMDIznyMK9PiJqwWuD4r2pLFnJF8vdEIDPvItqZl09EPjvMW', 1, 20, 38, 1, 1, 'admin', '2024-05-16 16:49:35'),
-	(24, 'hrd', 'hrd', '', 'default.png', '$2y$10$.qPGVgOxVSxvJWcPnAiEM.e70Jf4RIGvFaoUeLFm5cPUhVFROHVJC', 1, 12, 22, 3, 1, 'admin', '2024-05-18 16:22:42'),
-	(25, 'security', 'security', '', 'default.png', '$2y$10$swhOc3ETAs0BBgw8Ih7Ek.sTFYnlpmD76JUfh0oDx3FSqcNmqbpfS', 1, 14, 23, 4, 1, 'admin', '2024-05-18 16:25:26'),
-	(26, 'audit', 'audit', '', 'default.png', '$2y$10$NDfADe49btw6ciicwTs6qeyXrQCAMgi9MEjyM/Sr2WF5w1UF4rONW', 1, 12, 22, 5, 1, 'admin', '2024-05-18 16:26:15'),
-	(27, 'vote', 'vote', '', 'default.png', '$2y$10$2c08SzztPfP2Rd1Tij37HeGgbqpOE54mksVgF/IWwiMuSE/3QRAjC', 1, 20, 38, 6, 1, 'admin', '2024-05-23 23:31:11');
+	(23, '1234', 'test edit', 'sysdev@megamarinepride.com', 'default.png', '$2y$10$a8vOjhMDIznyMK9PiJqwWuD4r2pLFnJF8vdEIDPvItqZl09EPjvMW', 1, 20, 38, 1, 1, 'admin', '2024-05-16 16:49:35');
 
 -- Dumping structure for table app-fertilizer.m_warehouse
 CREATE TABLE IF NOT EXISTS `m_warehouse` (
@@ -556,6 +554,7 @@ CREATE TABLE IF NOT EXISTS `t_inventory` (
   `id` int(16) NOT NULL AUTO_INCREMENT,
   `inventory_id` varchar(16) NOT NULL,
   `date` date DEFAULT NULL,
+  `inventory_type_id` int(16) DEFAULT NULL,
   `warehouse_id` int(16) NOT NULL DEFAULT '0',
   `transaction_id` int(16) DEFAULT NULL,
   `remark` text,
@@ -569,11 +568,34 @@ CREATE TABLE IF NOT EXISTS `t_inventory` (
   KEY `status` (`status`) USING BTREE,
   KEY `purchase_type_id` (`warehouse_id`) USING BTREE,
   KEY `purchase_id` (`inventory_id`) USING BTREE,
-  KEY `tax_type` (`transaction_id`) USING BTREE
+  KEY `tax_type` (`transaction_id`) USING BTREE,
+  KEY `inventory_type_id` (`inventory_type_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.t_inventory: ~0 rows (approximately)
 DELETE FROM `t_inventory`;
+
+-- Dumping structure for table app-fertilizer.t_inventory_detail
+CREATE TABLE IF NOT EXISTS `t_inventory_detail` (
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `inventory_id` varchar(16) NOT NULL,
+  `goods_id` varchar(16) DEFAULT NULL,
+  `qty` float DEFAULT NULL,
+  `unit_id` varchar(16) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`,`inventory_id`) USING BTREE,
+  KEY `goods_id` (`goods_id`) USING BTREE,
+  KEY `unit_id` (`unit_id`) USING BTREE,
+  KEY `status` (`status`) USING BTREE,
+  KEY `purchase_id` (`inventory_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.t_inventory_detail: ~0 rows (approximately)
+DELETE FROM `t_inventory_detail`;
 
 -- Dumping structure for table app-fertilizer.t_purchase
 CREATE TABLE IF NOT EXISTS `t_purchase` (
@@ -770,6 +792,59 @@ INSERT INTO `t_sales_detail` (`id`, `sales_id`, `goods_id`, `qty`, `unit_id`, `p
 	(4, 'SO/082024/00003', '11', 3, '2', 3, 3, 8.73, NULL, 1, 'admin', '2024-08-29 10:36:34', 'admin', '2024-08-29 10:37:27'),
 	(5, 'SO/082024/00003', '7', 4, '2', 4, 4, 15.36, NULL, 1, 'admin', '2024-08-29 10:37:27', NULL, NULL),
 	(6, 'SO/082024/00005', '12', 1, '2', 1, 1, 0.99, NULL, 0, 'admin', '2024-08-29 14:25:42', 'admin', '2024-08-29 14:28:42');
+
+-- Dumping structure for table app-fertilizer.t_stock
+CREATE TABLE IF NOT EXISTS `t_stock` (
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `warehouse_id` varchar(16) NOT NULL,
+  `year` year(4) DEFAULT NULL,
+  `month` varchar(4) NOT NULL DEFAULT '0',
+  `goods_id` varchar(16) DEFAULT NULL,
+  `qty_in` float DEFAULT NULL,
+  `qty_out` float DEFAULT NULL,
+  `qty_balance` float DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `warehouse_id` (`warehouse_id`),
+  KEY `year` (`year`),
+  KEY `month` (`month`),
+  KEY `goods_id` (`goods_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.t_stock: ~0 rows (approximately)
+DELETE FROM `t_stock`;
+
+-- Dumping structure for table app-fertilizer.t_stock_card
+CREATE TABLE IF NOT EXISTS `t_stock_card` (
+  `id` int(16) NOT NULL AUTO_INCREMENT,
+  `transaction_id` varchar(16) NOT NULL,
+  `warehouse_id` varchar(16) NOT NULL,
+  `date` date DEFAULT NULL,
+  `inventory_type_id` varchar(16) NOT NULL,
+  `goods_id` varchar(16) DEFAULT NULL,
+  `qty` float DEFAULT NULL,
+  `unit_id` varchar(16) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1',
+  `created_by` varchar(256) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `log_by` varchar(256) DEFAULT NULL,
+  `log_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`,`transaction_id`) USING BTREE,
+  KEY `goods_id` (`goods_id`) USING BTREE,
+  KEY `unit_id` (`unit_id`) USING BTREE,
+  KEY `status` (`status`) USING BTREE,
+  KEY `purchase_id` (`transaction_id`) USING BTREE,
+  KEY `date` (`date`),
+  KEY `warehouse_id` (`warehouse_id`),
+  KEY `inventory_type_id` (`inventory_type_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+
+-- Dumping data for table app-fertilizer.t_stock_card: ~0 rows (approximately)
+DELETE FROM `t_stock_card`;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
