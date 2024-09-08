@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    viewData();
-	// add('add','');
+    // viewData();
+	add('add','');
 	$('#modalDetail').on('hidden.bs.modal', function () {
 		$("#contentDetailsales").html("");
 	})
@@ -91,7 +91,7 @@ function get(param,obj,callBack) {
 	if (param == "edit") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"sales/get",
+			url: base_url+"inventory/get",
 			data: {
 				param: param,
 				obj: obj
@@ -123,10 +123,10 @@ function get(param,obj,callBack) {
 			} else {
 				$('#tableSearch tr:eq('+rowIndex+') .inSearchinput').prop('type','text');
 			}
-	} else if (param == "inCustomer") {
+	} else if (param == "inWarehouse") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"sales/get",
+			url: base_url+"inventory/get",
 			data: {
 				param: param,
 				obj: obj
@@ -134,7 +134,7 @@ function get(param,obj,callBack) {
 			cache: false,
 			dataType: "JSON",
 			beforeSend: function(data) {
-				$('#inSupplier').select2({
+				$('#inWarehouse').select2({
 					theme: 'bootstrap4'
 				})
 			},
@@ -144,14 +144,14 @@ function get(param,obj,callBack) {
 	
 					for (i=0; i<data.res.length; i++) {
 						if (obj.trim() != "" && obj == data.res[i].id) {
-							html += '<option value="' + data.res[i].id + '" selected>' + data.res[i].customer + '</option>';	
+							html += '<option value="' + data.res[i].id + '" selected>' + data.res[i].warehouse + '</option>';	
 						}
 						else {
-							html += '<option value="' + data.res[i].id + '">' + data.res[i].customer + '</option>';
+							html += '<option value="' + data.res[i].id + '">' + data.res[i].warehouse + '</option>';
 						}
 					}
 	
-					$('#inCustomer').html(html);
+					$('#inWarehouse').html(html);
 			}
 		});
 	} else if (param == "inDgoods") {
@@ -282,7 +282,7 @@ function get(param,obj,callBack) {
 	} else if (param == "input") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"sales/get",
+			url: base_url+"inventory/get",
 			data: {
 				param: param,
 				obj:obj
@@ -307,7 +307,7 @@ function get(param,obj,callBack) {
 
 				var today = new Date().toISOString().split('T')[0];
 				$("#inDate").val(today);
-				get("inCustomer","","");
+				get("inWarehouse","","");
 				get("inDgoods","1","");
 				
 				$('#inCustomer').select2({
@@ -319,7 +319,53 @@ function get(param,obj,callBack) {
 				$("#inType").focus();
 			}
 		});
-	}
+	} else if (param == "searchTransaction") {
+		var inType = $("#inType").val();
+		var inTransaction = $("#inTransaction").val();
+		
+		var data = [{
+					inType: inType,
+					inTransaction: inTransaction
+					}];  
+
+		$.ajax({
+			type: "POST",
+			url: base_url+"inventory/get",
+			data: {
+				param: param,
+				obj: obj,
+				data: data
+			},
+			cache: false,
+			dataType: "JSON",
+			beforeSend: function(data) {
+				Swal.fire({
+					title: "Please Wait!",
+					didOpen: () => {
+						Swal.showLoading();
+					}
+				})
+			},
+			success: function (data) {
+					// var html = '<option value="">Select</option>';
+					// var i;
+	
+					// for (i=0; i<data.res.length; i++) {
+					// 	if (obj.trim() != "" && obj == data.res[i].id) {
+					// 		html += '<option value="' + data.res[i].id + '" selected>' + data.res[i].warehouse + '</option>';	
+					// 	}
+					// 	else {
+					// 		html += '<option value="' + data.res[i].id + '">' + data.res[i].warehouse + '</option>';
+					// 	}
+					// }
+	
+					// $('#inWarehouse').html(html);
+			},
+			complete: function (data) {
+				Swal.close();
+			}
+		});
+	} 
 }
 
 function set(param,obj){

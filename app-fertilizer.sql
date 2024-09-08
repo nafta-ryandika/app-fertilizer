@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.51-log - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.8.0.6924
+-- HeidiSQL Version:             12.5.0.6677
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `m_department` (
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table app-fertilizer.m_department: ~21 rows (approximately)
 DELETE FROM `m_department`;
@@ -302,7 +302,7 @@ CREATE TABLE IF NOT EXISTS `m_inventory_type` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_inventory_type: ~5 rows (approximately)
+-- Dumping data for table app-fertilizer.m_inventory_type: ~7 rows (approximately)
 DELETE FROM `m_inventory_type`;
 INSERT INTO `m_inventory_type` (`id`, `type`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'Receipt', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
@@ -429,7 +429,7 @@ CREATE TABLE IF NOT EXISTS `m_submenu` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_submenu: ~9 rows (approximately)
+-- Dumping data for table app-fertilizer.m_submenu: ~10 rows (approximately)
 DELETE FROM `m_submenu`;
 INSERT INTO `m_submenu` (`id`, `menu_id`, `title`, `url`, `icon`, `status`, `created_by`, `created_at`) VALUES
 	(1, 1, 'Dashboard', 'administrator', 'fas fa-fw fa-tachometer-alt', 1, 'Administrator', '2023-12-12 10:28:19'),
@@ -521,9 +521,9 @@ CREATE TABLE IF NOT EXISTS `m_user` (
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 
--- Dumping data for table app-fertilizer.m_user: ~8 rows (approximately)
+-- Dumping data for table app-fertilizer.m_user: ~3 rows (approximately)
 DELETE FROM `m_user`;
 INSERT INTO `m_user` (`id`, `user_id`, `name`, `email`, `image`, `password`, `company_id`, `department_id`, `division_id`, `role_id`, `status`, `created_by`, `created_at`) VALUES
 	(1, 'admin', 'admin', 'sysdev@megamarinepride.com', 'default.png', '$2y$10$31nTmbo9IVv6NnjV7FHNHetkM4aIr18q8XRsRsI/y7qHXaNvtYKxK', 1, 4, 1, 1, 1, 'administrator', '2023-11-29 07:41:59'),
@@ -533,18 +533,18 @@ INSERT INTO `m_user` (`id`, `user_id`, `name`, `email`, `image`, `password`, `co
 -- Dumping structure for table app-fertilizer.m_warehouse
 CREATE TABLE IF NOT EXISTS `m_warehouse` (
   `id` int(16) NOT NULL AUTO_INCREMENT,
-  `type` varchar(256) DEFAULT NULL,
+  `warehouse` varchar(256) DEFAULT NULL,
   `status` tinyint(4) DEFAULT '1',
   `created_by` varchar(256) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `log_by` varchar(256) DEFAULT NULL,
   `log_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_warehouse: ~4 rows (approximately)
+-- Dumping data for table app-fertilizer.m_warehouse: ~3 rows (approximately)
 DELETE FROM `m_warehouse`;
-INSERT INTO `m_warehouse` (`id`, `type`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+INSERT INTO `m_warehouse` (`id`, `warehouse`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'Warehouse Raw Material', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
 	(2, 'Warehouse Finish Goods', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
 	(3, 'Warehouse Main', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
@@ -753,7 +753,7 @@ CREATE TABLE IF NOT EXISTS `t_sales` (
   KEY `tax_type` (`sales_status_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_sales: ~2 rows (approximately)
+-- Dumping data for table app-fertilizer.t_sales: ~3 rows (approximately)
 DELETE FROM `t_sales`;
 INSERT INTO `t_sales` (`id`, `sales_id`, `date`, `customer_id`, `due_date`, `remark`, `currency_id`, `discount`, `tax_type`, `tax`, `total`, `sales_status_id`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'SO/082024/00003', '2024-08-27', 2, '2024-08-29', 'update', 1, 11, 0, 0, 21, NULL, 1, 'admin', '2024-08-27 11:49:12', 'admin', '2024-08-29 10:37:27'),
@@ -783,7 +783,7 @@ CREATE TABLE IF NOT EXISTS `t_sales_detail` (
   KEY `purchase_id` (`sales_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_sales_detail: ~5 rows (approximately)
+-- Dumping data for table app-fertilizer.t_sales_detail: ~6 rows (approximately)
 DELETE FROM `t_sales_detail`;
 INSERT INTO `t_sales_detail` (`id`, `sales_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_shipped`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'SO/082024/00003', '10', 2, '2', 2, 2, 3.92, NULL, 0, 'admin', '2024-08-27 11:49:12', 'admin', '2024-08-29 10:37:27'),

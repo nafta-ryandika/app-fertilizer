@@ -38,66 +38,41 @@ if (isset($param)) {
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inCustomer" class="col-sm-3 col-form-label">Customer</label>
-                    <div class="col-sm-9">
-                        <select class="form-control select2" style="width: 100%;" id="inCustomer" name="inCustomer" required>
-                            <option value="">Select</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inDuedate" class="col-sm-3 col-form-label">Due Date</label>
+                    <label for="inType" class="col-sm-3 col-form-label">Type</label>
                     <div class="col-sm-3">
-                        <input type="date" class="form-control" id="inDuedate" name="inDuedate" required>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inRemark" class="col-sm-3 col-form-label">Remark</label>
-                    <div class="col-sm-9">
-                        <textarea type="text" class="form-control" id="inRemark" name="inRemark"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-group row">
-                    <label for="inCurrency" class="col-sm-3 col-form-label">Currency</label>
-                    <div class="col-sm-3">
-                        <select class="form-control inCurrency" id="inCurrency" style="width: 100%;">
+                        <select class="form-control inType" id="inType" style="width: 100%;">
                             <option value="">Select</option>
                             <?php
-                            foreach ($currency as $data_currency) :
-                                echo '<option value="' . $data_currency['id'] . '">' . $data_currency['currency'] . '</option>';
+                            foreach ($type as $data_type) :
+                                echo '<option value="' . $data_type['id'] . '">' . $data_type['type'] . '</option>';
                             endforeach;
                             ?>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inDiscount" class="col-sm-3 col-form-label">Discount</label>
-                    <div class="col-sm-3">
-                        <input type="number" class="form-control text-right" id="inDiscount" name="inDiscount" value="0" onkeyup="count('total',this)" onfocus="$(this).select();" required>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="inTaxtype" class="col-sm-3 col-form-label">Tax Type</label>
-                    <div class="col-sm-3">
-                        <select class="form-control inTaxtype" id="inTaxtype" style="width: 100%;" onChange="set(this.id,'')">
+                    <label for="inWarehouse" class="col-sm-3 col-form-label">Warehouse</label>
+                    <div class="col-sm-9">
+                        <select class="form-control select2" style="width: 100%;" id="inWarehouse" name="inWarehouse" required>
                             <option value="">Select</option>
-                            <option value="1">Include (PKP)</option>
-                            <option value="0">Exclude (Non - PKP)</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="inTax" class="col-sm-3 col-form-label">Tax</label>
-                    <div class="col-sm-3">
-                        <input type="number" class="form-control text-right" id="inTax" name="inTax" value="0" onkeyup="count('total',this)" onfocus="$(this).select();" required>
+                    <label for="inTransaction" class="col-sm-3 col-form-label">Transaction ID</label>
+                    <div class="input-group col-sm-9">
+                        <input type="text" class="form-control" id="inTransaction" name="inTransaction">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-success" type="button" id="btnSearchTransaction" onclick="get('searchTransaction', '', '')">Search</button>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-6">
                 <div class="form-group row">
-                    <label for="inTotal" class="col-sm-3 col-form-label">Total</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control text-right" id="inTotal" name="inTotal" readonly disabled required>
+                    <label for="inRemark" class="col-sm-3 col-form-label">Remark</label>
+                    <div class="col-sm-9">
+                        <textarea type="text" class="form-control" id="inRemark" name="inRemark"></textarea>
                     </div>
                 </div>
             </div>
@@ -114,9 +89,6 @@ if (isset($param)) {
                                             <th scope="col">Goods</th>
                                             <th scope="col">Qty</th>
                                             <th scope="col">Unit</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Discount</th>
-                                            <th scope="col">Sub Total</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -163,15 +135,6 @@ if (isset($param)) {
                                                             <input type="text" class="form-control inDunit" name="inDunit" value="<?= $inDunit; ?>" readonly disabled required>
                                                             <input type="hidden" class="form-control inDunitid" name="inDunitid" value="<?= $inDunitid; ?>" readonly disabled>
                                                         </td>
-                                                        <td scope="row">
-                                                            <input type="number" class="form-control text-right inDprice" name="inDprice" onkeyup="count('subtotal',this)" onfocus="$(this).select();" value="<?= $inPrice; ?>" required>
-                                                        </td>
-                                                        <td scope="row">
-                                                            <input type="number" class="form-control inDdiscount" name="inDdiscount" onkeyup="count('subtotal',this)" onfocus="$(this).select();" value="<?= $inDdiscount; ?>">
-                                                        </td>
-                                                        <td scope="row">
-                                                            <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" value="<?= $inDsubtotal; ?>" readonly disabled required>
-                                                        </td>
                                                         <td>
                                                             <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
                                                             <a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove('detail',this)"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
@@ -210,15 +173,6 @@ if (isset($param)) {
                                                         <input type="text" class="form-control inDunit" name="inDunit" readonly disabled required>
                                                         <input type="hidden" class="form-control inDunitid" name="inDunitid" readonly disabled>
                                                     </td>
-                                                    <td scope="row">
-                                                        <input type="number" class="form-control text-right inDprice" name="inDprice" onkeyup="count('subtotal',this)" onfocus="$(this).select();" required>
-                                                    </td>
-                                                    <td scope="row">
-                                                        <input type="number" class="form-control inDdiscount" name="inDdiscount" onkeyup="count('subtotal',this)" onfocus="$(this).select();">
-                                                    </td>
-                                                    <td scope="row">
-                                                        <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" readonly disabled required>
-                                                    </td>
                                                     <td>
                                                         <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
                                                         <a class="btn btn-secondary m-1" id="btnDelete" title="Delete" onclick=""><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
@@ -243,15 +197,6 @@ if (isset($param)) {
                                                 <td scope="row">
                                                     <input type="text" class="form-control inDunit" name="inDunit" readonly disabled required>
                                                     <input type="hidden" class="form-control inDunitid" name="inDunitid" readonly disabled>
-                                                </td>
-                                                <td scope="row">
-                                                    <input type="number" class="form-control text-right inDprice" name="inDprice" onkeyup="count('subtotal',this)" onfocus="$(this).select();" required>
-                                                </td>
-                                                <td scope="row">
-                                                    <input type="number" class="form-control inDdiscount" name="inDdiscount" onkeyup="count('subtotal',this)" onfocus="$(this).select();">
-                                                </td>
-                                                <td scope="row">
-                                                    <input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" readonly disabled required>
                                                 </td>
                                                 <td>
                                                     <a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add('detail','')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>
@@ -304,12 +249,4 @@ if (isset($param)) {
         $(this).closest('tr').find('.inDunitid').val(unit_id);
         $(this).closest('tr').find('.inDunit').val(unit);
     });
-
-    var inTaxtype = <?= $inTaxtype ?>;
-
-    if (inTaxtype == 0) {
-        $("#inTax").prop('disabled', true);
-    } else if (inTaxtype == 1) {
-        $("#inTax").prop('disabled', false);
-    }
 </script>

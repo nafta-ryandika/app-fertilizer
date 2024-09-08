@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Sales_M extends CI_Model
+class Inventory_M extends CI_Model
 {
     public function __construct()
     {
@@ -16,8 +16,25 @@ class Sales_M extends CI_Model
     {
         $data = array();
 
-        if ($param == "inCustomer") {
-            $query = "SELECT id, customer FROM m_customer WHERE `status` = '1' ORDER BY customer";
+        if ($param == "inWarehouse") {
+            $query = "SELECT id, warehouse FROM m_warehouse WHERE `status` = '1' ORDER BY warehouse";
+            $row = $this->db->query($query)->num_rows();
+
+            if ($row > 0) {
+                $data["res"] = $this->db->query($query)->result_array();
+            } else {
+                return FALSE;
+            }
+        } else if ($param == "searchTransaction") {
+            for ($i = 0; $i < count($data); $i++) {
+                $inType = $data[$i]["inType"];
+                $inTransaction = $data[$i]["inTransaction"];
+            }
+
+            if ($inType == 1) {
+            }
+
+            $query = "SELECT id, warehouse FROM m_warehouse WHERE `status` = '1' ORDER BY warehouse";
             $row = $this->db->query($query)->num_rows();
 
             if ($row > 0) {
