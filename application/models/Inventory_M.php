@@ -32,10 +32,9 @@ class Inventory_M extends CI_Model
             }
 
             if ($inType == 1) {
+                $query = "SELECT id, warehouse FROM m_warehouse WHERE `status` = '1' ORDER BY warehouse";
+                $row = $this->db->query($query)->num_rows();
             }
-
-            $query = "SELECT id, warehouse FROM m_warehouse WHERE `status` = '1' ORDER BY warehouse";
-            $row = $this->db->query($query)->num_rows();
 
             if ($row > 0) {
                 $data["res"] = $this->db->query($query)->result_array();
