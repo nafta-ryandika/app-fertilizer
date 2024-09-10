@@ -129,7 +129,7 @@ if (isset($param)) {
                                                             </select>
                                                         </td>
                                                         <td scope="row">
-                                                            <input type="number" class="form-control text-right inDqty" name="inDqty" onkeyup="count('subtotal',this)" onfocus="$(this).select();" value="<?= $inDqty; ?>" required>
+                                                            <input type="number" class="form-control text-right inDqty" name="inDqty" onfocus="$(this).select();" value="<?= $inDqty; ?>" required>
                                                         </td>
                                                         <td scope="row">
                                                             <input type="text" class="form-control inDunit" name="inDunit" value="<?= $inDunit; ?>" readonly disabled required>
@@ -167,7 +167,7 @@ if (isset($param)) {
                                                         </select>
                                                     </td>
                                                     <td scope="row">
-                                                        <input type="number" class="form-control text-right inDqty" name="inDqty" onkeyup="count('subtotal',this)" onfocus="$(this).select();" required>
+                                                        <input type="number" class="form-control text-right inDqty" name="inDqty" onfocus="$(this).select();" required>
                                                     </td>
                                                     <td scope="row">
                                                         <input type="text" class="form-control inDunit" name="inDunit" readonly disabled required>
@@ -192,7 +192,7 @@ if (isset($param)) {
                                                     </select>
                                                 </td>
                                                 <td scope="row">
-                                                    <input type="number" class="form-control text-right inDqty" name="inDqty" onkeyup="count('subtotal',this)" onfocus="$(this).select();" required>
+                                                    <input type="number" class="form-control text-right inDqty" name="inDqty" onfocus="$(this).select();" required>
                                                 </td>
                                                 <td scope="row">
                                                     <input type="text" class="form-control inDunit" name="inDunit" readonly disabled required>

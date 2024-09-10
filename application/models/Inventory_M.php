@@ -12,7 +12,7 @@ class Inventory_M extends CI_Model
         date_default_timezone_set('Asia/Jakarta');
     }
 
-    public function get($param, $obj)
+    public function get($param, $obj, $datax)
     {
         $data = array();
 
@@ -26,20 +26,68 @@ class Inventory_M extends CI_Model
                 return FALSE;
             }
         } else if ($param == "searchTransaction") {
-            for ($i = 0; $i < count($data); $i++) {
-                $inType = $data[$i]["inType"];
-                $inTransaction = $data[$i]["inTransaction"];
+            for ($i = 0; $i < count($datax); $i++) {
+                $inType = $datax[$i]["inType"];
+                $inTransaction = trim($datax[$i]["inTransaction"]);
             }
 
             if ($inType == 1) {
-                $query = "SELECT id, warehouse FROM m_warehouse WHERE `status` = '1' ORDER BY warehouse";
-                $row = $this->db->query($query)->num_rows();
-            }
+                if ($inTransaction != "") {
+                    $query = "SELECT 
+                                *,
+                                (SELECT goods FROM m_goods WHERE id = goods_id) AS goods, 
+                                (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
+                                FROM t_purchase_detail 
+                                WHERE 
+                                purchase_id = '" . $inTransaction . "' AND 
+                                `status` = 1 
+                                ORDER BY purchase_id DESC";
 
-            if ($row > 0) {
-                $data["res"] = $this->db->query($query)->result_array();
-            } else {
-                return FALSE;
+                    $row = $this->db->query($query)->num_rows();
+
+                    if ($row > 0) {
+                        $data["status"] = 1;
+                        $data["res"] = $this->db->query($query)->result_array();
+                    } else {
+                        $query2 = "SELECT 
+                                    *,
+                                    (SELECT goods FROM m_goods WHERE id = goods_id) AS goods, 
+                                    (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
+                                    FROM t_purchase_detail 
+                                    WHERE 
+                                    purchase_id LIKE '%" . $inTransaction . "%' AND 
+                                    `status` = 1 
+                                    ORDER BY purchase_id DESC";
+
+
+                        $row2 = $this->db->query($query2)->num_rows();
+
+                        if ($row2) {
+                            $data["status"] = 0;
+                            $data["res"] = $this->db->query($query2)->result_array();
+                        } else {
+                            return FALSE;
+                        }
+                    }
+                } else {
+                    $query3 = "SELECT 
+                                *,
+                                (SELECT goods FROM m_goods WHERE id = goods_id) AS goods, 
+                                (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
+                                FROM t_purchase_detail 
+                                WHERE `status` = 1 
+                                ORDER BY purchase_id DESC ";
+
+
+                    $row3 = $this->db->query($query3)->num_rows();
+
+                    if ($row3) {
+                        $data["status"] = 0;
+                        $data["res"] = $this->db->query($query3)->result_array();
+                    } else {
+                        return FALSE;
+                    }
+                }
             }
         } else if ($param == "inDgoods") {
             $query = "SELECT id, goods, unit_id,
@@ -47,7 +95,7 @@ class Inventory_M extends CI_Model
                         FROM m_goods 
                         WHERE 
                         `status` = '1' AND 
-                        goods_type_id = '2'   
+                        goods_type_id = '1'   
                         ORDER BY goods";
             $row = $this->db->query($query)->num_rows();
 

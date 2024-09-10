@@ -48,6 +48,7 @@ class Inventory extends CI_Controller
     {
         $param = $this->input->post('param');
         $obj = $this->input->post('obj');
+        $datax = $this->input->post('data');
 
         if ($param == "input") {
             $sql = "SELECT id, `type` FROM m_inventory_type a WHERE `status` = 1  ORDER BY `id` ASC";
@@ -74,7 +75,7 @@ class Inventory extends CI_Controller
             $data['html'] = $this->load->view('sales/input', $data);
             // echo (json_encode($data));
         } else {
-            $data = $this->Inventory_M->get($param, $obj);
+            $data = $this->Inventory_M->get($param, $obj, $datax);
 
             echo (json_encode($data));
         }

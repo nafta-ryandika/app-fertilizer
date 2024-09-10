@@ -157,7 +157,7 @@ function get(param,obj,callBack) {
 	} else if (param == "inDgoods") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"sales/get",
+			url: base_url+"inventory/get",
 			data: {
 				param: param,
 				obj: obj
@@ -174,6 +174,7 @@ function get(param,obj,callBack) {
 					var i;
 	
 					for (i=0; i<data.res.length; i++) {
+						console.log(callBack+"|"+data.res[i].id);
 						if (callBack.trim() != "" && callBack == data.res[i].id) {
 							html += '<option value="' + data.res[i].id + '" data-unit="'+data.res[i].unit+'" data-unitid="'+data.res[i].unit_id+'" selected>' + data.res[i].goods + '</option>';	
 						}
@@ -347,6 +348,11 @@ function get(param,obj,callBack) {
 				})
 			},
 			success: function (data) {
+				if (data.status == 1) {
+					set("detail", data.res);
+				} else if (data.status == 0) {
+					
+				}
 					// var html = '<option value="">Select</option>';
 					// var i;
 	
@@ -369,14 +375,42 @@ function get(param,obj,callBack) {
 }
 
 function set(param,obj){
-	if(param == "inTaxtype"){
-		var inTaxtype = $("#"+param).val();
-		if(inTaxtype == 0){
-			$("#inTax").val(0);
-			$("#inTax").prop('disabled', true);
-		} else if(inTaxtype == 1){
-			$("#inTax").val("");
-			$("#inTax").prop('disabled', false);
+	if(param == "detail"){
+		if (obj.length > 0){
+			var html = "";
+
+			for (var i = 0; i < obj.length; i++) {
+				html += '<tr>\n\
+								<td scope="row">\n\
+									<select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>\n\
+										<option value="">Select</option>\n\
+									</select>\n\
+								</td>\n\
+								<td scope="row">\n\
+									<input type="number" class="form-control text-right inDqty" name="inDqty" value="' + parseFloat(obj[i].qty).toLocaleString('id-ID') + '" required>\n\
+								</td>\n\
+								<td scope="row">\n\
+									<input type="text" class="form-control inDunit" name="inDunit" readonly disabled required>\n\
+									<input type="hidden" class="form-control inDunitid" name="inDunitid" readonly disabled>\n\
+								</td>\n\
+								<td>\n\
+									<a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add(\'detail\',\'\')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>\n\
+									<a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove(\'detail\',this)"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>\n\
+								</td>\n\
+							</tr>';
+
+							var numRow = $('#dataTable-input tbody tr').length;
+							get("inDgoods",numRow,obj[i].goods_id);
+				$('#dataTable-input tr:last').after(html);
+				// var numRow = $('#dataTable-input tbody tr').length;
+				// get("inDgoods",numRow,"");
+				// get("inDgoods",numRow,obj[i].goods_id);
+				
+
+				// console.log(obj[i].goods_id);
+			}
+
+			$('#dataTable-input tbody').html(html);
 		}
 	}
 }
