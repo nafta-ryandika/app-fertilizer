@@ -202,7 +202,22 @@
                 </button>
             </div>
             <div class="modal-body">
-
+                <table class="table table-hover" id="dataTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" style="text-align: center !important;">ID</th>
+                            <th scope="col" style="text-align: center !important;">Goods</th>
+                            <th scope="col" style="text-align: center !important;">Qty</th>
+                            <th scope="col" style="text-align: center !important;">Unit</th>
+                            <th scope="col" style="text-align: center !important;">Currency</th>
+                            <th scope="col" style="text-align: center !important;">Total</th>
+                            <th scope="col" style="text-align: center !important;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary btn-md col-2" data-dismiss="modal">Close</button>

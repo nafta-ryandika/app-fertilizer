@@ -51,14 +51,32 @@ class Inventory_M extends CI_Model
                     } else {
                         $query2 = "SELECT 
                                     *,
-                                    GROUP_CONCAT(CONCAT((SELECT goods FROM m_goods WHERE id = goods_id))) AS goods,  
+                                    (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,  
                                     (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
                                     FROM t_purchase_detail 
                                     WHERE 
                                     purchase_id LIKE '%" . $inTransaction . "%' AND 
                                     `status` = 1 
-                                    GROUP BY purchase_id 
                                     ORDER BY purchase_id DESC";
+
+                        // SELECT * FROM (
+                        //     SELECT 
+                        //          id, purchase_id, `date`, purchase_type_id, supplier_id, due_date,  currency_id, tax_type, `status`
+                        //     FROM t_purchase
+                        //     WHERE 
+                        //      `status` = 1
+                        // )t1 LEFT JOIN (
+                        //     SELECT 
+                        //         id, purchase_id, goods_id, qty, unit_id, `status`
+                        //       -- *,
+                        //          -- (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,  
+                        //          -- (SELECT unit FROM m_unit WHERE id = unit_id) AS unit
+                        //     FROM t_purchase_detail
+                        //     WHERE 
+                        //      purchase_id LIKE '%" . $inTransaction . "%' AND 
+                        //      `status` = 1
+                        // )t2 ON 
+                        // t1.purchase_id = t2.purchase_id 
 
 
                         $row2 = $this->db->query($query2)->num_rows();
