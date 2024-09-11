@@ -45,18 +45,19 @@ class Inventory_M extends CI_Model
 
                     $row = $this->db->query($query)->num_rows();
 
-                    if ($row > 0) {
+                    if ($row) {
                         $data["status"] = 1;
                         $data["res"] = $this->db->query($query)->result_array();
                     } else {
                         $query2 = "SELECT 
                                     *,
-                                    (SELECT goods FROM m_goods WHERE id = goods_id) AS goods, 
+                                    GROUP_CONCAT(CONCAT((SELECT goods FROM m_goods WHERE id = goods_id))) AS goods,  
                                     (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
                                     FROM t_purchase_detail 
                                     WHERE 
                                     purchase_id LIKE '%" . $inTransaction . "%' AND 
                                     `status` = 1 
+                                    GROUP BY purchase_id 
                                     ORDER BY purchase_id DESC";
 
 

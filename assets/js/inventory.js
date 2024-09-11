@@ -174,7 +174,6 @@ function get(param,obj,callBack) {
 					var i;
 	
 					for (i=0; i<data.res.length; i++) {
-						console.log(callBack+"|"+data.res[i].id);
 						if (callBack.trim() != "" && callBack == data.res[i].id) {
 							html += '<option value="' + data.res[i].id + '" data-unit="'+data.res[i].unit+'" data-unitid="'+data.res[i].unit_id+'" selected>' + data.res[i].goods + '</option>';	
 						}
@@ -351,7 +350,9 @@ function get(param,obj,callBack) {
 				if (data.status == 1) {
 					set("detail", data.res);
 				} else if (data.status == 0) {
-					
+					$('#modalSearchtransaction').modal('show').after(function (data) {
+						
+					})
 				}
 					// var html = '<option value="">Select</option>';
 					// var i;
@@ -387,27 +388,21 @@ function set(param,obj){
 									</select>\n\
 								</td>\n\
 								<td scope="row">\n\
-									<input type="number" class="form-control text-right inDqty" name="inDqty" value="' + parseFloat(obj[i].qty).toLocaleString('id-ID') + '" required>\n\
+									<input type="number" class="form-control text-right inDqty" name="inDqty" value="' + parseFloat(obj[i].qty).toLocaleString('id-ID') + '" onfocus="$(this).select();" required>\n\
 								</td>\n\
 								<td scope="row">\n\
-									<input type="text" class="form-control inDunit" name="inDunit" readonly disabled required>\n\
-									<input type="hidden" class="form-control inDunitid" name="inDunitid" readonly disabled>\n\
+									<input type="text" class="form-control inDunit" name="inDunit" value="' +obj[i].unit+ '" readonly disabled required>\n\
+									<input type="hidden" class="form-control inDunitid" name="inDunitid" value="' + obj[i].unit_id + '" readonly disabled>\n\
 								</td>\n\
 								<td>\n\
-									<a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add(\'detail\',\'\')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>\n\
-									<a class="btn btn-danger m-1" id="btnDelete" title="Delete" onclick="remove(\'detail\',this)"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>\n\
+									<a class="btn btn-success m-1 disabled" id="btnDetail" title="Detail" onclick="add(\'detail\',\'\')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>\n\
+									<a class="btn btn-danger m-1 disabled" id="btnDelete" title="Delete" onclick="remove(\'detail\',this)"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>\n\
 								</td>\n\
 							</tr>';
 
 							var numRow = $('#dataTable-input tbody tr').length;
 							get("inDgoods",numRow,obj[i].goods_id);
-				$('#dataTable-input tr:last').after(html);
-				// var numRow = $('#dataTable-input tbody tr').length;
-				// get("inDgoods",numRow,"");
-				// get("inDgoods",numRow,obj[i].goods_id);
-				
-
-				// console.log(obj[i].goods_id);
+							$('#dataTable-input tr:last').after(html);
 			}
 
 			$('#dataTable-input tbody').html(html);
@@ -536,20 +531,11 @@ function add(param,obj){
 							</select>\n\
 						</td>\n\
 						<td scope="row">\n\
-							<input type="number" class="form-control text-right inDqty" name="inDqty" onkeyup="count(\'subtotal\',this)" required>\n\
+							<input type="number" class="form-control text-right inDqty" name="inDqty" onfocus="$(this).select();" required>\n\
 						</td>\n\
 						<td scope="row">\n\
 							<input type="text" class="form-control inDunit" name="inDunit" readonly disabled required>\n\
 							<input type="hidden" class="form-control inDunitid" name="inDunitid" readonly disabled>\n\
-						</td>\n\
-						<td scope="row">\n\
-							<input type="number" class="form-control text-right inDprice" name="inDprice" onkeyup="count(\'subtotal\',this)" required>\n\
-						</td>\n\
-						<td scope="row">\n\
-							<input type="number" class="form-control inDdiscount" name="inDdiscount" onkeyup="count(\'subtotal\',this)">\n\
-						</td>\n\
-						<td scope="row">\n\
-							<input type="number" class="form-control text-right inDsubtotal" name="inDsubtotal" readonly disabled required>\n\
 						</td>\n\
 						<td>\n\
 							<a class="btn btn-success m-1" id="btnDetail" title="Detail" onclick="add(\'detail\',\'\')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>\n\

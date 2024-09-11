@@ -63,7 +63,7 @@ if (isset($param)) {
                     <div class="input-group col-sm-9">
                         <input type="text" class="form-control" id="inTransaction" name="inTransaction">
                         <div class="input-group-append">
-                            <button class="btn btn-outline-success" type="button" id="btnSearchTransaction" onclick="get('searchTransaction', '', '')">Search</button>
+                            <button class="btn btn-outline-info" type="button" id="btnSearchTransaction" onclick="get('searchTransaction', '', '')">Search</button>
                         </div>
                     </div>
                 </div>
