@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.51-log - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.5.0.6677
+-- HeidiSQL Version:             12.8.0.6924
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `m_company` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_company: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.m_company: ~1 rows (approximately)
 DELETE FROM `m_company`;
 INSERT INTO `m_company` (`id`, `company`, `created_by`, `created_at`) VALUES
 	(1, 'PT AGRI MAKMUR MEGA PERKASA INDO', 'administrator', '2024-01-30 11:13:48');
@@ -78,14 +78,15 @@ CREATE TABLE IF NOT EXISTS `m_counter` (
   KEY `period` (`period`),
   KEY `counter` (`counter`),
   KEY `transaction` (`transaction`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.m_counter: ~3 rows (approximately)
 DELETE FROM `m_counter`;
 INSERT INTO `m_counter` (`id`, `transaction`, `counter`, `period`, `status`, `created_by`, `created_at`) VALUES
 	(2, 'purchase', 20, '072024', 1, 'admin', '2024-07-21 21:20:33'),
 	(3, 'purchase', 3, '082024', 1, 'admin', '2024-08-07 14:22:46'),
-	(4, 'sales', 5, '082024', 1, 'admin', '2024-08-29 14:25:42');
+	(4, 'sales', 5, '082024', 1, 'admin', '2024-08-29 14:25:42'),
+	(5, 'purchase', 1, '092024', 1, 'admin', '2024-09-11 10:27:38');
 
 -- Dumping structure for table app-fertilizer.m_currency
 CREATE TABLE IF NOT EXISTS `m_currency` (
@@ -625,7 +626,7 @@ CREATE TABLE IF NOT EXISTS `t_purchase` (
   KEY `purchase_id` (`purchase_id`),
   KEY `currency_id` (`currency_id`),
   KEY `tax_type` (`tax_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.t_purchase: ~10 rows (approximately)
 DELETE FROM `t_purchase`;
@@ -639,7 +640,8 @@ INSERT INTO `t_purchase` (`id`, `purchase_id`, `date`, `purchase_type_id`, `supp
 	(9, 'PO/072024/00020', '2024-07-21', 1, 1, '2024-07-21', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', NULL, 0, NULL, 0, 1000, 1, 'admin', '2024-07-21 21:20:33', NULL, NULL),
 	(10, 'PO/082024/00001', '2024-08-06', 1, 1, '2024-08-07', 'test', NULL, 0, NULL, 11, 5, 1, 'admin', '2024-08-06 15:08:56', NULL, NULL),
 	(11, 'PO/082024/00002', '2024-08-06', 1, 1, '2024-08-07', 'test 2', 1, 1, 0, 2, 5, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-08-06 15:53:35'),
-	(12, 'PO/082024/00003', '2024-08-07', 1, 1, '2024-08-07', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 0, 2, 5, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32');
+	(12, 'PO/082024/00003', '2024-08-07', 1, 1, '2024-08-07', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 1, 1, 0, 2, 5, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32'),
+	(13, 'PO/092024/00001', '2024-09-11', 1, 1, '2024-09-11', 'test', 3, 10, 1, 11, 949, 1, 'admin', '2024-09-11 10:27:38', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.t_purchase_detail
 CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
@@ -662,7 +664,7 @@ CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
   KEY `goods_id` (`goods_id`),
   KEY `unit_id` (`unit_id`),
   KEY `status` (`status`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.t_purchase_detail: ~56 rows (approximately)
 DELETE FROM `t_purchase_detail`;
@@ -722,7 +724,8 @@ INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_i
 	(56, 'PO/082024/00002', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-08-06 15:53:35'),
 	(57, 'PO/082024/00002', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-08-06 15:53:35'),
 	(58, 'PO/082024/00003', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32'),
-	(59, 'PO/082024/00003', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32');
+	(59, 'PO/082024/00003', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32'),
+	(60, 'PO/092024/00001', '5', 10, '2', 100, 5, 950, NULL, 1, 'admin', '2024-09-11 10:27:38', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.t_sales
 CREATE TABLE IF NOT EXISTS `t_sales` (
