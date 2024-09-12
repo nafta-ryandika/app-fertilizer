@@ -50,34 +50,35 @@ class Inventory_M extends CI_Model
                         $data["res"] = $this->db->query($query)->result_array();
                     } else {
                         $query2 = "SELECT 
-                                    *,
-                                    (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,  
-                                    (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
-                                    FROM t_purchase_detail 
-                                    WHERE 
-                                    purchase_id LIKE '%" . $inTransaction . "%' AND 
-                                    `status` = 1 
-                                    ORDER BY purchase_id DESC";
-
-                        // SELECT * FROM (
-                        //     SELECT 
-                        //          id, purchase_id, `date`, purchase_type_id, supplier_id, due_date,  currency_id, tax_type, `status`
-                        //     FROM t_purchase
-                        //     WHERE 
-                        //      `status` = 1
-                        // )t1 LEFT JOIN (
-                        //     SELECT 
-                        //         id, purchase_id, goods_id, qty, unit_id, `status`
-                        //       -- *,
-                        //          -- (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,  
-                        //          -- (SELECT unit FROM m_unit WHERE id = unit_id) AS unit
-                        //     FROM t_purchase_detail
-                        //     WHERE 
-                        //      purchase_id LIKE '%" . $inTransaction . "%' AND 
-                        //      `status` = 1
-                        // )t2 ON 
-                        // t1.purchase_id = t2.purchase_id 
-
+                                        t1.purchase_id,
+                                        DATE_FORMAT(t1.`date`, '%d-%m-%Y ') AS `date`,
+                                    DATE_FORMAT(t1.due_date, '%d-%m-%Y ') AS `due_date`,
+                                    (SELECT `type` FROM m_purchase_type WHERE id = t1.purchase_type_id) AS `type`,
+                                    (SELECT supplier FROM m_supplier WHERE id = t1.supplier_id) AS supplier,
+                                    (SELECT currency FROM m_currency WHERE id = t1.currency_id) AS currency,
+                                    IF(t1.tax_type = 1 , 'Include (PKP)', 'Exclude (Non - PKP)') AS tax_type,
+                                        (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods,
+                                        t2.qty,
+                                        t2.qty_received,  
+                                        (SELECT unit FROM m_unit WHERE id = t2.unit_id) AS unit
+                                    FROM (
+                                        SELECT 
+                                        id, purchase_id, `date`, purchase_type_id, supplier_id, due_date, currency_id, tax_type
+                                        FROM t_purchase
+                                        WHERE 
+                                        `status` = 1
+                                    )t1 
+                                    LEFT  JOIN ( 
+                                        SELECT 
+                                        id, purchase_id, goods_id, qty, unit_id, qty_received
+                                        FROM t_purchase_detail
+                                        WHERE 
+                                        purchase_id  LIKE '%" . $inTransaction . "%'  AND 
+                                        `status` = 1  AND 
+                                        (qty_received IS NULL OR qty > qty_received)
+                                    )t2 ON 
+                                    t1.purchase_id = t2.purchase_id
+                                    ORDER BY t1.date DESC";
 
                         $row2 = $this->db->query($query2)->num_rows();
 
