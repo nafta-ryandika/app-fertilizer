@@ -205,7 +205,6 @@
                 <table class="table table-hover" id="dataTable-modalTransaction">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
                             <th scope="col" style="text-align: center !important;">ID</th>
                             <th scope="col" style="text-align: center !important;">Date</th>
                             <th scope="col" style="text-align: center !important;">Due Date</th>
