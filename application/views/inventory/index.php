@@ -202,16 +202,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table table-hover" id="dataTable">
+                <table class="table table-hover" id="dataTable-modalTransaction">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col" style="text-align: center !important;">ID</th>
+                            <th scope="col" style="text-align: center !important;">Date</th>
+                            <th scope="col" style="text-align: center !important;">Due Date</th>
+                            <th scope="col" style="text-align: center !important;">Type</th>
+                            <th scope="col" style="text-align: center !important;">Supplier</th>
                             <th scope="col" style="text-align: center !important;">Goods</th>
                             <th scope="col" style="text-align: center !important;">Qty</th>
                             <th scope="col" style="text-align: center !important;">Unit</th>
-                            <th scope="col" style="text-align: center !important;">Currency</th>
-                            <th scope="col" style="text-align: center !important;">Total</th>
                             <th scope="col" style="text-align: center !important;">Action</th>
                         </tr>
                     </thead>

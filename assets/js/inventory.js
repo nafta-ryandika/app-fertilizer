@@ -350,8 +350,34 @@ function get(param,obj,callBack) {
 				if (data.status == 1) {
 					set("detail", data.res);
 				} else if (data.status == 0) {
+					var data_transaction = data.res;
 					$('#modalSearchtransaction').modal('show').after(function (data) {
-						
+						if (data_transaction.length > 0){
+							Swal.close();
+							var html = "";
+
+							for (var i = 0; i < data_transaction.length; i++) {
+								html = "<tr>\n\
+											<td style=\"text-align: left !important;\">"+ data_transaction[i].purchase_id +"</td>\n\
+											<td style=\"text-align: left !important;\">"+ data_transaction[i].goods +"</td>\n\
+											<td style=\"text-align: center !important;\">"+ parseFloat(data_transaction[i].qty).toLocaleString('id-ID') +"</td>\n\
+											<td style=\"text-align: center !important;\">"+ data_transaction[i].unit +"</td>\n\
+											<td style=\"text-align: center !important;\">"+ parseFloat(data_transaction[i].price).toLocaleString('id-ID') +"</td>\n\
+											<td style=\"text-align: center !important;\">"+ data_transaction[i].discount +"</td>\n\
+											<td style=\"text-align: center !important;\">"+ parseFloat(data_transaction[i].subtotal).toLocaleString('id-ID') +"</td>\n\
+										</tr>";
+
+										$('#dataTable-modalTransaction tbody').append(html);
+							}
+							console.log(data_transaction);
+						}
+						else {
+							Swal.close();
+							Swal.fire({
+								title: "Data Not Found !",
+								icon: "error"
+							})
+						}
 					})
 				}
 					// var html = '<option value="">Select</option>';
@@ -378,34 +404,37 @@ function get(param,obj,callBack) {
 function set(param,obj){
 	if(param == "detail"){
 		if (obj.length > 0){
-			var html = "";
+			$('#dataTable-input tbody').empty().after(function(){
+				var html = "";
 
-			for (var i = 0; i < obj.length; i++) {
-				html += '<tr>\n\
-								<td scope="row">\n\
-									<select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>\n\
-										<option value="">Select</option>\n\
-									</select>\n\
-								</td>\n\
-								<td scope="row">\n\
-									<input type="number" class="form-control text-right inDqty" name="inDqty" value="' + parseFloat(obj[i].qty).toLocaleString('id-ID') + '" onfocus="$(this).select();" required>\n\
-								</td>\n\
-								<td scope="row">\n\
-									<input type="text" class="form-control inDunit" name="inDunit" value="' +obj[i].unit+ '" readonly disabled required>\n\
-									<input type="hidden" class="form-control inDunitid" name="inDunitid" value="' + obj[i].unit_id + '" readonly disabled>\n\
-								</td>\n\
-								<td>\n\
-									<a class="btn btn-success m-1 disabled" id="btnDetail" title="Detail" onclick="add(\'detail\',\'\')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>\n\
-									<a class="btn btn-danger m-1 disabled" id="btnDelete" title="Delete" onclick="remove(\'detail\',this)"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>\n\
-								</td>\n\
-							</tr>';
+				for (var i = 0; i < obj.length; i++) {
+					html = '<tr>\n\
+									<td scope="row">\n\
+										<select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" required>\n\
+											<option value="">Select</option>\n\
+										</select>\n\
+									</td>\n\
+									<td scope="row">\n\
+										<input type="number" class="form-control text-right inDqty" name="inDqty" value="' + parseFloat(obj[i].qty).toLocaleString('id-ID') + '" onfocus="$(this).select();" required>\n\
+									</td>\n\
+									<td scope="row">\n\
+										<input type="text" class="form-control inDunit" name="inDunit" value="' +obj[i].unit+ '" readonly disabled required>\n\
+										<input type="hidden" class="form-control inDunitid" name="inDunitid" value="' + obj[i].unit_id + '" readonly disabled>\n\
+									</td>\n\
+									<td>\n\
+										<a class="btn btn-success m-1 disabled" id="btnDetail" title="Detail" onclick="add(\'detail\',\'\')"><i class="fas fa-fw fa-solid fa-square-plus m-1"></i></a>\n\
+										<a class="btn btn-danger m-1 disabled" id="btnDelete" title="Delete" onclick="remove(\'detail\',this)"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>\n\
+									</td>\n\
+								</tr>';
+								
+								$('#dataTable-input tbody').append(html);
 
-							var numRow = $('#dataTable-input tbody tr').length;
-							get("inDgoods",numRow,obj[i].goods_id);
-							$('#dataTable-input tr:last').after(html);
-			}
+								var j = i;
+								j++
 
-			$('#dataTable-input tbody').html(html);
+								get("inDgoods",j,obj[i].goods_id);		
+				}
+			});
 		}
 	}
 }
