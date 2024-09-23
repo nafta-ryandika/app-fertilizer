@@ -213,10 +213,9 @@
                             <th scope="col" style="text-align: center !important;">Goods</th>
                             <th scope="col" style="text-align: center !important;">Qty</th>
                             <th scope="col" style="text-align: center !important;">Unit</th>
-                            <th scope="col" style="text-align: center !important;">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="cursor: pointer;">
                     </tbody>
                 </table>
             </div>

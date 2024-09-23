@@ -354,24 +354,27 @@ function get(param,obj,callBack) {
 					$('#modalSearchtransaction').modal('show').after(function (data) {
 						if (data_transaction.length > 0){
 							Swal.close();
+
 							var html = "";
+							$('#dataTable-modalTransaction tbody').empty().after(function(){
+								for (var i = 0; i < data_transaction.length; i++) {
+									html = "<tr>\n\
+												<td style=\"text-align: left !important;\">"+ data_transaction[i].purchase_id +"</td>\n\
+												<td style=\"text-align: left !important;\">"+ data_transaction[i].date +"</td>\n\
+												<td style=\"text-align: left !important;\">"+ data_transaction[i].due_date +"</td>\n\
+												<td style=\"text-align: left !important;\">"+ data_transaction[i].type +"</td>\n\
+												<td style=\"text-align: left !important;\">"+ data_transaction[i].supplier +"</td>\n\
+												<td style=\"text-align: left !important;\">"+ data_transaction[i].goods +"</td>\n\
+												<td style=\"text-align: center !important;\">"+ parseFloat(data_transaction[i].qty).toLocaleString('id-ID') +"</td>\n\
+												<td style=\"text-align: center !important;\">"+ data_transaction[i].unit +"</td>\n\
+											</tr>";
 
-							for (var i = 0; i < data_transaction.length; i++) {
-								html = "<tr>\n\
-											<td style=\"text-align: left !important;\">"+ data_transaction[i].purchase_id +"</td>\n\
-											<td style=\"text-align: left !important;\">"+ data_transaction[i].date +"</td>\n\
-											<td style=\"text-align: left !important;\">"+ data_transaction[i].due_date +"</td>\n\
-											<td style=\"text-align: left !important;\">"+ data_transaction[i].type +"</td>\n\
-											<td style=\"text-align: left !important;\">"+ data_transaction[i].supplier +"</td>\n\
-											<td style=\"text-align: left !important;\">"+ data_transaction[i].goods +"</td>\n\
-											<td style=\"text-align: center !important;\">"+ parseFloat(data_transaction[i].qty).toLocaleString('id-ID') +"</td>\n\
-											<td style=\"text-align: center !important;\">"+ data_transaction[i].unit +"</td>\n\
-											<td style=\"text-align: center !important;\">Action</td>\n\
-										</tr>";
+									$('#dataTable-modalTransaction tbody').append(html);
+								}
+							})
+							// console.log(data_transaction);
 
-										$('#dataTable-modalTransaction tbody').append(html);
-							}
-							console.log(data_transaction);
+							$("#dataTable-modalTransaction").DataTable();
 						}
 						else {
 							Swal.close();

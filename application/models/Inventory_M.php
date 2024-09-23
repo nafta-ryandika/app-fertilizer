@@ -49,6 +49,8 @@ class Inventory_M extends CI_Model
                         $data["status"] = 1;
                         $data["res"] = $this->db->query($query)->result_array();
                     } else {
+                        $data["res"] = [];
+
                         $query2 = "SELECT 
                                         t1.purchase_id,
                                         DATE_FORMAT(t1.`date`, '%d-%m-%Y ') AS `date`,
@@ -79,6 +81,8 @@ class Inventory_M extends CI_Model
                                     )t2 ON 
                                     t1.purchase_id = t2.purchase_id
                                     ORDER BY t1.date DESC";
+
+                        return ($query2);
 
                         $row2 = $this->db->query($query2)->num_rows();
 
