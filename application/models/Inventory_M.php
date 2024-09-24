@@ -68,21 +68,22 @@ class Inventory_M extends CI_Model
                                         id, purchase_id, `date`, purchase_type_id, supplier_id, due_date, currency_id, tax_type
                                         FROM t_purchase
                                         WHERE 
-                                        `status` = 1
+                                        `status` = 1 AND 
+                                        purchase_id  LIKE '%" . $inTransaction . "%'
                                     )t1 
                                     LEFT  JOIN ( 
                                         SELECT 
                                         id, purchase_id, goods_id, qty, unit_id, qty_received
                                         FROM t_purchase_detail
                                         WHERE 
-                                        purchase_id  LIKE '%" . $inTransaction . "%'  AND 
                                         `status` = 1  AND 
+                                        purchase_id  LIKE '%" . $inTransaction . "%'  AND 
                                         (qty_received IS NULL OR qty > qty_received)
                                     )t2 ON 
                                     t1.purchase_id = t2.purchase_id
                                     ORDER BY t1.date DESC";
 
-                        return ($query2);
+                        // return ($query2);
 
                         $row2 = $this->db->query($query2)->num_rows();
 

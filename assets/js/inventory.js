@@ -358,7 +358,7 @@ function get(param,obj,callBack) {
 							var html = "";
 							$('#dataTable-modalTransaction tbody').empty().after(function(){
 								for (var i = 0; i < data_transaction.length; i++) {
-									html = "<tr>\n\
+									html = "<tr onclick=''>\n\
 												<td style=\"text-align: left !important;\">"+ data_transaction[i].purchase_id +"</td>\n\
 												<td style=\"text-align: left !important;\">"+ data_transaction[i].date +"</td>\n\
 												<td style=\"text-align: left !important;\">"+ data_transaction[i].due_date +"</td>\n\
@@ -385,19 +385,6 @@ function get(param,obj,callBack) {
 						}
 					})
 				}
-					// var html = '<option value="">Select</option>';
-					// var i;
-	
-					// for (i=0; i<data.res.length; i++) {
-					// 	if (obj.trim() != "" && obj == data.res[i].id) {
-					// 		html += '<option value="' + data.res[i].id + '" selected>' + data.res[i].warehouse + '</option>';	
-					// 	}
-					// 	else {
-					// 		html += '<option value="' + data.res[i].id + '">' + data.res[i].warehouse + '</option>';
-					// 	}
-					// }
-	
-					// $('#inWarehouse').html(html);
 			},
 			complete: function (data) {
 				Swal.close();
