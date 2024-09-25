@@ -322,6 +322,10 @@ function get(param,obj,callBack) {
 	} else if (param == "searchTransaction") {
 		var inType = $("#inType").val();
 		var inTransaction = $("#inTransaction").val();
+
+		if (obj.trim() != "") {
+			inTransaction = obj;	
+		}
 		
 		var data = [{
 					inType: inType,
@@ -358,7 +362,7 @@ function get(param,obj,callBack) {
 							var html = "";
 							$('#dataTable-modalTransaction tbody').empty().after(function(){
 								for (var i = 0; i < data_transaction.length; i++) {
-									html = "<tr onclick=''>\n\
+									html = "<tr onclick=\"get('searchTransaction', '"+ data_transaction[i].purchase_id +"', '')\">\n\
 												<td style=\"text-align: left !important;\">"+ data_transaction[i].purchase_id +"</td>\n\
 												<td style=\"text-align: left !important;\">"+ data_transaction[i].date +"</td>\n\
 												<td style=\"text-align: left !important;\">"+ data_transaction[i].due_date +"</td>\n\
@@ -388,9 +392,10 @@ function get(param,obj,callBack) {
 			},
 			complete: function (data) {
 				Swal.close();
+				$('#modalSearchtransaction').modal('toggle');
 			}
 		});
-	} 
+	}
 }
 
 function set(param,obj){
@@ -575,14 +580,10 @@ function save(param,obj){
 		var  inIdx = $('#inIdx').val();
 		var  inId = $('#inId').val();
 		var  inDate = $('#inDate').val();
-		var  inCustomer = $('#inCustomer').val();
-		var  inDuedate = $('#inDuedate').val();
+		var  inType = $('#inType').val();
+		var  inWarehouse = $('#inWarehouse').val();
+		var  inTransaction = $('#inTransaction').val();
 		var  inRemark = $('#inRemark').val();
-		var  inCurrency = $('#inCurrency').val();
-		var  inDiscount = parseFloat($('#inDiscount').val());
-		var  inTaxtype = parseFloat($('#inTaxtype').val());
-		var  inTax = parseFloat($('#inTax').val());
-		var  inTotal = parseFloat($('#inTotal').val());
 
 		var inDidx = "";
 		var inDgoods = "";
