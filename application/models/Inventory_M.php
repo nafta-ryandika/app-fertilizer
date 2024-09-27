@@ -213,29 +213,45 @@ class Inventory_M extends CI_Model
             $inIdx = $data[$i]["inIdx"];
             $inId = $data[$i]["inId"];
             $inDate = $data[$i]["inDate"];
-            $inCustomer = $data[$i]["inCustomer"];
-            $inDuedate = $data[$i]["inDuedate"];
+            $inType = $data[$i]["inType"];
+            $inWarehouse = $data[$i]["inWarehouse"];
+            $inTransaction = $data[$i]["inTransaction"];
             $inRemark = $data[$i]["inRemark"];
-            $inCurrency = $data[$i]["inCurrency"];
-            $inDiscount = $data[$i]["inDiscount"];
-            $inTaxtype = $data[$i]["inTaxtype"];
-            $inTax = $data[$i]["inTax"];
-            $inTotal = $data[$i]["inTotal"];
 
             // detail
             $inDidx = $data[$i]["inDidx"];
             $inDgoods = $data[$i]["inDgoods"];
             $inDqty = $data[$i]["inDqty"];
             $inDunitid = $data[$i]["inDunitid"];
-            $inDprice = $data[$i]["inDprice"];
-            $inDdiscount = $data[$i]["inDdiscount"];
-            $inDsubtotal = $data[$i]["inDsubtotal"];
             $inDremove = $data[$i]["inDremove"];
         }
 
         $curdate = date("Y-m-d H:i:s");
         $period = date("m") . date("Y");
-        $transaction = "sales";
+
+        $transaction = "";
+        $tCode = "";
+
+        if ($inType == 1) {
+            $transaction = "inv-receipt";
+            $tCode = "RCP";
+        } else if ($inType == 2) {
+            $transaction = "inv-in";
+            $tCode = "IN";
+        } else if ($inType == 3) {
+            $transaction = "inv-out";
+            $tCode = "OUT";
+        } else if ($inType == 4) {
+            $transaction = "inv-return";
+            $tCode = "RTR";
+        } else if ($inType == 5) {
+            $transaction = "inv-adjIn";
+            $tCode = "ADI";
+        } else if ($inType == 6) {
+            $transaction = "inv-adjOut";
+            $tCode = "ADO";
+        }
+
         $counter = 0;
 
         if ($inMode == "add") {
@@ -293,27 +309,23 @@ class Inventory_M extends CI_Model
 
             $counter = sprintf("%05d", $counter);
 
-            $sales_id = "SO/" . $period . "/" . $counter;
+            $inventory_id = $tCode . "/" . $period . "/" . $counter;
 
             // header
             $data3 = array(
                 'id' => '',
-                'sales_id' => $sales_id,
+                'inventory_id' => $inventory_id,
                 'date' => $inDate,
-                'customer_id' => $inCustomer,
-                'due_date' => $inDuedate,
+                'inventory_type_id' => $inType,
+                'warehouse_id' => $inWarehouse,
+                'transaction_id' => $inTransaction,
                 'remark' => $inRemark,
-                'currency_id' => $inCurrency,
-                'discount' => $inDiscount,
-                'tax_type' => $inTaxtype,
-                'tax' => $inTax,
-                'total' => $inTotal,
                 'created_by' => $_SESSION['user_id']
             );
 
             $this->db->db_debug = false;
 
-            if ($this->db->insert('t_sales', $data3)) {
+            if ($this->db->insert('t_inventory', $data3)) {
                 $res['res'] = 'success';
             } else {
                 $res['err'] =  $this->db->error();
@@ -331,38 +343,21 @@ class Inventory_M extends CI_Model
             $inDunitid = rtrim($inDunitid, "|");
             $inDunitid = explode("|", $inDunitid);
 
-            $inDprice = rtrim($inDprice, "|");
-            $inDprice = explode("|", $inDprice);
-
-            $inDdiscount = rtrim($inDdiscount, "|");
-            $inDdiscount = explode("|", $inDdiscount);
-
-            $inDsubtotal = rtrim($inDsubtotal, "|");
-            $inDsubtotal = explode("|", $inDsubtotal);
-
             if (!empty($inDgoods)) {
                 for ($i = 0; $i < count($inDgoods); $i++) {
-                    if (!empty($inDdiscount[$i])) {
-                        $inDdiscountx = $inDdiscount[$i];
-                    } else {
-                        $inDdiscountx = 0;
-                    }
 
                     $data4 = array(
                         'id' => '',
-                        'sales_id' => $sales_id,
+                        'inventory_id' => $inventory_id,
                         'goods_id' => $inDgoods[$i],
                         'qty' => $inDqty[$i],
                         'unit_id' => $inDunitid[$i],
-                        'price' => $inDprice[$i],
-                        'discount' => $inDdiscountx,
-                        'subtotal' => $inDsubtotal[$i],
                         'created_by' => $_SESSION['user_id']
                     );
 
                     $this->db->db_debug = false;
 
-                    if ($this->db->insert('t_sales_detail', $data4)) {
+                    if ($this->db->insert('t_inventory_detail', $data4)) {
                         $res['res'] = 'success';
                     } else {
                         $res['err'] =  $this->db->error();

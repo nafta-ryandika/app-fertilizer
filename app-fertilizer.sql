@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.51-log - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.8.0.6924
+-- HeidiSQL Version:             12.8.0.6908
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `m_counter` (
   KEY `period` (`period`),
   KEY `counter` (`counter`),
   KEY `transaction` (`transaction`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.m_counter: ~3 rows (approximately)
 DELETE FROM `m_counter`;
@@ -86,7 +86,8 @@ INSERT INTO `m_counter` (`id`, `transaction`, `counter`, `period`, `status`, `cr
 	(2, 'purchase', 20, '072024', 1, 'admin', '2024-07-21 21:20:33'),
 	(3, 'purchase', 3, '082024', 1, 'admin', '2024-08-07 14:22:46'),
 	(4, 'sales', 5, '082024', 1, 'admin', '2024-08-29 14:25:42'),
-	(5, 'purchase', 1, '092024', 1, 'admin', '2024-09-11 10:27:38');
+	(5, 'purchase', 1, '092024', 1, 'admin', '2024-09-11 10:27:38'),
+	(6, 'inv-receipt', 1, '092024', 1, 'admin', '2024-09-26 17:40:41');
 
 -- Dumping structure for table app-fertilizer.m_currency
 CREATE TABLE IF NOT EXISTS `m_currency` (
@@ -301,9 +302,9 @@ CREATE TABLE IF NOT EXISTS `m_inventory_type` (
   `log_by` varchar(256) DEFAULT NULL,
   `log_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_inventory_type: ~7 rows (approximately)
+-- Dumping data for table app-fertilizer.m_inventory_type: ~6 rows (approximately)
 DELETE FROM `m_inventory_type`;
 INSERT INTO `m_inventory_type` (`id`, `type`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'Receipt', 1, 'administrator', '2024-06-24 14:00:28', NULL, NULL),
@@ -311,8 +312,7 @@ INSERT INTO `m_inventory_type` (`id`, `type`, `status`, `created_by`, `created_a
 	(3, 'Out', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
 	(4, 'Return', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
 	(5, 'Adjustment In', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
-	(6, 'Adjustment Out', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL),
-	(7, 'Transfer', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
+	(6, 'Adjustment Out', 1, 'administrator', '2024-06-24 14:00:35', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.m_menu
 CREATE TABLE IF NOT EXISTS `m_menu` (
@@ -571,10 +571,12 @@ CREATE TABLE IF NOT EXISTS `t_inventory` (
   KEY `purchase_id` (`inventory_id`) USING BTREE,
   KEY `tax_type` (`transaction_id`) USING BTREE,
   KEY `inventory_type_id` (`inventory_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_inventory: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.t_inventory: ~1 rows (approximately)
 DELETE FROM `t_inventory`;
+INSERT INTO `t_inventory` (`id`, `inventory_id`, `date`, `inventory_type_id`, `warehouse_id`, `transaction_id`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'RCP/092024/00001', '2024-09-26', 1, 2, 0, '', 1, 'admin', '2024-09-26 17:40:41', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.t_inventory_detail
 CREATE TABLE IF NOT EXISTS `t_inventory_detail` (
@@ -593,10 +595,13 @@ CREATE TABLE IF NOT EXISTS `t_inventory_detail` (
   KEY `unit_id` (`unit_id`) USING BTREE,
   KEY `status` (`status`) USING BTREE,
   KEY `purchase_id` (`inventory_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_inventory_detail: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.t_inventory_detail: ~2 rows (approximately)
 DELETE FROM `t_inventory_detail`;
+INSERT INTO `t_inventory_detail` (`id`, `inventory_id`, `goods_id`, `qty`, `unit_id`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'RCP/092024/00001', '2', 1, '4', 1, 'admin', '2024-09-26 17:40:41', NULL, NULL),
+	(2, 'RCP/092024/00001', '3', 2, '1', 1, 'admin', '2024-09-26 17:40:41', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.t_purchase
 CREATE TABLE IF NOT EXISTS `t_purchase` (
@@ -628,7 +633,7 @@ CREATE TABLE IF NOT EXISTS `t_purchase` (
   KEY `tax_type` (`tax_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_purchase: ~11 rows (approximately)
+-- Dumping data for table app-fertilizer.t_purchase: ~10 rows (approximately)
 DELETE FROM `t_purchase`;
 INSERT INTO `t_purchase` (`id`, `purchase_id`, `date`, `purchase_type_id`, `supplier_id`, `due_date`, `remark`, `currency_id`, `discount`, `tax_type`, `tax`, `total`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(2, 'PO/072024/00013', '2024-07-07', 1, 6, '2024-07-07', 'test', NULL, 10, NULL, 11, 0, 0, 'admin', '2024-07-07 10:16:55', 'admin', '2024-09-23 15:26:36'),

@@ -31,17 +31,30 @@ class Inventory extends CI_Controller
         $inWhere = $this->input->post('inWhere');
 
         $sql = "SELECT 
-                id, sales_id, customer_id, due_date, remark, discount, tax, total, `status`, created_by, created_at, log_by, log_at,
-                DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
-                DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
-                (SELECT customer FROM m_customer WHERE id = a.customer_id) AS customer,
-                (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency
-                FROM t_sales a 
-                WHERE `status` = 1  " . $inWhere . " 
-                ORDER BY created_at DESC";
-        $data['sales'] = $this->db->query($sql)->result_array();
+                dt1.*, 
+                (SELECT `type` FROM m_inventory_type WHERE id = dt1.inventory_type_id) AS `type`,
+                (SELECT warehouse FROM m_warehouse WHERE id = dt1.warehouse_id) AS warehouse,
+                GROUP_CONCAT((SELECT goods FROM m_goods WHERE id = goods_id),' ') AS goods
+                FROM 
+                (
+                    SELECT id, inventory_id, date, inventory_type_id, warehouse_id, transaction_id, remark, created_by, created_at 
+                    FROM t_inventory 
+                    WHERE `status` = 1
+                )dt1 
+                JOIN 
+                (
+                    SELECT id, inventory_id, goods_id, qty, unit_id
+                    FROM t_inventory_detail
+                    WHERE `status` = 1
+                )dt2 
+                ON dt1.inventory_id = dt2.inventory_id 
+                WHERE 1  " . $inWhere . " 
+                GROUP BY dt1.id 
+                ORDER BY dt1.created_at DESC";
 
-        $this->load->view('sales/view_data', $data);
+        $data['inventory'] = $this->db->query($sql)->result_array();
+
+        $this->load->view('inventory/view_data', $data);
     }
 
     public function get()
@@ -88,7 +101,7 @@ class Inventory extends CI_Controller
         $datax = $this->input->post('data');
 
         if ($param == 'data') {
-            $data = $this->Sales_M->save($param, $obj, $datax);
+            $data = $this->Inventory_M->save($param, $obj, $datax);
         }
 
         echo (json_encode($data));

@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    // viewData();
-	add('add','');
+    viewData();
+	// add('add','');
 	$('#modalDetail').on('hidden.bs.modal', function () {
 		$("#contentDetailsales").html("");
 	})
@@ -73,7 +73,7 @@ function viewData() {
 
 	$.ajax({
 		type: "POST",
-		url: base_url+"sales/viewData",
+		url: base_url+"inventory/viewData",
 		data: {
 				inWhere: inWhere
 			},
@@ -362,7 +362,7 @@ function get(param,obj,callBack) {
 							var html = "";
 							$('#dataTable-modalTransaction tbody').empty().after(function(){
 								for (var i = 0; i < data_transaction.length; i++) {
-									html = "<tr onclick=\"get('searchTransaction', '"+ data_transaction[i].purchase_id +"', '')\">\n\
+									html = "<tr onclick=\"get('searchTransaction', '"+ data_transaction[i].purchase_id +"', ''); $('#inTransaction').val('"+ data_transaction[i].purchase_id +"')\">\n\
 												<td style=\"text-align: left !important;\">"+ data_transaction[i].purchase_id +"</td>\n\
 												<td style=\"text-align: left !important;\">"+ data_transaction[i].date +"</td>\n\
 												<td style=\"text-align: left !important;\">"+ data_transaction[i].due_date +"</td>\n\
@@ -589,9 +589,6 @@ function save(param,obj){
 		var inDgoods = "";
 		var inDqty = "";
 		var inDunitid = "";
-		var inDprice = "";
-		var inDdiscount = "";
-		var inDsubtotal = "";
 		var inDremove = $("#inDremove").val();
 
 		$(".inDidx").each(function(){
@@ -609,33 +606,29 @@ function save(param,obj){
 		$(".inDunitid").each(function(){
 			inDunitid  += $(this).val()+"|";
 		})
-		
-		$(".inDprice").each(function(){
-			inDprice  += $(this).val()+"|";
-		})
-		
-		$(".inDdiscount").each(function(){
-			inDdiscount  += $(this).val()+"|";
-		})
-		
-		$(".inDsubtotal").each(function(){
-			inDsubtotal  += $(this).val()+"|";
-		})
 
-		if (inCustomer.trim() == "") {
+		if (inType.trim() == "") {
 			Swal.fire({
-				title: "Input Customer Empty !",
+				title: "Input Type Empty !",
 				icon: "error"
 			}).then(function () { 
-				$("#inCustomer").focus();
+				$("#inType").focus();
 				return;
 			});
-		} else if (inDuedate.trim() == "") {
+		} else if (inWarehouse.trim() == "") {
 			Swal.fire({
-				title: "Input Due Date Empty !",
+				title: "Input Warehouse Empty !",
 				icon: "error"
 			}).then(function () { 
-				$("#inDuedate").focus();
+				$("#inWarehouse").focus();
+				return;
+			});
+		} else if (inTransaction.trim() == "") {
+			Swal.fire({
+				title: "Input Transaction Empty !",
+				icon: "error"
+			}).then(function () { 
+				$("#inTransaction").focus();
 				return;
 			});
 		} else {
@@ -644,13 +637,11 @@ function save(param,obj){
 			$(".inDgoods").each(function(){
 				var dqtyx = $(this).closest('tr').find('.inDqty').val();
 				var dunitx = $(this).closest('tr').find('.inDunit').val();
-				var dpricex = $(this).closest('tr').find('.inDprice').val();
-				var dsubtotalx = $(this).closest('tr').find('.inDsubtotal').val();
 					
 				if ($(this).val().trim() == "") {
-					if (dqtyx.trim() != "" || dunitx.trim() != "" || dpricex.trim() != "" || dsubtotalx.trim() != ""){
+					if (dqtyx.trim() != "" || dunitx.trim() != ""){
 						Swal.fire({
-							title: "Please Check Sales Order Details",
+							title: "Please Check Inventory Details",
 							icon: "error"
 						}).then(function () { 
 							$(this).focus();
@@ -660,9 +651,9 @@ function save(param,obj){
 						check = false;
 					}
 				} else if ($(this).val().trim() != "") {
-					if (dqtyx.trim() == "" || dunitx.trim() == "" || dpricex.trim() == "" || dsubtotalx.trim() == ""){
+					if (dqtyx.trim() == "" || dunitx.trim() == ""){
 						Swal.fire({
-							title: "Please Check Sales Order Details",
+							title: "Please Check Inventory Details",
 							icon: "error"
 						}).then(function () { 
 							$(this).focus();
@@ -679,26 +670,19 @@ function save(param,obj){
 					inIdx: inIdx,
 					inId: inId,
 					inDate: inDate,
-					inCustomer: inCustomer,
-					inDuedate: inDuedate,
+					inType: inType,
+					inWarehouse: inWarehouse,
+					inTransaction: inTransaction,
 					inRemark: inRemark,
-					inCurrency: inCurrency,
-					inDiscount: inDiscount,
-					inTaxtype: inTaxtype,
-					inTax: inTax,
-					inTotal: inTotal,
 					inDidx: inDidx,
 					inDgoods: inDgoods,
 					inDqty: inDqty,
 					inDunitid: inDunitid,
-					inDprice: inDprice,
-					inDdiscount: inDdiscount,
-					inDsubtotal: inDsubtotal,
 					inDremove: inDremove}];  
 		
 				$.ajax({
 					type: "POST",
-					url: base_url+"sales/save",
+					url: base_url+"inventory/save",
 					data: {
 							param: param,
 							obj: obj,
