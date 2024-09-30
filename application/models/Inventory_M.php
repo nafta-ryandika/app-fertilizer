@@ -25,6 +25,15 @@ class Inventory_M extends CI_Model
             } else {
                 return FALSE;
             }
+        } else if ($param == "inType") {
+            $query = "SELECT id, `type` FROM m_inventory_type a WHERE `status` = 1  ORDER BY `id` ASC";
+            $row = $this->db->query($query)->num_rows();
+
+            if ($row > 0) {
+                $data["res"] = $this->db->query($query)->result_array();
+            } else {
+                return FALSE;
+            }
         } else if ($param == "searchTransaction") {
             for ($i = 0; $i < count($datax); $i++) {
                 $inType = $datax[$i]["inType"];
@@ -164,14 +173,12 @@ class Inventory_M extends CI_Model
         } else if ($param == "detail") {
             $datax = explode("|", $obj);
 
-            $query = "SELECT 
-                        id, sales_id, customer_id, due_date, remark, discount, tax, total, `status`, created_by, created_at, log_by, log_at,
-                        DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
-                        DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
-                        (SELECT customer FROM m_customer WHERE id = a.customer_id) AS customer,
-                        (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency,
-                        IF(a.tax_type = 1 , 'Include (PKP)', 'Exclude (Non - PKP)') AS tax_type
-                        FROM t_sales a 
+            $query = "SELECT                      
+                        id, inventory_id, inventory_type_id, warehouse_id, transaction_id, remark, created_by, created_at,
+                        (SELECT `type` FROM m_inventory_type WHERE id = inventory_type_id) AS `type`,
+                        (SELECT warehouse FROM m_warehouse WHERE id = warehouse_id) AS warehouse,
+                        DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
+                        FROM t_inventory          
                         WHERE id = '" . $datax[0] . "' AND `status` = 1";
 
             $row = $this->db->query($query)->num_rows();
@@ -186,9 +193,9 @@ class Inventory_M extends CI_Model
                         *,
                         (SELECT goods FROM m_goods WHERE id = goods_id) AS goods, 
                         (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
-                        FROM t_sales_detail 
+                        FROM t_inventory_detail 
                         WHERE 
-                        sales_id = '" . $datax[1] . "' AND 
+                        inventory_id = '" . $datax[1] . "' AND 
                         `status` = 1";
 
             $row1 = $this->db->query($query1)->num_rows();

@@ -32,11 +32,11 @@
                                         <div class="form-group row">
                                             <div class="col-3">
                                                 <select class="form-control inSearchcolumn" style="width: 100%;" onchange="get('searchColumn',this,'')">
-                                                    <option value="sales_id">ID</option>
+                                                    <option value="dt1.inventory_id">ID</option>
                                                     <option value="date">Date</option>
-                                                    <option value="customer_id">Customer</option>
-                                                    <option value="due_date">Due Date</option>
-                                                    <option value="total">Total</option>
+                                                    <option value="inventory_type_id">Type</option>
+                                                    <option value="warehouse_id">Warehouse</option>
+                                                    <option value="transaction_id">Transaction ID</option>
                                                 </select>
                                             </div>
                                             <div class="col-2">
@@ -117,49 +117,35 @@
                         <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">ID</div>
                         <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtId"></div>
                     </div>
-                    <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Currency</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtCurrency"></div>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="row col-6">
                         <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Date</div>
                         <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtDate"></div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Discount</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtDiscount"></div>
+                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Type</div>
+                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtType"></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Customer</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtCustomer"></div>
-                    </div>
-                    <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Tax Type</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtTaxtype"></div>
+                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Warehouse</div>
+                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtWarehouse"></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Due Date</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtDuedate"></div>
-                    </div>
-                    <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Tax</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtTax"></div>
+                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Transaction ID</div>
+                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtTransaction"></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="row col-6">
                         <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Remark</div>
                         <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtRemark"></div>
-                    </div>
-                    <div class="row col-6">
-                        <div class="col-sm-4 h6 font-weight-bold text-primary text-uppercase mb-1">Total</div>
-                        <div class="col-sm-8 h6 mb-0 font-weight-bold text-gray-800" id="txtTotal"></div>
                     </div>
                 </div>
 

@@ -114,9 +114,13 @@ function get(param,obj,callBack) {
 
 			$('#tableSearch tr:eq('+rowIndex+') .col-5').html('<input type="text" class="form-control inSearchinput">');
 
-			if (searchColumn == "date" || searchColumn == "due_date") {
+			if (searchColumn == "date") {
 				$('#tableSearch tr:eq('+rowIndex+') .inSearchinput').prop('type','date');
-			} else if (searchColumn == "customer_id") {
+			} else if (searchColumn == "inventory_type_id") {
+				get("searchColumn_"+searchColumn,"",function(data){
+					$('#tableSearch tr:eq('+rowIndex+') .col-5').html(data);
+				})
+			} else if (searchColumn == "warehouse_id") {
 				get("searchColumn_"+searchColumn,"",function(data){
 					$('#tableSearch tr:eq('+rowIndex+') .col-5').html(data);
 				})
@@ -196,7 +200,7 @@ function get(param,obj,callBack) {
 	} else if (param == "detail") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"sales/get",
+			url: base_url+"inventory/get",
 			data: {
 				param: param,
 				obj: obj
@@ -208,27 +212,19 @@ function get(param,obj,callBack) {
 				var data_detail = data.detail;
 
 				$('#modalDetail').modal('show').after(function (data) {
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtId").text(data_header.sales_id);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtId").text(data_header.inventory_id);
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDate").text(data_header.date);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtCustomer").text(data_header.customer);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDuedate").text(data_header.due_date);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtType").text(data_header.type);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtWarehouse").text(data_header.warehouse);
+					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTransaction").text(data_header.transaction_id);
 					$("#modalDetail .modal-dialog .modal-content .modal-body #txtRemark").text(data_header.remark);
 					
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtCurrency").text(data_header.currency);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtDiscount").text(data_header.discount+" %");
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTaxtype").text(data_header.tax_type);
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTax").text(data_header.tax+" %");
-					$("#modalDetail .modal-dialog .modal-content .modal-body #txtTotal").text(parseFloat(data_header.total).toLocaleString('id-ID'));
-
 					if (data_detail.length > 0){
 						var html = "<table class=\"table table-hover\" id=\"tableDetailsales\">\n\
 										<tr>\n\
 											<th scope=\"col\" style=\"text-align: center !important;\">Goods</th>\n\
 											<th scope=\"col\" style=\"text-align: center !important;\">Qty</th>\n\
 											<th scope=\"col\" style=\"text-align: center !important;\">Unit</th>\n\
-											<th scope=\"col\" style=\"text-align: center !important;\">Price</th>\n\
-											<th scope=\"col\" style=\"text-align: center !important;\">Discount (%)</th>\n\
-											<th scope=\"col\" style=\"text-align: center !important;\">Subtotal</th>\n\
 										</tr>";
 
 						for (var i = 0; i < data_detail.length; i++) {
@@ -236,9 +232,6 @@ function get(param,obj,callBack) {
 										<td style=\"text-align: left !important;\">"+ data_detail[i].goods +"</td>\n\
 										<td style=\"text-align: center !important;\">"+ parseFloat(data_detail[i].qty).toLocaleString('id-ID') +"</td>\n\
 										<td style=\"text-align: center !important;\">"+ data_detail[i].unit +"</td>\n\
-										<td style=\"text-align: center !important;\">"+ parseFloat(data_detail[i].price).toLocaleString('id-ID') +"</td>\n\
-										<td style=\"text-align: center !important;\">"+ data_detail[i].discount +"</td>\n\
-										<td style=\"text-align: center !important;\">"+ parseFloat(data_detail[i].subtotal).toLocaleString('id-ID') +"</td>\n\
 									</tr>";
 						}
 
@@ -249,12 +242,12 @@ function get(param,obj,callBack) {
 				})
 			}
 		})
-	} else if (param == "searchColumn_customer_id") {
+	} else if (param == "searchColumn_inventory_type_id") {
 		$.ajax({
 			type: "POST",
-			url: base_url+"sales/get",
+			url: base_url+"inventory/get",
 			data: {
-				param: "inCustomer",
+				param: "inType",
 				obj: obj
 			},
 			cache: false,
@@ -271,7 +264,37 @@ function get(param,obj,callBack) {
 					var i;
 
 					for (i=0; i<data.res.length; i++) {
-						html += '<option value="' + data.res[i].id + '">' + data.res[i].customer + '</option>';
+						html += '<option value="' + data.res[i].id + '">' + data.res[i].type + '</option>';
+					}
+
+					html += '</select>';
+
+					callBack(html);
+			}
+		});
+	} else if (param == "searchColumn_warehouse_id") {
+		$.ajax({
+			type: "POST",
+			url: base_url+"inventory/get",
+			data: {
+				param: "inWarehouse",
+				obj: obj
+			},
+			cache: false,
+			dataType: "JSON",
+			beforeSend: function(data) {
+				$('#inDivision').select2({
+					dropdownParent: $('#modalAdd'),
+					theme: 'bootstrap4'
+				})
+			},
+			success: function (data) {
+					var html = '<select class="form-control inSearchinput" style="width: 100%;">\n\
+									<option value="">Select</option>';
+					var i;
+
+					for (i=0; i<data.res.length; i++) {
+						html += '<option value="' + data.res[i].id + '">' + data.res[i].warehouse + '</option>';
 					}
 
 					html += '</select>';
@@ -514,12 +537,11 @@ function add(param,obj){
 									<div class="form-group row">\n\
 										<div class="col-3">\n\
 											<select class="form-control inSearchcolumn" style="width: 100%;" onchange="get(\'searchColumn\',this,\'\')">\n\
-												<option value="">Parameter</option>\n\
-												<option value="sales_id">ID</option>\n\
+												<option value="dt1.inventory_id">ID</option>\n\
 												<option value="date">Date</option>\n\
-												<option value="customer_id">Customer</option>\n\
-												<option value="due_date">Due Date</option>\n\
-												<option value="total">Total</option>\n\
+												<option value="inventory_type_id">Type</option>\n\
+												<option value="warehouse_id">Warehouse</option>\n\
+												<option value="transaction_id">Transaction ID</option>\n\
 											</select>\n\
 										</div>\n\
 										<div class="col-2">\n\

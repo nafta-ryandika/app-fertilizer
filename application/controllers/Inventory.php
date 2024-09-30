@@ -34,7 +34,8 @@ class Inventory extends CI_Controller
                 dt1.*, 
                 (SELECT `type` FROM m_inventory_type WHERE id = dt1.inventory_type_id) AS `type`,
                 (SELECT warehouse FROM m_warehouse WHERE id = dt1.warehouse_id) AS warehouse,
-                GROUP_CONCAT((SELECT goods FROM m_goods WHERE id = goods_id),' ') AS goods
+                GROUP_CONCAT((SELECT goods FROM m_goods WHERE id = goods_id),' ') AS goods,
+                DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
                 FROM 
                 (
                     SELECT id, inventory_id, date, inventory_type_id, warehouse_id, transaction_id, remark, created_by, created_at 

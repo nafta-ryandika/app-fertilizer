@@ -14,6 +14,7 @@
             <th scope="col" style="text-align: center !important;">Warehouse</th>
             <th scope="col" style="text-align: center !important;">Transaction ID</th>
             <th scope="col" style="text-align: center !important;">Goods</th>
+            <th scope="col" style="text-align: center !important;">Action</th>
         </tr>
     </thead>
     <tbody>
