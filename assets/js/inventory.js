@@ -102,7 +102,6 @@ function get(param,obj,callBack) {
 				$("#searchArea").hide();
 				$("#dataArea").hide();
 				$("#inputArea").show();
-				// get("inCustomer","","");
 			},
 			success: function (data) {
 				$("#inputArea").html(data);

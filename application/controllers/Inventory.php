@@ -70,7 +70,7 @@ class Inventory extends CI_Controller
 
             $this->load->view('inventory/input', $data);
         } elseif ($param == "edit") {
-            $data['data'] = $this->Sales_M->get($param, $obj);
+            $data['data'] = $this->Inventory_M->get($param, $obj, "");
             $data['param'] = $param;
 
             $sql = "SELECT 
@@ -78,15 +78,15 @@ class Inventory extends CI_Controller
                     (SELECT unit FROM m_unit WHERE id = unit_id AND `status` = 1) AS unit
                     FROM m_goods 
                     WHERE 
-                    `status` = '1' AND 
-                    goods_type_id = '2' 
+                    `status` = '1' 
                     ORDER BY goods ASC";
+
             $data['goods'] = $this->db->query($sql)->result_array();
 
-            $sql3 = "SELECT id, currency FROM m_currency a WHERE `status` = 1  ORDER BY `currency` ASC";
-            $data['currency'] = $this->db->query($sql3)->result_array();
+            $sql2 = "SELECT id, `type` FROM m_inventory_type a WHERE `status` = 1  ORDER BY `id` ASC";
+            $data['type'] = $this->db->query($sql2)->result_array();
 
-            $data['html'] = $this->load->view('sales/input', $data);
+            $data['html'] = $this->load->view('inventory/input', $data);
             // echo (json_encode($data));
         } else {
             $data = $this->Inventory_M->get($param, $obj, $datax);

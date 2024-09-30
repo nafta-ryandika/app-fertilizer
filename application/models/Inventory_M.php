@@ -141,11 +141,11 @@ class Inventory_M extends CI_Model
         } else if ($param == "edit") {
 
             $query = "SELECT 
-                    id, sales_id, `date`, customer_id, due_date, remark, discount, currency_id, tax_type, tax, total, `status` 
-                    FROM t_sales
-                    WHERE 
-                    id = '" . $obj . "' AND 
-                    `status` = 1";
+                        id, inventory_id, `date`, inventory_type_id, warehouse_id, transaction_id, remark, created_by, created_at
+                        FROM t_inventory 
+                        WHERE 
+                        id = '" . $obj . "' AND 
+                        `status` = 1";
 
             $row = $this->db->query($query)->num_rows();
 
@@ -155,14 +155,14 @@ class Inventory_M extends CI_Model
                 return FALSE;
             }
 
-            $sales_id = $data["header"]["sales_id"];
+            $inventory_id = $data["header"]["inventory_id"];
 
             $query2 = "SELECT 
                         *,
                         (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
-                        FROM t_sales_detail 
+                        FROM t_inventory_detail 
                         WHERE 
-                        sales_id = '" . $sales_id . "' AND 
+                        inventory_id = '" . $inventory_id . "' AND 
                         `status` = 1";
 
             if ($row > 0) {

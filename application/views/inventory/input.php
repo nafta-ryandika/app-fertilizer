@@ -2,16 +2,12 @@
 if (isset($param)) {
     if ($param == "edit") {
         $inIdx = $data["header"]["id"];
-        $inId = $data["header"]["sales_id"];
+        $inId = $data["header"]["inventory_id"];
         $inDate = $data["header"]["date"];
-        $inCustomer = $data["header"]["customer_id"];
-        $inDuedate = $data["header"]["due_date"];
+        $inType = $data["header"]["inventory_type_id"];
+        $inWarehouse = $data["header"]["warehouse_id"];
+        $inTransaction = $data["header"]["transaction_id"];
         $inRemark = $data["header"]["remark"];
-        $inCurrency = $data["header"]["currency_id"];
-        $inDiscount = $data["header"]["discount"];
-        $inTaxtype = $data["header"]["tax_type"];
-        $inTax = $data["header"]["tax"];
-        $inTotal = $data["header"]["total"];
     }
 }
 ?>
@@ -103,10 +99,6 @@ if (isset($param)) {
                                                     $inDqty = $data_detail["qty"];
                                                     $inDunit = $data_detail["unit"];
                                                     $inDunitid = $data_detail["unit_id"];
-                                                    $inPrice = $data_detail["price"];
-                                                    $inDdiscount = $data_detail["discount"];
-                                                    $inDsubtotal = $data_detail["subtotal"];
-
                                         ?>
                                                     <tr>
                                                         <td scope="row">
@@ -232,15 +224,10 @@ if (isset($param)) {
     $("#inIdx").val('<?= $inIdx ?>');
     $("#inId").val('<?= $inId ?>');
     $("#inDate").val('<?= $inDate ?>');
-    get("inCustomer", "<?= $inCustomer ?>", "");
-    $("#inDuedate").val('<?= $inDuedate ?>');
+    get("inType", "<?= $inType ?>", "");
+    $("#inWarehouse").val('<?= $inWarehouse ?>');
+    $("#inTransaction").val('<?= $inTransaction ?>');
     $("#inRemark").val('<?= $inRemark ?>');
-    $("#inCurrency").val('<?= $inCurrency ?>');
-    $("#inDiscount").val('<?= $inDiscount ?>');
-    $("#inTaxtype").val('<?= $inTaxtype ?>');
-    $("#inTax").val('<?= $inTax ?>');
-    $("#inTotal").val($.number(<?= $inTotal ?>, 2));
-
 
     $('.inDgoods').on("select2:selecting", function() {
         var unit_id = $(this).find(":selected").data("unitid");
