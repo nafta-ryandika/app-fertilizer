@@ -376,14 +376,10 @@ class Inventory_M extends CI_Model
         } else if ($inMode == "edit") {
             // header
             $data2 = array(
-                'customer_id' => $inCustomer,
-                'due_date' => $inDuedate,
+                'inventory_type_id' => $inType,
+                'warehouse_id' => $inWarehouse,
+                'transaction_id' => $inTransaction,
                 'remark' => $inRemark,
-                'currency_id' => $inCurrency,
-                'discount' => $inDiscount,
-                'tax_type' => $inTaxtype,
-                'tax' => $inTax,
-                'total' => $inTotal,
                 'log_by' => $_SESSION['user_id'],
                 'log_at' => date("Y-m-d H:i:s")
             );
@@ -392,12 +388,12 @@ class Inventory_M extends CI_Model
 
             $where2 = array(
                 'id' => $inIdx,
-                'sales_id' => $inId
+                'inventory_id' => $inId
             );
 
             $this->db->where($where2);
 
-            if ($this->db->update("t_sales", $data2)) {
+            if ($this->db->update("t_inventory", $data2)) {
                 $res['res'] = 'success';
             } else {
                 $res['res'] =  $this->db->error();
@@ -418,48 +414,27 @@ class Inventory_M extends CI_Model
             $inDunitid = rtrim($inDunitid, "|");
             $inDunitid = explode("|", $inDunitid);
 
-            $inDprice = rtrim($inDprice, "|");
-            $inDprice = explode("|", $inDprice);
-
-            $inDdiscount = rtrim($inDdiscount, "|");
-            $inDdiscount = explode("|", $inDdiscount);
-
-            $inDsubtotal = rtrim($inDsubtotal, "|");
-            $inDsubtotal = explode("|", $inDsubtotal);
-
             if (!empty($inDgoods)) {
                 for ($i = 0; $i < count($inDgoods); $i++) {
-
-                    if (!empty($inDdiscount[$i])) {
-                        $inDdiscountx = $inDdiscount[$i];
-                    } else {
-                        $inDdiscountx = 0;
-                    }
-
                     if (isset($inDidx[$i]) && $inDidx[$i] != "") {
                         $data3 = array(
                             'goods_id' => $inDgoods[$i],
                             'qty' => $inDqty[$i],
                             'unit_id' => $inDunitid[$i],
-                            'price' => $inDprice[$i],
-                            'discount' => $inDdiscountx,
-                            'subtotal' => $inDsubtotal[$i],
                             'log_by' => $_SESSION['user_id'],
                             'log_at' => date("Y-m-d H:i:s")
                         );
-
-
 
                         $this->db->db_debug = false;
 
                         $where3 = array(
                             'id' => $inDidx[$i],
-                            'sales_id' => $inId
+                            'inventory_id' => $inId
                         );
 
                         $this->db->where($where3);
 
-                        if ($this->db->update("t_sales_detail", $data3)) {
+                        if ($this->db->update("t_inventory_detail", $data3)) {
                             $res['res'] = 'success';
                         } else {
                             $res['res'] =  $this->db->error();
@@ -469,19 +444,16 @@ class Inventory_M extends CI_Model
                     } else {
                         $data3 = array(
                             'id' => '',
-                            'sales_id' => $inId,
+                            'inventory_id' => $inId,
                             'goods_id' => $inDgoods[$i],
                             'qty' => $inDqty[$i],
                             'unit_id' => $inDunitid[$i],
-                            'price' => $inDprice[$i],
-                            'discount' => $inDdiscountx,
-                            'subtotal' => $inDsubtotal[$i],
                             'created_by' => $_SESSION['user_id']
                         );
 
                         $this->db->db_debug = false;
 
-                        if ($this->db->insert('t_sales_detail', $data3)) {
+                        if ($this->db->insert('t_inventory_detail', $data3)) {
                             $res['res'] = 'success';
                         } else {
                             $res['err'] =  $this->db->error();
@@ -507,12 +479,12 @@ class Inventory_M extends CI_Model
 
                         $where4 = array(
                             'id' => $inDremove[$i],
-                            'sales_id' => $inId
+                            'inventory_id' => $inId
                         );
 
                         $this->db->where($where4);
 
-                        if ($this->db->update("t_sales_detail", $data4)) {
+                        if ($this->db->update("t_inventory_detail", $data4)) {
                             $res['res'] = 'success';
                         } else {
                             $res['res'] =  $this->db->error();

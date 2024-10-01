@@ -224,8 +224,8 @@ if (isset($param)) {
     $("#inIdx").val('<?= $inIdx ?>');
     $("#inId").val('<?= $inId ?>');
     $("#inDate").val('<?= $inDate ?>');
-    get("inType", "<?= $inType ?>", "");
-    $("#inWarehouse").val('<?= $inWarehouse ?>');
+    $("#inType").val('<?= $inType ?>');
+    get("inWarehouse", "<?= $inWarehouse ?>", "");
     $("#inTransaction").val('<?= $inTransaction ?>');
     $("#inRemark").val('<?= $inRemark ?>');
 

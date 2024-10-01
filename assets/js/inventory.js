@@ -105,6 +105,12 @@ function get(param,obj,callBack) {
 			},
 			success: function (data) {
 				$("#inputArea").html(data);
+			}, 
+			complete: function (data) {
+				$("#inType").prop('disabled', true);
+				$("a.btn.btn-success.m-1").addClass("disabled");
+				$("a.btn.btn-secondary.m-1").addClass("disabled");
+				$("a.btn.btn-danger.m-1").addClass("disabled");
 			}
 		})
 	} else if (param == "searchColumn") {
