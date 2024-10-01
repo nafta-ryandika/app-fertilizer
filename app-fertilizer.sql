@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.51-log - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.5.0.6677
+-- HeidiSQL Version:             12.8.0.6908
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -578,7 +578,7 @@ DELETE FROM `t_inventory`;
 INSERT INTO `t_inventory` (`id`, `inventory_id`, `date`, `inventory_type_id`, `warehouse_id`, `transaction_id`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'RCP/092024/00001', '2024-09-26', 1, 2, 'PO/082024/00002', 'test', 1, 'admin', '2024-09-26 17:40:41', NULL, NULL),
 	(2, 'RCP/092024/00002', '2024-09-28', 1, 2, 'PO/082024/00002', 'test', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
-	(3, 'RCP/092024/00003', '2024-09-28', 1, 2, 'PO/082024/00002', 'test', 1, 'admin', '2024-09-28 10:59:25', NULL, NULL);
+	(3, 'RCP/092024/00003', '2024-09-28', 1, 3, 'PO/082024/00002', 'test edit', 1, 'admin', '2024-09-28 10:59:25', 'admin', '2024-10-01 16:40:35');
 
 -- Dumping structure for table app-fertilizer.t_inventory_detail
 CREATE TABLE IF NOT EXISTS `t_inventory_detail` (
@@ -606,8 +606,8 @@ INSERT INTO `t_inventory_detail` (`id`, `inventory_id`, `goods_id`, `qty`, `unit
 	(2, 'RCP/092024/00001', '3', 2, '1', 1, 'admin', '2024-09-26 17:40:41', NULL, NULL),
 	(3, 'RCP/092024/00002', '2', 1, '4', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
 	(4, 'RCP/092024/00002', '3', 2, '1', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
-	(5, 'RCP/092024/00003', '2', 1, '4', 1, 'admin', '2024-09-28 10:59:25', NULL, NULL),
-	(6, 'RCP/092024/00003', '3', 2, '1', 1, 'admin', '2024-09-28 10:59:26', NULL, NULL);
+	(5, 'RCP/092024/00003', '2', 3, '4', 1, 'admin', '2024-09-28 10:59:25', 'admin', '2024-10-01 16:40:35'),
+	(6, 'RCP/092024/00003', '3', 3, '1', 1, 'admin', '2024-09-28 10:59:26', 'admin', '2024-10-01 16:40:35');
 
 -- Dumping structure for table app-fertilizer.t_purchase
 CREATE TABLE IF NOT EXISTS `t_purchase` (
