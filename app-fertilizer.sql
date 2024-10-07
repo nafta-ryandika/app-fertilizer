@@ -576,7 +576,7 @@ CREATE TABLE IF NOT EXISTS `t_inventory` (
 -- Dumping data for table app-fertilizer.t_inventory: ~3 rows (approximately)
 DELETE FROM `t_inventory`;
 INSERT INTO `t_inventory` (`id`, `inventory_id`, `date`, `inventory_type_id`, `warehouse_id`, `transaction_id`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
-	(1, 'RCP/092024/00001', '2024-09-26', 1, 2, 'PO/082024/00002', 'test', 1, 'admin', '2024-09-26 17:40:41', NULL, NULL),
+	(1, 'RCP/092024/00001', '2024-09-26', 1, 2, 'PO/082024/00002', 'test', 0, 'admin', '2024-09-26 17:40:41', 'admin', '2024-10-07 15:23:23'),
 	(2, 'RCP/092024/00002', '2024-09-28', 1, 2, 'PO/082024/00002', 'test', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
 	(3, 'RCP/092024/00003', '2024-09-28', 1, 3, 'PO/082024/00002', 'test edit', 1, 'admin', '2024-09-28 10:59:25', 'admin', '2024-10-01 16:40:35');
 
@@ -602,8 +602,8 @@ CREATE TABLE IF NOT EXISTS `t_inventory_detail` (
 -- Dumping data for table app-fertilizer.t_inventory_detail: ~6 rows (approximately)
 DELETE FROM `t_inventory_detail`;
 INSERT INTO `t_inventory_detail` (`id`, `inventory_id`, `goods_id`, `qty`, `unit_id`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
-	(1, 'RCP/092024/00001', '2', 1, '4', 1, 'admin', '2024-09-26 17:40:41', NULL, NULL),
-	(2, 'RCP/092024/00001', '3', 2, '1', 1, 'admin', '2024-09-26 17:40:41', NULL, NULL),
+	(1, 'RCP/092024/00001', '2', 1, '4', 0, 'admin', '2024-09-26 17:40:41', 'admin', '2024-10-07 15:23:23'),
+	(2, 'RCP/092024/00001', '3', 2, '1', 0, 'admin', '2024-09-26 17:40:41', 'admin', '2024-10-07 15:23:23'),
 	(3, 'RCP/092024/00002', '2', 1, '4', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
 	(4, 'RCP/092024/00002', '3', 2, '1', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
 	(5, 'RCP/092024/00003', '2', 3, '4', 1, 'admin', '2024-09-28 10:59:25', 'admin', '2024-10-01 16:40:35'),
