@@ -519,16 +519,16 @@ function report(param,obj){
 
 	if (param == "pdf") {
 		if (obj == "sales") {
-			window.open(base_url+'sales/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
+			window.open(base_url+'inventory/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
 		}
 	}
 	else if (param == "excel") {
 		if (obj == "sales") {
-			window.open(base_url+'sales/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
+			window.open(base_url+'inventory/report?param='+param+'&obj='+obj+'&where='+encodeURIComponent(inWhere), '_blank');
 		}
 	} else if (param == "print") {
 		$('#modalPrint').modal('show').after(function (data) {
-			$("#contentPrint").attr("src",base_url+'sales/report?param='+param+'&obj='+obj);
+			$("#contentPrint").attr("src",base_url+'inventory/report?param='+param+'&obj='+obj);
 		})
 	}
 }
@@ -767,7 +767,7 @@ function remove(param,obj) {
 			if (result.isConfirmed) {
 				$.ajax({
 					type: "POST",
-					url: base_url+"sales/remove",
+					url: base_url+"inventory/remove",
 					data: {
 						param: param,
 						obj: obj

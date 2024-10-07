@@ -113,7 +113,7 @@ class Inventory extends CI_Controller
         $param = $this->input->post('param');
         $obj = $this->input->post('obj');
 
-        $data = $this->Sales_M->remove($param, $obj);
+        $data = $this->Inventory_M->remove($param, $obj);
 
         echo (json_encode($data));
     }
@@ -126,33 +126,17 @@ class Inventory extends CI_Controller
         $where = $this->input->get('where');
 
         if ($param == "print") {
-            $data = $this->Sales_M->get("detail", $obj);
+            $data = $this->Inventory_M->get("detail", $obj, "");
 
             $id = $data["header"]["id"];
-            $sales_id = $data["header"]["sales_id"];
+            $inventory_id = $data["header"]["inventory_id"];
             $date = $data["header"]["date"];
-            $customer_id = $data["header"]["customer_id"];
-            $due_date = $data["header"]["due_date"];
+            $inventory_type_id = $data["header"]["inventory_type_id"];
+            $warehouse_id = $data["header"]["warehouse_id"];
+            $transaction_id = $data["header"]["transaction_id"];
             $remark = $data["header"]["remark"];
-            $currency = $data["header"]["currency"];
-            $discount = $data["header"]["discount"];
-            $tax_type = $data["header"]["tax_type"];
-            $tax = $data["header"]["tax"];
-            $total = $data["header"]["total"];
-            $customer = $data["header"]["customer"];
-
-            $query1 = "SELECT 
-                        id, customer, pic, phone, `address`, remark 
-                        FROM m_customer 
-                        WHERE 
-                        id = '" . $customer_id . "' AND
-                        `status` = 1 ";
-
-            $data1 =  $this->db->query($query1)->row_array();
-
-            $pic = $data1["pic"];
-            $phone = $data1["phone"];
-            $address = $data1["address"];
+            $type = $data["header"]["type"];
+            $warehouse = $data["header"]["warehouse"];
 
             $fileName = $datax[1];
             $data['title_pdf'] = $fileName;
@@ -181,24 +165,7 @@ class Inventory extends CI_Controller
                                         </table>
                                     </td>
                                     <td style=\"width: 45%; vertical-align: top; text-align: right;\">
-                                        <h2>SALES ORDER</h2>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td style=\"vertical-align: top; text-align: right;\">
-                                        <table>
-                                            <tr>
-                                                <td style=\"text-align: left;\">Date</td>
-                                                <td>:</td>
-                                                <td>" . $date . "</td>
-                                            </tr>
-                                            <tr>
-                                                <td style=\"text-align: left;\">Sales No</td>
-                                                <td>:</td>
-                                                <td>" . $sales_id . "</td>
-                                            </tr>
-                                        </table>
+                                        <h2>Inventory</h2>
                                     </td>
                                 </tr>
                                 <tr>
@@ -210,12 +177,19 @@ class Inventory extends CI_Controller
                                 </tr>
                                 <tr>
                                     <td style=\"vertical-align: top;\">
-                                        <div class=\"col-6\">
-                                            <b style='font-size: 15px;'>" . $customer . "</b><br/>
-                                            <b style='font-size: 12px;'>" . $address . " </b><br/>
-                                            <b style='font-size: 12px;'>" . $pic . " <b/><br/>
-                                            <b style='font-size: 11px;'>" . $phone . " <b/><br/>
-                                        </div>
+                                        <table style=\"width: 100%; table-layout: fixed;\">
+                                            <tr>
+                                                <td>
+                                                    Inventory ID 
+                                                </td>
+                                                <td>
+                                                    : 
+                                                </td>
+                                                <td style=\"vertical-align: top;\">
+                                                    " . $inventory_id . "
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </td>
                                     <td style=\"text-align: right; vertical-align: top;\">
                                         <div class=\"col-6\">
@@ -239,17 +213,17 @@ class Inventory extends CI_Controller
                                             <tr>
                                                 <td style=\"vertical-align: top;\">Due date</td>
                                                 <td style=\"vertical-align: top;\">:</td>
-                                                <td>" . $due_date . "</td>
+                                                
                                             </tr>
                                             <tr>
                                                 <td style=\"vertical-align: top;\">Currency</td>
                                                 <td style=\"vertical-align: top;\">:</td>
-                                                <td>" . $currency . "</td>
+                                                
                                             </tr>
                                             <tr>
                                                 <td style=\"vertical-align: top;\">Remark</td>
                                                 <td style=\"vertical-align: top;\">:</td>
-                                                <td>" . $remark . "</td>
+                                                
                                             </tr>
                                         </table>
                                     </div>
@@ -260,7 +234,7 @@ class Inventory extends CI_Controller
                             <tr>
                                 <td width=\"33%\">" . $this->session->userdata['name'] . " - {DATE d-m-Y H:i:s}</td>
                                 <td width=\"33%\" align=\"center\">{PAGENO}/{nbpg}</td>
-                                <td width=\"33%\" style=\"text-align: right;\">" . $purchase_id . "</td>
+                                <td width=\"33%\" style=\"text-align: right;\">" . $inventory_id . "</td>
                             </tr>
                         </table>";
 

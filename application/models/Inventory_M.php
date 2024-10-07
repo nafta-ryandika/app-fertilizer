@@ -517,12 +517,12 @@ class Inventory_M extends CI_Model
 
             $where1 = array(
                 'id' => $datax[0],
-                'sales_id' => $datax[1]
+                'inventory_id' => $datax[1]
             );
 
             $this->db->where($where1);
 
-            if ($this->db->update("t_sales", $data1)) {
+            if ($this->db->update("t_inventory", $data1)) {
                 $res['res'] = 'success';
             } else {
                 $res['res'] =  $this->db->error();
@@ -539,12 +539,12 @@ class Inventory_M extends CI_Model
             $this->db->db_debug = false;
 
             $where2 = array(
-                'sales_id' => $datax[1]
+                'inventory_id' => $datax[1]
             );
 
             $this->db->where($where2);
 
-            if ($this->db->update("t_sales_detail", $data2)) {
+            if ($this->db->update("t_inventory_detail", $data2)) {
                 $res['res'] = 'success';
             } else {
                 $res['res'] =  $this->db->error();
