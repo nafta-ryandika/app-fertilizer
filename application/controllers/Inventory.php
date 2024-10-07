@@ -141,7 +141,7 @@ class Inventory extends CI_Controller
             $fileName = $datax[1];
             $data['title_pdf'] = $fileName;
 
-            $mpdf = new \Mpdf\Mpdf();
+            $mpdf = new \Mpdf\Mpdf(['format' => 'A5']);
 
             $mpdf->SetTitle($fileName);
 
@@ -165,7 +165,8 @@ class Inventory extends CI_Controller
                                         </table>
                                     </td>
                                     <td style=\"width: 45%; vertical-align: top; text-align: right;\">
-                                        <h2>Inventory</h2>
+                                        <h2>Inventory</h2><br/>
+                                        <h4>" . $type . "</h4>
                                     </td>
                                 </tr>
                                 <tr>
@@ -185,19 +186,48 @@ class Inventory extends CI_Controller
                                                 <td>
                                                     : 
                                                 </td>
-                                                <td style=\"vertical-align: top;\">
+                                                <td>
                                                     " . $inventory_id . "
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Date 
+                                                </td>
+                                                <td>
+                                                    : 
+                                                </td>
+                                                <td>
+                                                    " . $date . "
                                                 </td>
                                             </tr>
                                         </table>
                                     </td>
-                                    <td style=\"text-align: right; vertical-align: top;\">
-                                        <div class=\"col-6\">
-                                            <b style='font-size: 15px;'>PT AGRI MAKMUR MEGA PERKASA INDO</b><br/>
-                                            <b style='font-size: 12px;'>Dsn. Gudang Ds. Cengkrong</b><br/>
-                                            <b style='font-size: 12px;'>Paserpan, Pasuruan</b><br/>
-                                            <b style='font-size: 11px;'>Telp. 082245536228</b>
-                                        </div>
+                                    <td style=\"vertical-align: top;\">
+                                    <table style=\"width: 100%; table-layout: fixed;\">
+                                    <tr>
+                                        <td>
+                                            Warehouse 
+                                        </td>
+                                        <td>
+                                            : 
+                                        </td>
+                                        <td>
+                                            " . $warehouse . "
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            Transaction ID 
+                                        </td>
+                                        <td>
+                                            : 
+                                        </td>
+                                        <td>
+                                            " . $transaction_id . "
+                                        </td>
+                                    </tr>
+                                </table>
                                     </td>
                                 </tr>
                             </table>
@@ -205,29 +235,52 @@ class Inventory extends CI_Controller
 
             $mpdf->SetHTMLHeader($header);
 
-            $footer = "<table style=\"border-collapse: collapse;\" width=\"100%\" border=\"1\">
+            $footer = "<table style=\"border-collapse: collapse; border-spacing: 0;display: flex;
+            flex-wrap: wrap;\" width=\"100%\" border=\"1\">
                             <tr>
                                 <td width=\"70%\" style=\"text-align: left; vertical-align: top;\">
                                     <div>
                                         <table>
                                             <tr>
-                                                <td style=\"vertical-align: top;\">Due date</td>
-                                                <td style=\"vertical-align: top;\">:</td>
-                                                
-                                            </tr>
-                                            <tr>
-                                                <td style=\"vertical-align: top;\">Currency</td>
-                                                <td style=\"vertical-align: top;\">:</td>
-                                                
-                                            </tr>
-                                            <tr>
                                                 <td style=\"vertical-align: top;\">Remark</td>
-                                                <td style=\"vertical-align: top;\">:</td>
-                                                
+                                                <td style=\"vertical-align: top;\"> : </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan=\"2\" style=\"vertical-align: top;\">
+                                                    &nbsp;
+                                                    &nbsp;
+                                                </td>
                                             </tr>
                                         </table>
                                     </div>
                                 </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <table style=\"border-collapse: collapse; border-spacing: 0;\" width=\"100%\" border=\"1\">
+                            <tr>
+                                <td width=\"33%\" align=\"center\">Prepared By</td>
+                                <td width=\"33%\" align=\"center\">Approved By</td>
+                                <td width=\"33%\" align=\"center\">Received By</td>
+                            </tr>
+                            <tr>
+                                <td width=\"33%\" height=\"40\" align=\"center\">
+                                    &nbsp;
+                                    &nbsp;
+                                </td>
+                                <td width=\"33%\" align=\"center\">
+                                    &nbsp;
+                                    &nbsp;
+                                </td>
+                                <td width=\"33%\" align=\"center\">
+                                    &nbsp;
+                                    &nbsp;
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width=\"33%\" align=\"center\">( ........... )</td>
+                                <td width=\"33%\" align=\"center\">( ........... )</td>
+                                <td width=\"33%\" align=\"center\">( ........... )</td>
                             </tr>
                         </table>
                         <table width=\"100%\">
@@ -240,18 +293,18 @@ class Inventory extends CI_Controller
 
             $mpdf->SetHTMLFooter($footer);
 
-            $html = $this->load->view('report/sales/print', $data, true);
+            $html = $this->load->view('report/inventory/print', $data, true);
 
             $mpdf->AddPage(
-                'P', // L - landscape, P - portrait 
+                'L', // L - landscape, P - portrait 
                 '',
                 '',
                 '',
                 '',
                 5, // margin_left
                 5, // margin right
-                70, // margin top
-                70, // margin bottom
+                45, // margin top
+                45, // margin bottom
                 0, // margin header
                 1 // margin footer
             );

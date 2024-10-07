@@ -82,9 +82,6 @@
                 <th scope="col">Goods</th>
                 <th scope="col">Qty</th>
                 <th scope="col">Unit</th>
-                <th scope="col">Price</th>
-                <th scope="col">Discount (%)</th>
-                <th scope="col">Total</th>
             </tr>
         </thead>
         <tbody>
@@ -97,42 +94,10 @@
                 echo '<td style="text-align: left;">' . $data_detail['goods'] . '</td>';
                 echo '<td style="text-align: right;">' . number_format($data_detail['qty'], 2, ",", ".") . '</td>';
                 echo '<td style="text-align: center;">' . $data_detail['unit'] . '</td>';
-                echo '<td style="text-align: right;">' . number_format($data_detail['price'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: center;">' . $data_detail['discount'] . '</td>';
-                echo '<td style="text-align: right;">' . number_format($data_detail['subtotal'], 2, ",", ".") . '</td>';
                 echo '</tr>';
                 $i++;
-                $subtotal += $data_detail['subtotal'];
-
-                $discount = $header["discount"];
-                $discount = ($discount / 100) * $subtotal;
-
-                $tax = $header["tax"];
-                $tax = ($tax / 100) * $subtotal;
-
-                $total = $subtotal - $discount + $tax;
             }
             ?>
-            <tr>
-                <td colspan="7"></td>
-            </tr>
-            <tr>
-                <td colspan="5" rowspan="4"></td>
-                <td style="text-align: left;">Subtotal</td>
-                <td style="text-align: right;"><?= number_format($subtotal, 2, ",", "."); ?></td>
-            </tr>
-            <tr>
-                <td style="text-align: left;">Discount</td>
-                <td style="text-align: right;"><?= number_format($discount, 2, ",", "."); ?></td>
-            </tr>
-            <tr>
-                <td style="text-align: left;">Tax</td>
-                <td style="text-align: right;"><?= number_format($tax, 2, ",", "."); ?></td>
-            </tr>
-            <tr>
-                <td style="text-align: left;">Total</td>
-                <td style="text-align: right;"><?= number_format($total, 2, ",", "."); ?></td>
-            </tr>
         </tbody>
     </table>
 </body>
