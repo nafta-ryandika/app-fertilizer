@@ -244,11 +244,8 @@ class Inventory extends CI_Controller
                                             <tr>
                                                 <td style=\"vertical-align: top;\">Remark</td>
                                                 <td style=\"vertical-align: top;\"> : </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan=\"2\" style=\"vertical-align: top;\">
-                                                    &nbsp;
-                                                    &nbsp;
+                                                <td  style=\"vertical-align: top;\">
+                                                    " . $remark . "
                                                 </td>
                                             </tr>
                                         </table>
@@ -278,9 +275,9 @@ class Inventory extends CI_Controller
                                 </td>
                             </tr>
                             <tr>
-                                <td width=\"33%\" align=\"center\">( ........... )</td>
-                                <td width=\"33%\" align=\"center\">( ........... )</td>
-                                <td width=\"33%\" align=\"center\">( ........... )</td>
+                                <td width=\"33%\" align=\"center\">( ............... )</td>
+                                <td width=\"33%\" align=\"center\">( ............... )</td>
+                                <td width=\"33%\" align=\"center\">( ............... )</td>
                             </tr>
                         </table>
                         <table width=\"100%\">
@@ -340,11 +337,34 @@ class Inventory extends CI_Controller
                     ON a.sales_id = b.sales_id	 
                     ORDER BY a.created_at DESC";
 
+            $sql = "SELECT 
+                    dt1.*, 
+                    (SELECT `type` FROM m_inventory_type WHERE id = dt1.inventory_type_id) AS `type`,
+                    (SELECT warehouse FROM m_warehouse WHERE id = dt1.warehouse_id) AS warehouse,
+                    GROUP_CONCAT((SELECT goods FROM m_goods WHERE id = goods_id),' ') AS goods,
+                    DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
+                    FROM 
+                    (
+                        SELECT id, inventory_id, date, inventory_type_id, warehouse_id, transaction_id, remark, created_by, created_at 
+                        FROM t_inventory 
+                        WHERE `status` = 1
+                    )dt1 
+                    JOIN 
+                    (
+                        SELECT id, inventory_id, goods_id, qty, unit_id
+                        FROM t_inventory_detail
+                        WHERE `status` = 1
+                    )dt2 
+                    ON dt1.inventory_id = dt2.inventory_id 
+                    WHERE 1  " . $where . " 
+                    GROUP BY dt1.id 
+                    ORDER BY dt1.created_at DESC";
+
             $data = $this->db->query($sql)->result_array();
 
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
-            $fileName = 'Report Data Sales - ' . date("Y-m-d H:i:s");
+            $fileName = 'Report Data Inventory - ' . date("Y-m-d H:i:s");
 
             $style_col = [
                 'font' => ['bold' => true], // Set font nya jadi bold
@@ -387,29 +407,22 @@ class Inventory extends CI_Controller
 
             $numrow = $numrow + 5;
 
-            $sheet->setCellValue('A' . $numrow, "Report Data Sales");
-            $sheet->mergeCells('A' . $numrow . ':P' . $numrow);
+            $sheet->setCellValue('A' . $numrow, "Report Data Inventory");
+            $sheet->mergeCells('A' . $numrow . ':I' . $numrow);
             $sheet->getStyle('A' . $numrow)->getFont()->setBold(true);
             $sheet->getStyle('A' . $numrow)->getAlignment()->setHorizontal('center');
 
             $numrow = $numrow + 2;
 
-            $sheet->setCellValue('A' . $numrow, "Sales Id");
+            $sheet->setCellValue('A' . $numrow, "Inventory ID");
             $sheet->setCellValue('B' . $numrow, "Date");
-            $sheet->setCellValue('C' . $numrow, "Customer");
-            $sheet->setCellValue('D' . $numrow, "Due Date");
-            $sheet->setCellValue('E' . $numrow, "Currency");
-            $sheet->setCellValue('F' . $numrow, "Discount (%)");
-            $sheet->setCellValue('G' . $numrow, "Tax Type");
-            $sheet->setCellValue('H' . $numrow, "Tax (%)");
-            $sheet->setCellValue('I' . $numrow, "Total");
-            $sheet->setCellValue('J' . $numrow, "Goods");
-            $sheet->setCellValue('K' . $numrow, "Qty");
-            $sheet->setCellValue('L' . $numrow, "Unit");
-            $sheet->setCellValue('M' . $numrow, "Price");
-            $sheet->setCellValue('N' . $numrow, "Discount Item (%)");
-            $sheet->setCellValue('O' . $numrow, "Subtotal");
-            $sheet->setCellValue('P' . $numrow, "Qty Shipped");
+            $sheet->setCellValue('C' . $numrow, "Type");
+            $sheet->setCellValue('D' . $numrow, "Warehouse");
+            $sheet->setCellValue('E' . $numrow, "Transaction ID");
+            $sheet->setCellValue('F' . $numrow, "Remark");
+            $sheet->setCellValue('G' . $numrow, "Goods");
+            $sheet->setCellValue('H' . $numrow, "Qty");
+            $sheet->setCellValue('I' . $numrow, "Unit");
 
             $sheet->getStyle('A' . $numrow)->applyFromArray($style_col);
             $sheet->getStyle('B' . $numrow)->applyFromArray($style_col);
@@ -420,64 +433,41 @@ class Inventory extends CI_Controller
             $sheet->getStyle('G' . $numrow)->applyFromArray($style_col);
             $sheet->getStyle('H' . $numrow)->applyFromArray($style_col);
             $sheet->getStyle('I' . $numrow)->applyFromArray($style_col);
-            $sheet->getStyle('J' . $numrow)->applyFromArray($style_col);
-            $sheet->getStyle('K' . $numrow)->applyFromArray($style_col);
-            $sheet->getStyle('L' . $numrow)->applyFromArray($style_col);
-            $sheet->getStyle('M' . $numrow)->applyFromArray($style_col);
-            $sheet->getStyle('N' . $numrow)->applyFromArray($style_col);
-            $sheet->getStyle('O' . $numrow)->applyFromArray($style_col);
-            $sheet->getStyle('P' . $numrow)->applyFromArray($style_col);
-
 
             $i = 1;
             $numrow = $numrow + 1;
-            foreach ($data as $data_sales) {
-                $sheet->setCellValue('A' . $numrow, $data_sales['sales_id']);
-                $sheet->setCellValue('B' . $numrow, $data_sales['date']);
-                $sheet->setCellValue('C' . $numrow, $data_sales['customer']);
-                $sheet->setCellValue('D' . $numrow, $data_sales['due_date']);
-                $sheet->setCellValue('E' . $numrow, $data_sales['currency']);
-                $sheet->setCellValue('F' . $numrow, $data_sales['discount']);
-                $sheet->setCellValue('G' . $numrow, $data_sales['tax_type']);
-                $sheet->setCellValue('H' . $numrow, $data_sales['tax']);
-                $sheet->setCellValue('I' . $numrow, $data_sales['total']);
-                $sheet->setCellValue('J' . $numrow, $data_sales['goods']);
-                $sheet->setCellValue('K' . $numrow, $data_sales['qty']);
-                $sheet->setCellValue('L' . $numrow, $data_sales['unit']);
-                $sheet->setCellValue('M' . $numrow, $data_sales['price']);
-                $sheet->setCellValue('N' . $numrow, $data_sales['discount_detail']);
-                $sheet->setCellValue('O' . $numrow, $data_sales['subtotal']);
-                $sheet->setCellValue('P' . $numrow, $data_sales['qty_shipped']);
+            // foreach ($data as $data_sales) {
+            //     $sheet->setCellValue('A' . $numrow, $data_sales['invetory_id']);
+            //     $sheet->setCellValue('B' . $numrow, $data_sales['date']);
+            //     $sheet->setCellValue('C' . $numrow, $data_sales['type']);
+            //     $sheet->setCellValue('D' . $numrow, $data_sales['warehouse']);
+            //     $sheet->setCellValue('E' . $numrow, $data_sales['transaction_id']);
+            //     $sheet->setCellValue('F' . $numrow, $data_sales['remark']);
+            //     $sheet->setCellValue('G' . $numrow, $data_sales['goods']);
+            //     $sheet->setCellValue('H' . $numrow, $data_sales['qty']);
+            //     $sheet->setCellValue('I' . $numrow, $data_sales['unit']);
 
-                $sheet->getStyle('A' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('B' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('C' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('D' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('E' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('F' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('G' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('H' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('I' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('J' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('K' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('L' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('M' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('N' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('O' . $numrow)->applyFromArray($style_row);
-                $sheet->getStyle('P' . $numrow)->applyFromArray($style_row);
+            //     $sheet->getStyle('A' . $numrow)->applyFromArray($style_row);
+            //     $sheet->getStyle('B' . $numrow)->applyFromArray($style_row);
+            //     $sheet->getStyle('C' . $numrow)->applyFromArray($style_row);
+            //     $sheet->getStyle('D' . $numrow)->applyFromArray($style_row);
+            //     $sheet->getStyle('E' . $numrow)->applyFromArray($style_row);
+            //     $sheet->getStyle('F' . $numrow)->applyFromArray($style_row);
+            //     $sheet->getStyle('G' . $numrow)->applyFromArray($style_row);
+            //     $sheet->getStyle('H' . $numrow)->applyFromArray($style_row);
+            //     $sheet->getStyle('I' . $numrow)->applyFromArray($style_row);
 
+            //     $i++;
+            //     $numrow++;
+            // }
 
-                $i++;
-                $numrow++;
-            }
-
-            foreach (range('A', 'P') as $columnID) {
+            foreach (range('A', 'I') as $columnID) {
                 $sheet->getColumnDimension($columnID)->setAutoSize(true);
             }
             $sheet->getDefaultRowDimension()->setRowHeight(-1);
             $sheet->getPageSetup()->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
 
-            $sheet->setTitle("Report Data Sales");
+            $sheet->setTitle("Report Data Inventory");
             header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             header('Content-Disposition: attachment; filename="' . $fileName . '.xlsx"'); // Set nama file excel nya
             header('Cache-Control: max-age=0');
