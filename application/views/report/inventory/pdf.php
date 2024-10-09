@@ -79,47 +79,31 @@
         <thead>
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">Sales Id</th>
+                <th scope="col">Inventory Id</th>
                 <th scope="col">Date</th>
-                <th scope="col">Customer</th>
-                <th scope="col">Due Date</th>
-                <th scope="col">Currency</th>
-                <th scope="col">Discount (%)</th>
-                <th scope="col">Tax Type</th>
-                <th scope="col">Tax (%)</th>
-                <th scope="col">Total</th>
+                <th scope="col">Type</th>
+                <th scope="col">Warehouse</th>
+                <th scope="col">Transaction ID</th>
                 <th scope="col">Goods</th>
                 <th scope="col">Qty</th>
                 <th scope="col">Unit</th>
-                <th scope="col">Price</th>
-                <th scope="col">Discount Item (%)</th>
-                <th scope="col">Subtotal</th>
-                <th scope="col">Qty Shipped</th>
             </tr>
         </thead>
         <tbody>
             <?php
             $i = 1;
 
-            foreach ($sales as $data_sales) {
+            foreach ($inventory as $data_inventory) {
                 echo '<tr>';
                 echo '<td style="text-align: center;">' . $i . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['sales_id'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['date'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['customer'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['due_date'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['currency'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['discount'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['tax_type'] . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['tax'] . '</td>';
-                echo '<td style="text-align: center;">' . number_format($data_sales['total'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['goods'] . '</td>';
-                echo '<td style="text-align: center;">' . number_format($data_sales['qty'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['unit'] . '</td>';
-                echo '<td style="text-align: center;">' . number_format($data_sales['price'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: center;">' . $data_sales['discount_detail'] . '</td>';
-                echo '<td style="text-align: center;">' . number_format($data_sales['subtotal'], 2, ",", ".") . '</td>';
-                echo '<td style="text-align: center;">' . number_format($data_sales['qty_shipped'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: center;">' . $data_inventory['inventory_id'] . '</td>';
+                echo '<td style="text-align: center;">' . $data_inventory['date'] . '</td>';
+                echo '<td style="text-align: center;">' . $data_inventory['type'] . '</td>';
+                echo '<td style="text-align: center;">' . $data_inventory['warehouse'] . '</td>';
+                echo '<td style="text-align: center;">' . $data_inventory['transaction_id'] . '</td>';
+                echo '<td style="text-align: center;">' . $data_inventory['goods'] . '</td>';
+                echo '<td style="text-align: center;">' . number_format($data_inventory['qty'], 2, ",", ".") . '</td>';
+                echo '<td style="text-align: center;">' . $data_inventory['unit'] . '</td>';
                 echo '</tr>';
                 $i++;
             }

@@ -26,7 +26,7 @@ class Inventory_M extends CI_Model
                 return FALSE;
             }
         } else if ($param == "inType") {
-            $query = "SELECT id, `type` FROM m_inventory_type a WHERE `status` = 1  ORDER BY `id` ASC";
+            $query = "SELECT id, `type` FROM m_inventory_type a WHERE `status` <> 0  ORDER BY `id` ASC";
             $row = $this->db->query($query)->num_rows();
 
             if ($row > 0) {
@@ -49,8 +49,7 @@ class Inventory_M extends CI_Model
                                 FROM t_purchase_detail 
                                 WHERE 
                                 purchase_id = '" . $inTransaction . "' AND 
-                                `status` = 1 
-                                ORDER BY purchase_id DESC";
+                                `status` <> 0";
 
                     $row = $this->db->query($query)->num_rows();
 
@@ -77,7 +76,7 @@ class Inventory_M extends CI_Model
                                         id, purchase_id, `date`, purchase_type_id, supplier_id, due_date, currency_id, tax_type
                                         FROM t_purchase
                                         WHERE 
-                                        `status` = 1 AND 
+                                        `status` <> 0 AND 
                                         purchase_id  LIKE '%" . $inTransaction . "%'
                                     )t1 
                                     LEFT  JOIN ( 
@@ -85,7 +84,7 @@ class Inventory_M extends CI_Model
                                         id, purchase_id, goods_id, qty, unit_id, qty_received
                                         FROM t_purchase_detail
                                         WHERE 
-                                        `status` = 1  AND 
+                                        `status` <> 0  AND 
                                         purchase_id  LIKE '%" . $inTransaction . "%'  AND 
                                         (qty_received IS NULL OR qty > qty_received)
                                     )t2 ON 
@@ -109,7 +108,111 @@ class Inventory_M extends CI_Model
                                 (SELECT goods FROM m_goods WHERE id = goods_id) AS goods, 
                                 (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
                                 FROM t_purchase_detail 
-                                WHERE `status` = 1 
+                                WHERE `status` <> 0 
+                                ORDER BY purchase_id DESC ";
+
+
+                    $row3 = $this->db->query($query3)->num_rows();
+
+                    if ($row3) {
+                        $data["status"] = 0;
+                        $data["res"] = $this->db->query($query3)->result_array();
+                    } else {
+                        return FALSE;
+                    }
+                }
+            } else if ($inType == 2) {
+                if ($inTransaction != "") {
+                    $query = "SELECT 
+                                *,
+                                (SELECT goods FROM m_goods WHERE id = goods_id) AS goods, 
+                                (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
+                                FROM t_purchase_detail 
+                                WHERE 
+                                purchase_id = '" . $inTransaction . "' AND 
+                                `status` <> 0 ";
+
+                    $query = "SELECT 
+                                *, 
+                                (SELECT `type` FROM m_inventory_type WHERE id = dt1.inventory_type_id) AS `type`,
+                                (SELECT warehouse FROM m_warehouse WHERE id = dt1.warehouse_id) AS warehouse,
+                                (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,
+                                DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
+                                FROM (
+                                    SELECT 
+                                        id, inventory_id, `date`, inventory_type_id, warehouse_id, transaction_id, `status` 
+                                    FROM t_inventory 
+                                    WHERE 
+                                    `status` <> 0 AND 
+                                    inventory_type_id = 1 AND 
+                                    inventory_id = ''
+                                )dt1 JOIN (
+                                    SELECT id, inventory_id, goods_id, qty, unit_id, `status` 
+                                    FROM t_inventory_detail
+                                    WHERE 
+                                    `status` <> 0 AND 
+                                    inventory_id = ''
+                                )dt2
+                                ON dt1.inventory_id = dt2.inventory_id";
+
+                    $row = $this->db->query($query)->num_rows();
+
+                    if ($row) {
+                        $data["status"] = 1;
+                        $data["res"] = $this->db->query($query)->result_array();
+                    } else {
+                        $data["res"] = [];
+
+                        $query2 = "SELECT 
+                                        t1.purchase_id,
+                                        DATE_FORMAT(t1.`date`, '%d-%m-%Y ') AS `date`,
+                                    DATE_FORMAT(t1.due_date, '%d-%m-%Y ') AS `due_date`,
+                                    (SELECT `type` FROM m_purchase_type WHERE id = t1.purchase_type_id) AS `type`,
+                                    (SELECT supplier FROM m_supplier WHERE id = t1.supplier_id) AS supplier,
+                                    (SELECT currency FROM m_currency WHERE id = t1.currency_id) AS currency,
+                                    IF(t1.tax_type = 1 , 'Include (PKP)', 'Exclude (Non - PKP)') AS tax_type,
+                                        (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods,
+                                        t2.qty,
+                                        t2.qty_received,  
+                                        (SELECT unit FROM m_unit WHERE id = t2.unit_id) AS unit
+                                    FROM (
+                                        SELECT 
+                                        id, purchase_id, `date`, purchase_type_id, supplier_id, due_date, currency_id, tax_type
+                                        FROM t_purchase
+                                        WHERE 
+                                        `status` <> 0 AND 
+                                        purchase_id  LIKE '%" . $inTransaction . "%'
+                                    )t1 
+                                    LEFT  JOIN ( 
+                                        SELECT 
+                                        id, purchase_id, goods_id, qty, unit_id, qty_received
+                                        FROM t_purchase_detail
+                                        WHERE 
+                                        `status` <> 0  AND 
+                                        purchase_id  LIKE '%" . $inTransaction . "%'  AND 
+                                        (qty_received IS NULL OR qty > qty_received)
+                                    )t2 ON 
+                                    t1.purchase_id = t2.purchase_id
+                                    ORDER BY t1.date DESC";
+
+                        // return ($query2);
+
+                        $row2 = $this->db->query($query2)->num_rows();
+
+                        if ($row2) {
+                            $data["status"] = 0;
+                            $data["res"] = $this->db->query($query2)->result_array();
+                        } else {
+                            return FALSE;
+                        }
+                    }
+                } else {
+                    $query3 = "SELECT 
+                                *,
+                                (SELECT goods FROM m_goods WHERE id = goods_id) AS goods, 
+                                (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
+                                FROM t_purchase_detail 
+                                WHERE `status` <> 0 
                                 ORDER BY purchase_id DESC ";
 
 
@@ -145,7 +248,7 @@ class Inventory_M extends CI_Model
                         FROM t_inventory 
                         WHERE 
                         id = '" . $obj . "' AND 
-                        `status` = 1";
+                        `status` <> 0";
 
             $row = $this->db->query($query)->num_rows();
 
@@ -163,7 +266,7 @@ class Inventory_M extends CI_Model
                         FROM t_inventory_detail 
                         WHERE 
                         inventory_id = '" . $inventory_id . "' AND 
-                        `status` = 1";
+                        `status` <> 0";
 
             if ($row > 0) {
                 $data["detail"] = $this->db->query($query2)->result_array();
@@ -179,7 +282,7 @@ class Inventory_M extends CI_Model
                         (SELECT warehouse FROM m_warehouse WHERE id = warehouse_id) AS warehouse,
                         DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
                         FROM t_inventory          
-                        WHERE id = '" . $datax[0] . "' AND `status` = 1";
+                        WHERE id = '" . $datax[0] . "' AND `status` <> 0";
 
             $row = $this->db->query($query)->num_rows();
 
@@ -196,7 +299,7 @@ class Inventory_M extends CI_Model
                         FROM t_inventory_detail 
                         WHERE 
                         inventory_id = '" . $datax[1] . "' AND 
-                        `status` = 1";
+                        `status` <> 0";
 
             $row1 = $this->db->query($query1)->num_rows();
 

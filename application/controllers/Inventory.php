@@ -40,13 +40,13 @@ class Inventory extends CI_Controller
                 (
                     SELECT id, inventory_id, date, inventory_type_id, warehouse_id, transaction_id, remark, created_by, created_at 
                     FROM t_inventory 
-                    WHERE `status` = 1
+                    WHERE `status` <> 0
                 )dt1 
                 JOIN 
                 (
                     SELECT id, inventory_id, goods_id, qty, unit_id
                     FROM t_inventory_detail
-                    WHERE `status` = 1
+                    WHERE `status`  <> 0
                 )dt2 
                 ON dt1.inventory_id = dt2.inventory_id 
                 WHERE 1  " . $inWhere . " 
@@ -65,7 +65,7 @@ class Inventory extends CI_Controller
         $datax = $this->input->post('data');
 
         if ($param == "input") {
-            $sql = "SELECT id, `type` FROM m_inventory_type a WHERE `status` = 1  ORDER BY `id` ASC";
+            $sql = "SELECT id, `type` FROM m_inventory_type a WHERE `status`  <> 0  ORDER BY `id` ASC";
             $data['type'] = $this->db->query($sql)->result_array();
 
             $this->load->view('inventory/input', $data);
@@ -75,7 +75,7 @@ class Inventory extends CI_Controller
 
             $sql = "SELECT 
                     id, goods ,unit_id, 
-                    (SELECT unit FROM m_unit WHERE id = unit_id AND `status` = 1) AS unit
+                    (SELECT unit FROM m_unit WHERE id = unit_id AND `status`  <> 0) AS unit
                     FROM m_goods 
                     WHERE 
                     `status` = '1' 
@@ -83,7 +83,7 @@ class Inventory extends CI_Controller
 
             $data['goods'] = $this->db->query($sql)->result_array();
 
-            $sql2 = "SELECT id, `type` FROM m_inventory_type a WHERE `status` = 1  ORDER BY `id` ASC";
+            $sql2 = "SELECT id, `type` FROM m_inventory_type a WHERE `status`  <> 0  ORDER BY `id` ASC";
             $data['type'] = $this->db->query($sql2)->result_array();
 
             $data['html'] = $this->load->view('inventory/input', $data);
@@ -311,53 +311,25 @@ class Inventory extends CI_Controller
         } else if ($param == "excel") {
             $sql = "SELECT 
                     *, 
-                    DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
-                    DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
-                    (SELECT customer FROM m_customer WHERE id = a.customer_id) AS customer,
-                    (SELECT goods FROM m_goods WHERE id = b.goods_id) AS goods, 
-                    (SELECT unit FROM m_unit WHERE id = b.unit_id) AS unit,
-                    (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency,
-                    (a.discount) AS discount,
-                    (b.discount) AS discount_detail,
-                    (IF(a.tax_type = 1, 'Include', 'Exclude')) AS tax_type
-                    FROM 
-                        (
-                        SELECT 
-                            id, sales_id, `date`, customer_id, due_date,remark, currency_id,  discount, tax_type, tax, total, created_at
-                    FROM t_sales
-                    WHERE `status` = 1 " . $where . "
-                        )a 
-                    INNER JOIN 
-                        (
-                        SELECT 
-                        id, sales_id, goods_id, qty, unit_id, price, discount, subtotal, qty_shipped 
-                        FROM t_sales_detail 
-                        WHERE `status` = 1
-                        )b
-                    ON a.sales_id = b.sales_id	 
-                    ORDER BY a.created_at DESC";
-
-            $sql = "SELECT 
-                    dt1.*, 
                     (SELECT `type` FROM m_inventory_type WHERE id = dt1.inventory_type_id) AS `type`,
                     (SELECT warehouse FROM m_warehouse WHERE id = dt1.warehouse_id) AS warehouse,
-                    GROUP_CONCAT((SELECT goods FROM m_goods WHERE id = goods_id),' ') AS goods,
-                    DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
+                    DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`,
+                    (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,
+                    (SELECT unit FROM m_unit WHERE id = unit_id) AS unit
                     FROM 
                     (
                         SELECT id, inventory_id, date, inventory_type_id, warehouse_id, transaction_id, remark, created_by, created_at 
                         FROM t_inventory 
-                        WHERE `status` = 1
+                        WHERE `status`  <> 0
                     )dt1 
                     JOIN 
                     (
                         SELECT id, inventory_id, goods_id, qty, unit_id
                         FROM t_inventory_detail
-                        WHERE `status` = 1
+                        WHERE `status`  <> 0
                     )dt2 
                     ON dt1.inventory_id = dt2.inventory_id 
                     WHERE 1  " . $where . " 
-                    GROUP BY dt1.id 
                     ORDER BY dt1.created_at DESC";
 
             $data = $this->db->query($sql)->result_array();
@@ -436,30 +408,30 @@ class Inventory extends CI_Controller
 
             $i = 1;
             $numrow = $numrow + 1;
-            // foreach ($data as $data_sales) {
-            //     $sheet->setCellValue('A' . $numrow, $data_sales['invetory_id']);
-            //     $sheet->setCellValue('B' . $numrow, $data_sales['date']);
-            //     $sheet->setCellValue('C' . $numrow, $data_sales['type']);
-            //     $sheet->setCellValue('D' . $numrow, $data_sales['warehouse']);
-            //     $sheet->setCellValue('E' . $numrow, $data_sales['transaction_id']);
-            //     $sheet->setCellValue('F' . $numrow, $data_sales['remark']);
-            //     $sheet->setCellValue('G' . $numrow, $data_sales['goods']);
-            //     $sheet->setCellValue('H' . $numrow, $data_sales['qty']);
-            //     $sheet->setCellValue('I' . $numrow, $data_sales['unit']);
+            foreach ($data as $data_inventory) {
+                $sheet->setCellValue('A' . $numrow, $data_inventory['inventory_id']);
+                $sheet->setCellValue('B' . $numrow, $data_inventory['date']);
+                $sheet->setCellValue('C' . $numrow, $data_inventory['type']);
+                $sheet->setCellValue('D' . $numrow, $data_inventory['warehouse']);
+                $sheet->setCellValue('E' . $numrow, $data_inventory['transaction_id']);
+                $sheet->setCellValue('F' . $numrow, $data_inventory['remark']);
+                $sheet->setCellValue('G' . $numrow, $data_inventory['goods']);
+                $sheet->setCellValue('H' . $numrow, $data_inventory['qty']);
+                $sheet->setCellValue('I' . $numrow, $data_inventory['unit']);
 
-            //     $sheet->getStyle('A' . $numrow)->applyFromArray($style_row);
-            //     $sheet->getStyle('B' . $numrow)->applyFromArray($style_row);
-            //     $sheet->getStyle('C' . $numrow)->applyFromArray($style_row);
-            //     $sheet->getStyle('D' . $numrow)->applyFromArray($style_row);
-            //     $sheet->getStyle('E' . $numrow)->applyFromArray($style_row);
-            //     $sheet->getStyle('F' . $numrow)->applyFromArray($style_row);
-            //     $sheet->getStyle('G' . $numrow)->applyFromArray($style_row);
-            //     $sheet->getStyle('H' . $numrow)->applyFromArray($style_row);
-            //     $sheet->getStyle('I' . $numrow)->applyFromArray($style_row);
+                $sheet->getStyle('A' . $numrow)->applyFromArray($style_row);
+                $sheet->getStyle('B' . $numrow)->applyFromArray($style_row);
+                $sheet->getStyle('C' . $numrow)->applyFromArray($style_row);
+                $sheet->getStyle('D' . $numrow)->applyFromArray($style_row);
+                $sheet->getStyle('E' . $numrow)->applyFromArray($style_row);
+                $sheet->getStyle('F' . $numrow)->applyFromArray($style_row);
+                $sheet->getStyle('G' . $numrow)->applyFromArray($style_row);
+                $sheet->getStyle('H' . $numrow)->applyFromArray($style_row);
+                $sheet->getStyle('I' . $numrow)->applyFromArray($style_row);
 
-            //     $i++;
-            //     $numrow++;
-            // }
+                $i++;
+                $numrow++;
+            }
 
             foreach (range('A', 'I') as $columnID) {
                 $sheet->getColumnDimension($columnID)->setAutoSize(true);
@@ -476,35 +448,30 @@ class Inventory extends CI_Controller
         } else if ($param == "pdf") {
             $sql = "SELECT 
                     *, 
-                    DATE_FORMAT(a.`date`, '%d-%m-%Y ') AS `date`,
-                    DATE_FORMAT(a.due_date, '%d-%m-%Y ') AS `due_date`,
-                    (SELECT customer FROM m_customer WHERE id = a.customer_id) AS customer,
-                    (SELECT goods FROM m_goods WHERE id = b.goods_id) AS goods, 
-                    (SELECT unit FROM m_unit WHERE id = b.unit_id) AS unit,
-                    (SELECT currency FROM m_currency WHERE id = a.currency_id) AS currency,
-                    (a.discount) AS discount,
-                    (b.discount) AS discount_detail,
-                    (IF(a.tax_type = 1, 'Include', 'Exclude')) AS tax_type
+                    (SELECT `type` FROM m_inventory_type WHERE id = dt1.inventory_type_id) AS `type`,
+                    (SELECT warehouse FROM m_warehouse WHERE id = dt1.warehouse_id) AS warehouse,
+                    DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`,
+                    (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,
+                    (SELECT unit FROM m_unit WHERE id = unit_id) AS unit
                     FROM 
-                        (
-                        SELECT 
-                            id, sales_id, `date`, customer_id, due_date, remark, currency_id,  discount, tax_type, tax, total, created_at
-                    FROM t_sales
-                    WHERE `status` = 1 " . $where . "
-                        )a 
-                    INNER JOIN 
-                        (
-                        SELECT 
-                        id, sales_id, goods_id, qty, unit_id, price, discount, subtotal, qty_shipped 
-                        FROM t_sales_detail 
-                        WHERE `status` = 1
-                        )b
-                    ON a.sales_id = b.sales_id	 
-                    ORDER BY a.created_at DESC";
+                    (
+                        SELECT id, inventory_id, date, inventory_type_id, warehouse_id, transaction_id, remark, created_by, created_at 
+                        FROM t_inventory 
+                        WHERE `status`  <> 0
+                    )dt1 
+                    JOIN 
+                    (
+                        SELECT id, inventory_id, goods_id, qty, unit_id
+                        FROM t_inventory_detail
+                        WHERE `status`  <> 0
+                    )dt2 
+                    ON dt1.inventory_id = dt2.inventory_id 
+                    WHERE 1  " . $where . " 
+                    ORDER BY dt1.created_at DESC";
 
-            $data["sales"] = $this->db->query($sql)->result_array();
+            $data["inventory"] = $this->db->query($sql)->result_array();
 
-            $fileName = 'Report Data Sales - ' . date("Y-m-d H:i:s");
+            $fileName = 'Report Data Inventory - ' . date("Y-m-d H:i:s");
             $data['title_pdf'] = $fileName;
 
             $mpdf = new \Mpdf\Mpdf(['format' => 'Legal']);
@@ -525,7 +492,7 @@ class Inventory extends CI_Controller
                             </tr>
                         </table>
                         <div style='text-align:center'>
-                            <h3>Report Data Sales</h3>
+                            <h3>Report Data Inventory</h3>
                         </div>";
 
             $mpdf->SetHTMLHeader($header);
@@ -540,7 +507,7 @@ class Inventory extends CI_Controller
 
             $mpdf->SetHTMLFooter($footer);
 
-            $html = $this->load->view('report/sales/pdf', $data, true);
+            $html = $this->load->view('report/inventory/pdf', $data, true);
 
             $mpdf->AddPage(
                 'L', // L - landscape, P - portrait 
