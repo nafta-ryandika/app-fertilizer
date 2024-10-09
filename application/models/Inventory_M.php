@@ -124,15 +124,6 @@ class Inventory_M extends CI_Model
             } else if ($inType == 2) {
                 if ($inTransaction != "") {
                     $query = "SELECT 
-                                *,
-                                (SELECT goods FROM m_goods WHERE id = goods_id) AS goods, 
-                                (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
-                                FROM t_purchase_detail 
-                                WHERE 
-                                purchase_id = '" . $inTransaction . "' AND 
-                                `status` <> 0 ";
-
-                    $query = "SELECT 
                                 *, 
                                 (SELECT `type` FROM m_inventory_type WHERE id = dt1.inventory_type_id) AS `type`,
                                 (SELECT warehouse FROM m_warehouse WHERE id = dt1.warehouse_id) AS warehouse,
@@ -145,13 +136,13 @@ class Inventory_M extends CI_Model
                                     WHERE 
                                     `status` <> 0 AND 
                                     inventory_type_id = 1 AND 
-                                    inventory_id = ''
+                                    inventory_id = '" . $inTransaction . "'
                                 )dt1 JOIN (
                                     SELECT id, inventory_id, goods_id, qty, unit_id, `status` 
                                     FROM t_inventory_detail
                                     WHERE 
                                     `status` <> 0 AND 
-                                    inventory_id = ''
+                                    inventory_id = '" . $inTransaction . "'
                                 )dt2
                                 ON dt1.inventory_id = dt2.inventory_id";
 
