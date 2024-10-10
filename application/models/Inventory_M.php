@@ -40,6 +40,8 @@ class Inventory_M extends CI_Model
                 $inTransaction = trim($datax[$i]["inTransaction"]);
             }
 
+            $data["inType"] = $inType;
+
             if ($inType == 1) {
                 if ($inTransaction != "") {
                     $query = "SELECT 
