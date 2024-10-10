@@ -378,11 +378,13 @@ function get(param,obj,callBack) {
 					}
 				})
 			},
-			success: function (data) {
+			success: function (data,inTransaction) {
 				if (data.status == 1) {
 					set("detail", data.res);
 				} else if (data.status == 0) {
 					var data_transaction = data.res;
+					console.log(inTransaction);
+					return;
 					$('#modalSearchtransaction').modal('show').after(function (data) {
 						if (data_transaction.length > 0){
 							Swal.close();

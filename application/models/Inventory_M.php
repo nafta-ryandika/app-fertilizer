@@ -125,8 +125,8 @@ class Inventory_M extends CI_Model
                 if ($inTransaction != "") {
                     $query = "SELECT 
                                 *, 
-                                (SELECT `type` FROM m_inventory_type WHERE id = dt1.inventory_type_id) AS `type`,
-                                (SELECT warehouse FROM m_warehouse WHERE id = dt1.warehouse_id) AS warehouse,
+                                (SELECT `type` FROM m_inventory_type WHERE id = t1.inventory_type_id) AS `type`,
+                                (SELECT warehouse FROM m_warehouse WHERE id = t1.warehouse_id) AS warehouse,
                                 (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,
                                 DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
                                 FROM (
@@ -156,8 +156,8 @@ class Inventory_M extends CI_Model
 
                         $query2 = "SELECT 
                                     *, 
-                                    (SELECT `type` FROM m_inventory_type WHERE id = dt1.inventory_type_id) AS `type`,
-                                    (SELECT warehouse FROM m_warehouse WHERE id = dt1.warehouse_id) AS warehouse,
+                                    (SELECT `type` FROM m_inventory_type WHERE id = t1.inventory_type_id) AS `type`,
+                                    (SELECT warehouse FROM m_warehouse WHERE id = t1.warehouse_id) AS warehouse,
                                     (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,
                                     DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
                                     FROM (
@@ -191,12 +191,26 @@ class Inventory_M extends CI_Model
                     }
                 } else {
                     $query3 = "SELECT 
-                                *,
-                                (SELECT goods FROM m_goods WHERE id = goods_id) AS goods, 
-                                (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
-                                FROM t_purchase_detail 
-                                WHERE `status` <> 0 
-                                ORDER BY purchase_id DESC ";
+                                *, 
+                                (SELECT `type` FROM m_inventory_type WHERE id = t1.inventory_type_id) AS `type`,
+                                (SELECT warehouse FROM m_warehouse WHERE id = t1.warehouse_id) AS warehouse,
+                                (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,
+                                DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
+                                FROM (
+                                    SELECT 
+                                        id, inventory_id, `date`, inventory_type_id, warehouse_id, transaction_id, `status` 
+                                    FROM t_inventory 
+                                    WHERE 
+                                    `status` <> 0 AND 
+                                    inventory_type_id = 1 
+                                )t1 JOIN (
+                                    SELECT id, inventory_id, goods_id, qty, unit_id, `status` 
+                                    FROM t_inventory_detail
+                                    WHERE 
+                                    `status` <> 0 
+                                )t2
+                                ON t1.inventory_id = t2.inventory_id 
+                                ORDER by t1.`date` DESC";
 
 
                     $row3 = $this->db->query($query3)->num_rows();
