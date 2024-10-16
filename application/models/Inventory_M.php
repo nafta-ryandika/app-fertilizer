@@ -58,6 +58,7 @@ class Inventory_M extends CI_Model
                     if ($row) {
                         $data["status"] = 1;
                         $data["res"] = $this->db->query($query)->result_array();
+                        $data["res"] = "test";
                     } else {
                         $data["res"] = [];
 
@@ -118,7 +119,8 @@ class Inventory_M extends CI_Model
 
                     if ($row3) {
                         $data["status"] = 0;
-                        $data["res"] = $this->db->query($query3)->result_array();
+                        // $data["res"] = $this->db->query($query3)->result_array();
+                        $data["res"] = "test";
                     } else {
                         return FALSE;
                     }
