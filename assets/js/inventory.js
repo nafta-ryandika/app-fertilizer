@@ -387,9 +387,6 @@ function get(param,obj,callBack) {
 						if (data_transaction.length > 0){
 							Swal.close();
 
-							console.log(data_transaction);
-							return;
-
 							var html = "";
 							$('#dataTable-modalTransaction tbody').empty().after(function(){
 								for (var i = 0; i < data_transaction.length; i++) {
@@ -423,7 +420,10 @@ function get(param,obj,callBack) {
 			},
 			complete: function (data) {
 				Swal.close();
-				$('#modalSearchtransaction').modal('toggle');
+				
+				if (data.status == 0) {
+					$('#modalSearchtransaction').modal('toggle');
+				}
 			}
 		});
 	}

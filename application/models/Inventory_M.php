@@ -58,18 +58,15 @@ class Inventory_M extends CI_Model
                     if ($row) {
                         $data["status"] = 1;
                         $data["res"] = $this->db->query($query)->result_array();
-                        $data["res"] = "test";
                     } else {
                         $data["res"] = [];
 
                         $query2 = "SELECT 
-                                        t1.purchase_id,
-                                        DATE_FORMAT(t1.`date`, '%d-%m-%Y ') AS `date`,
+                                    t1.purchase_id,
+                                    DATE_FORMAT(t1.`date`, '%d-%m-%Y ') AS `date`,
                                     DATE_FORMAT(t1.due_date, '%d-%m-%Y ') AS `due_date`,
                                     (SELECT `type` FROM m_purchase_type WHERE id = t1.purchase_type_id) AS `type`,
                                     (SELECT supplier FROM m_supplier WHERE id = t1.supplier_id) AS supplier,
-                                    (SELECT currency FROM m_currency WHERE id = t1.currency_id) AS currency,
-                                    IF(t1.tax_type = 1 , 'Include (PKP)', 'Exclude (Non - PKP)') AS tax_type,
                                         (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods,
                                         t2.qty,
                                         t2.qty_received,  
@@ -106,21 +103,34 @@ class Inventory_M extends CI_Model
                         }
                     }
                 } else {
-                    $query3 = "SELECT 
-                                *,
-                                (SELECT goods FROM m_goods WHERE id = goods_id) AS goods, 
-                                (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
-                                FROM t_purchase_detail 
-                                WHERE `status` <> 0 
-                                ORDER BY purchase_id DESC ";
-
+                    $query3 = "SELECT  
+                                    t1.purchase_id, 
+                                    DATE_FORMAT(t1.`date`, '%d-%m-%Y ') AS `date`,
+                                    DATE_FORMAT(t1.due_date, '%d-%m-%Y ') AS `due_date`,
+                                    (SELECT `type` FROM m_purchase_type WHERE id = t1.purchase_type_id) AS `type`,
+                                (SELECT supplier FROM m_supplier WHERE id = t1.supplier_id) AS supplier,
+                                (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods, 
+                                    (SELECT unit FROM m_unit WHERE id = t2.unit_id) AS unit, 
+                                    t2.qty
+                                FROM 
+                                (
+                                    SELECT id, purchase_id, `date`, purchase_type_id, supplier_id, due_date, `status` 
+                                    FROM t_purchase 
+                                    WHERE `status` = 1
+                                )t1 
+                                JOIN 
+                                (
+                                    SELECT id, purchase_id, goods_id, qty, unit_id, price, discount, subtotal, qty_received, `status` 
+                                    FROM t_purchase_detail
+                                    WHERE `status` = 1
+                                )t2 
+                                ON t1.purchase_id = t2.purchase_id";
 
                     $row3 = $this->db->query($query3)->num_rows();
 
                     if ($row3) {
                         $data["status"] = 0;
-                        // $data["res"] = $this->db->query($query3)->result_array();
-                        $data["res"] = "test";
+                        $data["res"] = $this->db->query($query3)->result_array();
                     } else {
                         return FALSE;
                     }
