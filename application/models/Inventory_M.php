@@ -99,8 +99,8 @@ class Inventory_M extends CI_Model
                             $data["status"] = 0;
                             $data["res"] = $this->db->query($query2)->result_array();
                         } else {
-                            $data["status"] = false;
-                            // return FALSE;
+                            // $data["status"] = 2;
+                            return FALSE;
                         }
                     }
                 } else {
@@ -133,18 +133,16 @@ class Inventory_M extends CI_Model
                         $data["status"] = 0;
                         $data["res"] = $this->db->query($query3)->result_array();
                     } else {
-                        $data["status"] = false;
-                        // return FALSE;
+                        // $data["status"] = 2;
+                        return FALSE;
                     }
                 }
             } else if ($inType == 2) {
                 if ($inTransaction != "") {
                     $query = "SELECT 
                                 *, 
-                                (SELECT `type` FROM m_inventory_type WHERE id = t1.inventory_type_id) AS `type`,
-                                (SELECT warehouse FROM m_warehouse WHERE id = t1.warehouse_id) AS warehouse,
                                 (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,
-                                DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
+                                (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
                                 FROM (
                                     SELECT 
                                         id, inventory_id, `date`, inventory_type_id, warehouse_id, transaction_id, `status` 
@@ -202,8 +200,8 @@ class Inventory_M extends CI_Model
                             $data["status"] = 0;
                             $data["res"] = $this->db->query($query2)->result_array();
                         } else {
-                            $data["status"] = false;
-                            // return FALSE;
+                            // $data["status"] = 2;
+                            return FALSE;
                         }
                     }
                 } else {
@@ -236,8 +234,8 @@ class Inventory_M extends CI_Model
                         $data["status"] = 0;
                         $data["res"] = $this->db->query($query3)->result_array();
                     } else {
-                        $data["status"] = false;
-                        // return FALSE;
+                        // $data["status"] = 2;
+                        return FALSE;
                     }
                 }
             }
