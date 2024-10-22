@@ -99,7 +99,8 @@ class Inventory_M extends CI_Model
                             $data["status"] = 0;
                             $data["res"] = $this->db->query($query2)->result_array();
                         } else {
-                            return FALSE;
+                            $data["status"] = false;
+                            // return FALSE;
                         }
                     }
                 } else {
@@ -132,7 +133,8 @@ class Inventory_M extends CI_Model
                         $data["status"] = 0;
                         $data["res"] = $this->db->query($query3)->result_array();
                     } else {
-                        return FALSE;
+                        $data["status"] = false;
+                        // return FALSE;
                     }
                 }
             } else if ($inType == 2) {
@@ -200,7 +202,8 @@ class Inventory_M extends CI_Model
                             $data["status"] = 0;
                             $data["res"] = $this->db->query($query2)->result_array();
                         } else {
-                            return FALSE;
+                            $data["status"] = false;
+                            // return FALSE;
                         }
                     }
                 } else {
@@ -233,7 +236,8 @@ class Inventory_M extends CI_Model
                         $data["status"] = 0;
                         $data["res"] = $this->db->query($query3)->result_array();
                     } else {
-                        return FALSE;
+                        $data["status"] = false;
+                        // return FALSE;
                     }
                 }
             }

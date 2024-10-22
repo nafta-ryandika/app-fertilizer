@@ -381,11 +381,36 @@ function get(param,obj,callBack) {
 			success: function (data) {
 				if (data.status == 1) {
 					set("detail", data.res);
+
+					if($('#modalSearchtransaction').hasClass('show')){
+						$('#modalSearchtransaction').modal('toggle');
+					}
 				} else if (data.status == 0) {
 					var data_transaction = data.res;
+					var data_inType = data.inType;
+
 					$('#modalSearchtransaction').modal('show').after(function (data) {
 						if (data_transaction.length > 0){
 							Swal.close();
+
+							var htmlHeader = "";
+
+							$('#dataTable-modalTransaction thead').empty().after(function(){
+								if (data_inType == 1) {
+									htmlHeader = "<tr>\n\
+													<th scope=\"col\" style=\"text-align: center !important;\">ID</th>\n\
+													<th scope=\"col\" style=\"text-align: center !important;\">Date</th>\n\
+													<th scope=\"col\" style=\"text-align: center !important;\">Due Date</th>\n\
+													<th scope=\"col\" style=\"text-align: center !important;\">Type</th>\n\
+													<th scope=\"col\" style=\"text-align: center !important;\">Supplier</th>\n\
+													<th scope=\"col\" style=\"text-align: center !important;\">Goods</th>\n\
+													<th scope=\"col\" style=\"text-align: center !important;\">Qty</th>\n\
+													<th scope=\"col\" style=\"text-align: center !important;\">Unit</th>\n\
+												</tr>";
+								}
+							})
+
+							$('#dataTable-modalTransaction thead').append(htmlHeader);
 
 							var html = "";
 							$('#dataTable-modalTransaction tbody').empty().after(function(){
@@ -416,13 +441,24 @@ function get(param,obj,callBack) {
 							})
 						}
 					})
+				} else {
+					Swal.close();
+					Swal.fire({
+						title: "Data Not Found !",
+						icon: "error"
+					})
 				}
 			},
 			complete: function (data) {
-				Swal.close();
-				
-				if (data.status == 0) {
-					$('#modalSearchtransaction').modal('toggle');
+				if (data.status){
+					Swal.close();
+
+					if (data.status == 0) {
+						$('#modalSearchtransaction').modal('toggle');
+					}
+				}
+				else {
+					console.log("wkwkwk");
 				}
 			}
 		});
