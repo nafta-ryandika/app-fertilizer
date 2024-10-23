@@ -149,7 +149,7 @@ class Inventory_M extends CI_Model
                                     FROM t_inventory 
                                     WHERE 
                                     `status` <> 0 AND 
-                                    inventory_type_id = 1 AND 
+                                    inventory_type_id IN(1, 3) AND 
                                     inventory_id = '" . $inTransaction . "'
                                 )t1 JOIN (
                                     SELECT id, inventory_id, goods_id, qty, unit_id, `status` 
@@ -173,6 +173,7 @@ class Inventory_M extends CI_Model
                                     (SELECT `type` FROM m_inventory_type WHERE id = t1.inventory_type_id) AS `type`,
                                     (SELECT warehouse FROM m_warehouse WHERE id = t1.warehouse_id) AS warehouse,
                                     (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,
+                                    (SELECT unit FROM m_unit WHERE id = unit_id) AS unit,
                                     DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
                                     FROM (
                                         SELECT 
@@ -180,7 +181,7 @@ class Inventory_M extends CI_Model
                                         FROM t_inventory 
                                         WHERE 
                                         `status` <> 0 AND 
-                                        inventory_type_id = 1 AND 
+                                        inventory_type_id IN (1, 3) AND 
                                         inventory_id LIKE '%" . $inTransaction . "%'
                                     )t1 JOIN (
                                         SELECT id, inventory_id, goods_id, qty, unit_id, `status` 
@@ -210,6 +211,7 @@ class Inventory_M extends CI_Model
                                 (SELECT `type` FROM m_inventory_type WHERE id = t1.inventory_type_id) AS `type`,
                                 (SELECT warehouse FROM m_warehouse WHERE id = t1.warehouse_id) AS warehouse,
                                 (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,
+                                (SELECT unit FROM m_unit WHERE id = unit_id) AS unit,
                                 DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
                                 FROM (
                                     SELECT 
@@ -217,7 +219,7 @@ class Inventory_M extends CI_Model
                                     FROM t_inventory 
                                     WHERE 
                                     `status` <> 0 AND 
-                                    inventory_type_id = 1 
+                                    inventory_type_id IN (1, 3) 
                                 )t1 JOIN (
                                     SELECT id, inventory_id, goods_id, qty, unit_id, `status` 
                                     FROM t_inventory_detail
