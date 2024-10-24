@@ -352,7 +352,9 @@ class Inventory_M extends CI_Model
         }
 
         $curdate = date("Y-m-d H:i:s");
-        $period = date("m") . date("Y");
+        $year = date("Y");
+        $month = date("m");
+        $period = $month . $year;
 
         $transaction = "";
         $tCode = "";
@@ -488,6 +490,50 @@ class Inventory_M extends CI_Model
                         $res['err'] =  $this->db->error();
                         $res['err'] = $res['err']['message'];
                         return $res;
+                    }
+
+                    if ($inType != 1) {
+                        // t_stockcard
+                        $data5  = array(
+                            'id' => '',
+                            'transaction_id' => $inventory_id,
+                            'warehouse_id' => $inWarehouse,
+                            'date' => $inDate,
+                            'inventory_type_id' => $inType,
+                            'goods_id' => $inDgoods[$i],
+                            'qty' => $inDqty[$i],
+                            'unit_id' => $inDunitid[$i],
+                            'created_by' => $_SESSION['user_id']
+                        );
+
+                        $this->db->db_debug = false;
+
+                        if ($this->db->insert('t_stock_card', $data5)) {
+                            $res['res'] = 'success';
+                        } else {
+                            $res['err'] =  $this->db->error();
+                            $res['err'] = $res['err']['message'];
+                            return $res;
+                        }
+
+                        // t_stock 
+                        $data6 = "SELECT 
+                                    id 
+                                    FROM t_stock 
+                                    WHERE 
+                                    `year` = '" . $year . "' AND 
+                                    `month` = '" . $month . "' AND 
+                                    warehouse_id  = '" . $inWarehouse . "' AND 
+                                    goods_id = '" . $inDgoods[$i] . "'";
+
+                        $row6 = $this->db->query($query6)->num_rows();
+                        $data6 = $this->db->query($query6)->row_array();
+                        $id = $data6['id'];
+
+                        if ($row6 > 0) {
+                            $data6 = $this->db->query($query6)->row_array();
+                        } else {
+                        }
                     }
                 }
             }
