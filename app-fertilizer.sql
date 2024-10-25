@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `m_company` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_company: ~1 rows (approximately)
+-- Dumping data for table app-fertilizer.m_company: ~0 rows (approximately)
 DELETE FROM `m_company`;
 INSERT INTO `m_company` (`id`, `company`, `created_by`, `created_at`) VALUES
 	(1, 'PT AGRI MAKMUR MEGA PERKASA INDO', 'administrator', '2024-01-30 11:13:48');
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `m_counter` (
   KEY `period` (`period`),
   KEY `counter` (`counter`),
   KEY `transaction` (`transaction`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.m_counter: ~5 rows (approximately)
 DELETE FROM `m_counter`;
@@ -87,7 +87,8 @@ INSERT INTO `m_counter` (`id`, `transaction`, `counter`, `period`, `status`, `cr
 	(3, 'purchase', 3, '082024', 1, 'admin', '2024-08-07 14:22:46'),
 	(4, 'sales', 5, '082024', 1, 'admin', '2024-08-29 14:25:42'),
 	(5, 'purchase', 1, '092024', 1, 'admin', '2024-09-11 10:27:38'),
-	(6, 'inv-receipt', 3, '092024', 1, 'admin', '2024-09-28 10:59:25');
+	(6, 'inv-receipt', 3, '092024', 1, 'admin', '2024-09-28 10:59:25'),
+	(7, 'inv-in', 4, '102024', 1, 'admin', '2024-10-24 15:49:14');
 
 -- Dumping structure for table app-fertilizer.m_currency
 CREATE TABLE IF NOT EXISTS `m_currency` (
@@ -571,14 +572,18 @@ CREATE TABLE IF NOT EXISTS `t_inventory` (
   KEY `purchase_id` (`inventory_id`) USING BTREE,
   KEY `tax_type` (`transaction_id`) USING BTREE,
   KEY `inventory_type_id` (`inventory_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_inventory: ~3 rows (approximately)
+-- Dumping data for table app-fertilizer.t_inventory: ~5 rows (approximately)
 DELETE FROM `t_inventory`;
 INSERT INTO `t_inventory` (`id`, `inventory_id`, `date`, `inventory_type_id`, `warehouse_id`, `transaction_id`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'RCP/092024/00001', '2024-09-26', 1, 2, 'PO/082024/00002', 'test', 0, 'admin', '2024-09-26 17:40:41', 'admin', '2024-10-07 15:23:23'),
 	(2, 'RCP/092024/00002', '2024-09-28', 1, 2, 'PO/082024/00002', 'test', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
-	(3, 'RCP/092024/00003', '2024-09-28', 1, 3, 'PO/082024/00002', 'test edit', 1, 'admin', '2024-09-28 10:59:25', 'admin', '2024-10-01 16:40:35');
+	(3, 'RCP/092024/00003', '2024-09-28', 1, 3, 'PO/082024/00002', 'test edit', 1, 'admin', '2024-09-28 10:59:25', 'admin', '2024-10-01 16:40:35'),
+	(4, 'IN/102024/00001', '2024-10-23', 2, 3, 'RCP/092024/00002', '', 1, 'admin', '2024-10-23 13:47:12', NULL, NULL),
+	(5, 'IN/102024/00002', '2024-10-24', 2, 2, 'RCP/092024/00003', '', 1, 'admin', '2024-10-24 10:24:08', NULL, NULL),
+	(6, 'IN/102024/00003', '2024-10-24', 2, 2, 'RCP/092024/00003', '', 1, 'admin', '2024-10-24 15:47:47', NULL, NULL),
+	(7, 'IN/102024/00004', '2024-10-24', 2, 2, 'RCP/092024/00003', '', 1, 'admin', '2024-10-24 15:49:14', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.t_inventory_detail
 CREATE TABLE IF NOT EXISTS `t_inventory_detail` (
@@ -597,9 +602,9 @@ CREATE TABLE IF NOT EXISTS `t_inventory_detail` (
   KEY `unit_id` (`unit_id`) USING BTREE,
   KEY `status` (`status`) USING BTREE,
   KEY `purchase_id` (`inventory_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_inventory_detail: ~6 rows (approximately)
+-- Dumping data for table app-fertilizer.t_inventory_detail: ~20 rows (approximately)
 DELETE FROM `t_inventory_detail`;
 INSERT INTO `t_inventory_detail` (`id`, `inventory_id`, `goods_id`, `qty`, `unit_id`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'RCP/092024/00001', '2', 1, '4', 0, 'admin', '2024-09-26 17:40:41', 'admin', '2024-10-07 15:23:23'),
@@ -607,7 +612,27 @@ INSERT INTO `t_inventory_detail` (`id`, `inventory_id`, `goods_id`, `qty`, `unit
 	(3, 'RCP/092024/00002', '2', 1, '4', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
 	(4, 'RCP/092024/00002', '3', 2, '1', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
 	(5, 'RCP/092024/00003', '2', 3, '4', 1, 'admin', '2024-09-28 10:59:25', 'admin', '2024-10-01 16:40:35'),
-	(6, 'RCP/092024/00003', '3', 3, '1', 1, 'admin', '2024-09-28 10:59:26', 'admin', '2024-10-01 16:40:35');
+	(6, 'RCP/092024/00003', '3', 3, '1', 1, 'admin', '2024-09-28 10:59:26', 'admin', '2024-10-01 16:40:35'),
+	(7, 'RCP/092024/00002', '3', 2, '1', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
+	(8, 'RCP/092024/00002', '3', 2, '1', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
+	(9, 'RCP/092024/00002', '3', 2, '1', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
+	(10, 'RCP/092024/00002', '3', 2, '1', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
+	(11, 'RCP/092024/00002', '3', 2, '1', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
+	(12, 'RCP/092024/00002', '3', 2, '1', 1, 'admin', '2024-09-28 09:47:53', NULL, NULL),
+	(13, 'IN/102024/00001', '2', 1, '4', 1, 'admin', '2024-10-23 13:47:12', NULL, NULL),
+	(14, 'IN/102024/00001', '3', 2, '1', 1, 'admin', '2024-10-23 13:47:12', NULL, NULL),
+	(15, 'IN/102024/00001', '3', 2, '1', 1, 'admin', '2024-10-23 13:47:12', NULL, NULL),
+	(16, 'IN/102024/00001', '3', 2, '1', 1, 'admin', '2024-10-23 13:47:12', NULL, NULL),
+	(17, 'IN/102024/00001', '3', 2, '1', 1, 'admin', '2024-10-23 13:47:13', NULL, NULL),
+	(18, 'IN/102024/00001', '3', 2, '1', 1, 'admin', '2024-10-23 13:47:13', NULL, NULL),
+	(19, 'IN/102024/00001', '3', 2, '1', 1, 'admin', '2024-10-23 13:47:13', NULL, NULL),
+	(20, 'IN/102024/00001', '3', 2, '1', 1, 'admin', '2024-10-23 13:47:13', NULL, NULL),
+	(21, 'IN/102024/00002', '2', 2, '4', 1, 'admin', '2024-10-24 10:24:08', NULL, NULL),
+	(22, 'IN/102024/00002', '3', 3, '1', 1, 'admin', '2024-10-24 10:24:08', NULL, NULL),
+	(23, 'IN/102024/00003', '2', 2, '4', 1, 'admin', '2024-10-24 15:47:47', NULL, NULL),
+	(24, 'IN/102024/00003', '3', 2, '1', 1, 'admin', '2024-10-24 15:47:47', NULL, NULL),
+	(25, 'IN/102024/00004', '2', 2, '4', 1, 'admin', '2024-10-24 15:49:14', NULL, NULL),
+	(26, 'IN/102024/00004', '3', 2, '1', 1, 'admin', '2024-10-24 15:49:14', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.t_purchase
 CREATE TABLE IF NOT EXISTS `t_purchase` (
@@ -855,10 +880,13 @@ CREATE TABLE IF NOT EXISTS `t_stock_card` (
   KEY `date` (`date`),
   KEY `warehouse_id` (`warehouse_id`),
   KEY `inventory_type_id` (`inventory_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_stock_card: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.t_stock_card: ~2 rows (approximately)
 DELETE FROM `t_stock_card`;
+INSERT INTO `t_stock_card` (`id`, `transaction_id`, `warehouse_id`, `date`, `inventory_type_id`, `goods_id`, `qty`, `unit_id`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
+	(1, 'IN/102024/00004', '2', '2024-10-24', '2', '2', 2, '4', 1, 'admin', '2024-10-24 15:49:14', NULL, NULL),
+	(2, 'IN/102024/00004', '2', '2024-10-24', '2', '3', 2, '1', 1, 'admin', '2024-10-24 15:49:14', NULL, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
