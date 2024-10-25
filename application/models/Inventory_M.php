@@ -517,7 +517,7 @@ class Inventory_M extends CI_Model
                         }
 
                         // t_stock 
-                        $data6 = "SELECT 
+                        $query6 = "SELECT 
                                     id 
                                     FROM t_stock 
                                     WHERE 
@@ -528,11 +528,91 @@ class Inventory_M extends CI_Model
 
                         $row6 = $this->db->query($query6)->num_rows();
                         $data6 = $this->db->query($query6)->row_array();
-                        $id = $data6['id'];
+                        $id6 = $data6['id'];
 
                         if ($row6 > 0) {
-                            $data6 = $this->db->query($query6)->row_array();
+                            if ($inType == 2 || $inType == 5) {
+                                $this->db->set('qty_in', 'qty_in +' . $inDqty[$i], FALSE);
+                                $this->db->set('qty_balance', 'qty_balance +' . $inDqty[$i], FALSE);
+                            } else if ($inType == 3 || $inType == 4 || $inType == 6) {
+                                $this->db->set('qty_out', 'qty_out +' . $inDqty[$i], FALSE);
+                                $this->db->set('qty_balance', 'qty_balance -' . $inDqty[$i], FALSE);
+                            }
+
+                            $this->db->set('log_by', $_SESSION['user_id']);
+                            $this->db->set('log_at', $curdate);
+
+                            $this->db->db_debug = false;
+
+                            $this->db->where('id', $id6);
+
+                            if ($this->db->update("t_stock")) {
+                                $res['res'] = 'success';
+                            } else {
+                                $res['res'] =  $this->db->error();
+                                $res['res'] = $data['res']['message'];
+                                return $res;
+                            }
                         } else {
+                            $month2 = $month;
+                            $year2 = $year;
+
+                            if ($month == 1) {
+                                $month2 == 12;
+                            } else {
+                                $month2 = $month - 1;
+                                $year2 = $year - 1;
+                            }
+
+                            $query7 = "SELECT 
+                                    id 
+                                    FROM t_stock 
+                                    WHERE 
+                                    `year` = '" . $year2 . "' AND 
+                                    `month` = '" . $month2 . "' AND 
+                                    warehouse_id  = '" . $inWarehouse . "' AND 
+                                    goods_id = '" . $inDgoods[$i] . "'";
+
+                            $row7 = $this->db->query($query7)->num_rows();
+                            $data7 = $this->db->query($query7)->row_array();
+
+                            if ($row7 > 0) {
+                                $qty_in = $data["qty_in"];
+                                $qty_out = $data["qty_out"];
+                                $qty_balance = $data["qty_balance"];
+                            } else {
+                                $qty_in = 0;
+                                $qty_out = 0;
+                                $qty_balance = 0;
+                            }
+
+                            $id6 = $data6['id'];
+
+                            if ($inType == 2 || $inType == 5) {
+                                $data7  = array(
+                                    'id' => '',
+                                    'warehouse_id' => $inWarehouse,
+                                    'year' => $year,
+                                    'month' => $month,
+                                    'goods_id' => $inDgoods[$i],
+                                    'qty_in' => $inDqty[$i],
+                                    'qty_balance' => $inDqty[$i],
+                                    'created_by' => $_SESSION['user_id']
+                                );
+                            } else if ($inType == 3 || $inType == 4 || $inType == 6) {
+                                $this->db->set('qty_out', 'qty_out +' . $inDqty[$i], FALSE);
+                                $this->db->set('qty_balance', 'qty_balance -' . $inDqty[$i], FALSE);
+                            }
+
+                            $this->db->db_debug = false;
+
+                            if ($this->db->insert('t_stock_card', $data5)) {
+                                $res['res'] = 'success';
+                            } else {
+                                $res['err'] =  $this->db->error();
+                                $res['err'] = $res['err']['message'];
+                                return $res;
+                            }
                         }
                     }
                 }
