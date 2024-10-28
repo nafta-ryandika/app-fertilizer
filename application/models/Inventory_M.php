@@ -577,16 +577,14 @@ class Inventory_M extends CI_Model
                             $data7 = $this->db->query($query7)->row_array();
 
                             if ($row7 > 0) {
-                                $qty_in = $data["qty_in"];
-                                $qty_out = $data["qty_out"];
-                                $qty_balance = $data["qty_balance"];
+                                $qty_in7 = $data7["qty_in"];
+                                $qty_out7 = $data7["qty_out"];
+                                $qty_balance7 = $data7["qty_balance"];
                             } else {
-                                $qty_in = 0;
-                                $qty_out = 0;
-                                $qty_balance = 0;
+                                $qty_in7 = 0;
+                                $qty_out7 = 0;
+                                $qty_balance7 = 0;
                             }
-
-                            $id6 = $data6['id'];
 
                             if ($inType == 2 || $inType == 5) {
                                 $data7  = array(
@@ -595,24 +593,71 @@ class Inventory_M extends CI_Model
                                     'year' => $year,
                                     'month' => $month,
                                     'goods_id' => $inDgoods[$i],
-                                    'qty_in' => $inDqty[$i],
-                                    'qty_balance' => $inDqty[$i],
+                                    'qty_in' => ($qty_balance7 +  $inDqty[$i]),
+                                    'qty_balance' => ($qty_balance7 + $inDqty[$i]),
                                     'created_by' => $_SESSION['user_id']
                                 );
                             } else if ($inType == 3 || $inType == 4 || $inType == 6) {
-                                $this->db->set('qty_out', 'qty_out +' . $inDqty[$i], FALSE);
-                                $this->db->set('qty_balance', 'qty_balance -' . $inDqty[$i], FALSE);
+                                $data7  = array(
+                                    'id' => '',
+                                    'warehouse_id' => $inWarehouse,
+                                    'year' => $year,
+                                    'month' => $month,
+                                    'goods_id' => $inDgoods[$i],
+                                    'qty_in' => $qty_balance7,
+                                    'qty_out' => $inDqty[$i],
+                                    'qty_balance' => ($qty_balance7 - $inDqty[$i]),
+                                    'created_by' => $_SESSION['user_id']
+                                );
                             }
 
                             $this->db->db_debug = false;
 
-                            if ($this->db->insert('t_stock_card', $data5)) {
+                            if ($this->db->insert('t_stock', $data7)) {
                                 $res['res'] = 'success';
                             } else {
                                 $res['err'] =  $this->db->error();
                                 $res['err'] = $res['err']['message'];
                                 return $res;
                             }
+                        }
+
+                        // update receipt transaction harusnya tanpa loop data
+                        $data8 = array(
+                            'status' => 2,
+                            'log_by' => $_SESSION['user_id'],
+                            'log_at' => $curdate
+                        );
+
+                        $this->db->db_debug = false;
+
+                        $this->db->where('inventory_id', $inventory_id);
+
+                        if ($this->db->update("t_inventory", $data8)) {
+                            $res['res'] = 'success';
+                        } else {
+                            $res['res'] =  $this->db->error();
+                            $res['res'] = $data['res']['message'];
+                            return $res;
+                        }
+
+                        // update qty received in purchase order
+                        $data9 = array(
+                            'qty_received' => $inDqty[$i],
+                            'log_by' => $_SESSION['user_id'],
+                            'log_at' => $curdate
+                        );
+
+                        $this->db->db_debug = false;
+
+                        $this->db->where('inventory_id', $inventory_id);
+
+                        if ($this->db->update("t_inventory", $data8)) {
+                            $res['res'] = 'success';
+                        } else {
+                            $res['res'] =  $this->db->error();
+                            $res['res'] = $data['res']['message'];
+                            return $res;
                         }
                     }
                 }
