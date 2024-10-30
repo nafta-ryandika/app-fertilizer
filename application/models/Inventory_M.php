@@ -492,7 +492,7 @@ class Inventory_M extends CI_Model
                         return $res;
                     }
 
-                    if ($inType != 1) {
+                    if (($inType != 1) && ($inDqty[$i] > 0)) {
                         // t_stockcard
                         $data5  = array(
                             'id' => '',
@@ -528,9 +528,10 @@ class Inventory_M extends CI_Model
 
                         $row6 = $this->db->query($query6)->num_rows();
                         $data6 = $this->db->query($query6)->row_array();
-                        $id6 = $data6['id'];
 
                         if ($row6 > 0) {
+                            $id6 = $data6['id'];
+
                             if ($inType == 2 || $inType == 5) {
                                 $this->db->set('qty_in', 'qty_in +' . $inDqty[$i], FALSE);
                                 $this->db->set('qty_balance', 'qty_balance +' . $inDqty[$i], FALSE);
@@ -622,7 +623,7 @@ class Inventory_M extends CI_Model
                             }
                         }
 
-                        // update receipt transaction harusnya tanpa loop data
+                        // update receipt detail
                         $data8 = array(
                             'status' => 2,
                             'log_by' => $_SESSION['user_id'],
@@ -631,9 +632,14 @@ class Inventory_M extends CI_Model
 
                         $this->db->db_debug = false;
 
-                        $this->db->where('inventory_id', $inventory_id);
+                        $where8 = array(
+                            'inventory_id' => $inTransaction,
+                            'goods_id' => $inDgoods[$i],
+                        );
 
-                        if ($this->db->update("t_inventory", $data8)) {
+                        $this->db->where($where8);
+
+                        if ($this->db->update("t_inventory_detail", $data8)) {
                             $res['res'] = 'success';
                         } else {
                             $res['res'] =  $this->db->error();
@@ -642,23 +648,29 @@ class Inventory_M extends CI_Model
                         }
 
                         // update qty received in purchase order
-                        $data9 = array(
-                            'qty_received' => $inDqty[$i],
-                            'log_by' => $_SESSION['user_id'],
-                            'log_at' => $curdate
-                        );
+                        $query9 = "UPDATE t_purchase_detail 
+                                    SET 
+                                    qty_received = " . $inDgoods[$i] . " ,
+                                    log_by = '" . $_SESSION['user_id'] . "',
+                                    log_at = '" . $curdate . "' 
+                                    WHERE 
+                                    purchase_id = (SELECT transaction_id FROM t_inventory WHERE inventory_id = '" . $inTransaction . "') AND 
+                                    goods_id = '" . $inDgoods[$i] . "'";
 
                         $this->db->db_debug = false;
 
-                        $this->db->where('inventory_id', $inventory_id);
-
-                        if ($this->db->update("t_inventory", $data8)) {
+                        if ($this->db->query($query9)) {
                             $res['res'] = 'success';
                         } else {
                             $res['res'] =  $this->db->error();
                             $res['res'] = $data['res']['message'];
                             return $res;
                         }
+
+                        // SELECT * FROM t_stock;
+                        // SELECT * FROM t_stock_card;
+                        // SELECT * FROM t_inventory_detail WHERE inventory_id = 'RCP/102024/00001';
+                        // SELECT * FROM t_purchase_detail WHERE purchase_id = 'PO/082024/00002';
                     }
                 }
             }
