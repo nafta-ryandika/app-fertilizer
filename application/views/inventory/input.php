@@ -8,6 +8,13 @@ if (isset($param)) {
         $inWarehouse = $data["header"]["warehouse_id"];
         $inTransaction = $data["header"]["transaction_id"];
         $inRemark = $data["header"]["remark"];
+        $inStatus = $data["header"]["status"];
+
+        $disabled = "";
+
+        if ($inType == 1 && $inStatus == 2) {
+            $disabled = "readonly disabled";
+        }
     }
 }
 ?>

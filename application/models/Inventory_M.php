@@ -125,7 +125,8 @@ class Inventory_M extends CI_Model
                                     FROM t_purchase_detail
                                     WHERE `status` = 1
                                 )t2 
-                                ON t1.purchase_id = t2.purchase_id";
+                                ON t1.purchase_id = t2.purchase_id 
+                                ORDER BY t1.date DESC";
 
                     $row3 = $this->db->query($query3)->num_rows();
 
@@ -158,7 +159,8 @@ class Inventory_M extends CI_Model
                                     `status` <> 0 AND 
                                     inventory_id = '" . $inTransaction . "'
                                 )t2
-                                ON t1.inventory_id = t2.inventory_id";
+                                ON t1.inventory_id = t2.inventory_id 
+                                ORDER BY t1.date DESC";
 
                     $row = $this->db->query($query)->num_rows();
 
@@ -259,7 +261,7 @@ class Inventory_M extends CI_Model
         } else if ($param == "edit") {
 
             $query = "SELECT 
-                        id, inventory_id, `date`, inventory_type_id, warehouse_id, transaction_id, remark, created_by, created_at
+                        id, inventory_id, `date`, inventory_type_id, warehouse_id, transaction_id, remark, created_by, created_at, `status`
                         FROM t_inventory 
                         WHERE 
                         id = '" . $obj . "' AND 
@@ -650,7 +652,7 @@ class Inventory_M extends CI_Model
                         // update qty received in purchase order
                         $query9 = "UPDATE t_purchase_detail 
                                     SET 
-                                    qty_received = " . $inDgoods[$i] . " ,
+                                    qty_received = " . $inDqty[$i] . " ,
                                     log_by = '" . $_SESSION['user_id'] . "',
                                     log_at = '" . $curdate . "' 
                                     WHERE 
@@ -666,12 +668,30 @@ class Inventory_M extends CI_Model
                             $res['res'] = $data['res']['message'];
                             return $res;
                         }
-
-                        // SELECT * FROM t_stock;
-                        // SELECT * FROM t_stock_card;
-                        // SELECT * FROM t_inventory_detail WHERE inventory_id = 'RCP/102024/00001';
-                        // SELECT * FROM t_purchase_detail WHERE purchase_id = 'PO/082024/00002';
                     }
+                }
+
+                // update receipt header
+                $data10 = array(
+                    'status' => 2,
+                    'log_by' => $_SESSION['user_id'],
+                    'log_at' => $curdate
+                );
+
+                $this->db->db_debug = false;
+
+                $where10 = array(
+                    'inventory_id' => $inTransaction
+                );
+
+                $this->db->where($where10);
+
+                if ($this->db->update("t_inventory", $data10)) {
+                    $res['res'] = 'success';
+                } else {
+                    $res['res'] =  $this->db->error();
+                    $res['res'] = $data['res']['message'];
+                    return $res;
                 }
             }
         } else if ($inMode == "edit") {
