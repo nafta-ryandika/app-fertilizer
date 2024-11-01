@@ -56,7 +56,7 @@ if (isset($param)) {
                 <div class="form-group row">
                     <label for="inWarehouse" class="col-sm-3 col-form-label">Warehouse</label>
                     <div class="col-sm-9">
-                        <select class="form-control select2" style="width: 100%;" id="inWarehouse" name="inWarehouse" required>
+                        <select class="form-control select2" style="width: 100%;" id="inWarehouse" name="inWarehouse" required <?= $disabled; ?>>
                             <option value="">Select</option>
                         </select>
                     </div>
@@ -64,9 +64,9 @@ if (isset($param)) {
                 <div class="form-group row">
                     <label for="inTransaction" class="col-sm-3 col-form-label">Transaction ID</label>
                     <div class="input-group col-sm-9">
-                        <input type="text" class="form-control" id="inTransaction" name="inTransaction">
+                        <input type="text" class="form-control" id="inTransaction" name="inTransaction" <?= $disabled; ?>>
                         <div class="input-group-append">
-                            <button class="btn btn-outline-info" type="button" id="btnSearchTransaction" onclick="get('searchTransaction', '', '')">Search</button>
+                            <button class="btn btn-outline-info" type="button" id="btnSearchTransaction" onclick="get('searchTransaction', '', '')" <?= $disabled; ?>>Search</button>
                         </div>
                     </div>
                 </div>
@@ -106,11 +106,18 @@ if (isset($param)) {
                                                     $inDqty = $data_detail["qty"];
                                                     $inDunit = $data_detail["unit"];
                                                     $inDunitid = $data_detail["unit_id"];
+                                                    $inDstatus = $data_detail["status"];
+
+                                                    $dDisabled = "";
+
+                                                    if ($inType == 1 && $inDstatus == 2) {
+                                                        $dDisabled = "readonly disabled";
+                                                    }
                                         ?>
                                                     <tr>
                                                         <td scope="row">
                                                             <input type="hidden" class="form-control text-center inDidx" id="inDidx" name="inDidx" value="<?= $inDidx; ?>" readonly disabled>
-                                                            <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" onclick="choose('inDgoods',this)" required>
+                                                            <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" onclick="choose('inDgoods',this)" required <?= $dDisabled; ?>>
                                                                 <option value="">Select</option>
                                                                 <?php
                                                                 foreach ($goods as $data_goods) :
@@ -128,7 +135,7 @@ if (isset($param)) {
                                                             </select>
                                                         </td>
                                                         <td scope="row">
-                                                            <input type="number" class="form-control text-right inDqty" name="inDqty" onfocus="$(this).select();" value="<?= $inDqty; ?>" required>
+                                                            <input type="number" class="form-control text-right inDqty" name="inDqty" onfocus="$(this).select();" value="<?= $inDqty; ?>" required <?= $dDisabled; ?>>
                                                         </td>
                                                         <td scope="row">
                                                             <input type="text" class="form-control inDunit" name="inDunit" value="<?= $inDunit; ?>" readonly disabled required>
