@@ -89,7 +89,9 @@ INSERT INTO `m_counter` (`id`, `transaction`, `counter`, `period`, `status`, `cr
 	(5, 'purchase', 1, '092024', 1, 'admin', '2024-09-11 10:27:38'),
 	(6, 'inv-receipt', 3, '092024', 1, 'admin', '2024-09-28 10:59:25'),
 	(7, 'inv-in', 17, '102024', 1, 'admin', '2024-10-31 15:21:37'),
-	(8, 'inv-receipt', 1, '102024', 1, 'admin', '2024-10-30 16:02:07');
+	(8, 'inv-receipt', 1, '102024', 1, 'admin', '2024-10-30 16:02:07'),
+	(9, 'inv-receipt', 1, '112024', 1, 'admin', '2024-11-04 10:58:31'),
+	(10, 'inv-in', 1, '112024', 1, 'admin', '2024-11-04 13:51:46');
 
 -- Dumping structure for table app-fertilizer.m_currency
 CREATE TABLE IF NOT EXISTS `m_currency` (
@@ -585,7 +587,7 @@ INSERT INTO `t_inventory` (`id`, `inventory_id`, `date`, `inventory_type_id`, `w
 	(5, 'IN/102024/00002', '2024-10-24', 2, 2, 'RCP/092024/00003', '', 1, 'admin', '2024-10-24 10:24:08', NULL, NULL),
 	(6, 'IN/102024/00003', '2024-10-24', 2, 2, 'RCP/092024/00003', '', 1, 'admin', '2024-10-24 15:47:47', NULL, NULL),
 	(7, 'IN/102024/00004', '2024-10-24', 2, 2, 'RCP/092024/00003', '', 1, 'admin', '2024-10-24 15:49:14', NULL, NULL),
-	(8, 'RCP/102024/00001', '2024-10-30', 1, 2, 'PO/082024/00002', '', 2, 'admin', '2024-10-30 16:02:07', 'admin', '2024-10-31 15:21:37'),
+	(8, 'RCP/102024/00001', '2024-10-30', 1, 2, 'PO/082024/00002', '', 1, 'admin', '2024-10-30 16:02:07', 'admin', '2024-10-31 15:21:37'),
 	(9, 'IN/102024/00005', '2024-10-30', 2, 2, 'RCP/102024/00001', '', 1, 'admin', '2024-10-30 16:06:01', NULL, NULL),
 	(10, 'IN/102024/00006', '2024-10-30', 2, 2, 'RCP/102024/00001', '', 1, 'admin', '2024-10-30 16:07:19', NULL, NULL),
 	(11, 'IN/102024/00007', '2024-10-30', 2, 2, 'RCP/102024/00001', '', 1, 'admin', '2024-10-30 16:08:19', NULL, NULL),
@@ -598,7 +600,9 @@ INSERT INTO `t_inventory` (`id`, `inventory_id`, `date`, `inventory_type_id`, `w
 	(18, 'IN/102024/00014', '2024-10-31', 2, 2, 'RCP/102024/00001', '', 1, 'admin', '2024-10-31 11:07:35', NULL, NULL),
 	(19, 'IN/102024/00015', '2024-10-31', 2, 2, 'RCP/102024/00001', '', 1, 'admin', '2024-10-31 11:14:16', NULL, NULL),
 	(20, 'IN/102024/00016', '2024-10-31', 2, 2, 'RCP/102024/00001', '', 1, 'admin', '2024-10-31 15:18:43', NULL, NULL),
-	(21, 'IN/102024/00017', '2024-10-31', 2, 2, 'RCP/102024/00001', '', 1, 'admin', '2024-10-31 15:21:37', NULL, NULL);
+	(21, 'IN/102024/00017', '2024-10-31', 2, 2, 'RCP/102024/00001', '', 1, 'admin', '2024-10-31 15:21:37', NULL, NULL),
+	(22, 'RCP/112024/00001', '2024-11-04', 1, 3, 'PO/092024/00001', 'insert update delete update', 2, 'admin', '2024-11-04 10:58:31', 'admin', '2024-11-04 15:16:49'),
+	(23, 'IN/112024/00001', '2024-11-04', 2, 2, 'RCP/112024/00001', 'test', 1, 'admin', '2024-11-04 13:51:46', 'admin', '2024-11-04 15:49:49');
 
 -- Dumping structure for table app-fertilizer.t_inventory_detail
 CREATE TABLE IF NOT EXISTS `t_inventory_detail` (
@@ -648,8 +652,8 @@ INSERT INTO `t_inventory_detail` (`id`, `inventory_id`, `goods_id`, `qty`, `unit
 	(24, 'IN/102024/00003', '3', 2, '1', 1, 'admin', '2024-10-24 15:47:47', NULL, NULL),
 	(25, 'IN/102024/00004', '2', 2, '4', 1, 'admin', '2024-10-24 15:49:14', NULL, NULL),
 	(26, 'IN/102024/00004', '3', 2, '1', 1, 'admin', '2024-10-24 15:49:14', NULL, NULL),
-	(27, 'RCP/102024/00001', '2', 1, '4', 2, 'admin', '2024-10-30 16:02:07', 'admin', '2024-10-31 15:21:37'),
-	(28, 'RCP/102024/00001', '3', 2, '1', 2, 'admin', '2024-10-30 16:02:07', 'admin', '2024-10-31 15:21:37'),
+	(27, 'RCP/102024/00001', '2', 1, '4', 1, 'admin', '2024-10-30 16:02:07', 'admin', '2024-10-31 15:21:37'),
+	(28, 'RCP/102024/00001', '3', 2, '1', 1, 'admin', '2024-10-30 16:02:07', 'admin', '2024-10-31 15:21:37'),
 	(29, 'IN/102024/00005', '2', 1, '4', 2, 'admin', '2024-10-30 16:06:01', 'admin', '2024-10-30 16:06:01'),
 	(30, 'IN/102024/00006', '2', 1, '4', 2, 'admin', '2024-10-30 16:07:19', 'admin', '2024-10-30 16:07:19'),
 	(31, 'IN/102024/00007', '2', 1, '4', 2, 'admin', '2024-10-30 16:08:19', 'admin', '2024-10-30 16:08:19'),
@@ -670,7 +674,9 @@ INSERT INTO `t_inventory_detail` (`id`, `inventory_id`, `goods_id`, `qty`, `unit
 	(46, 'IN/102024/00016', '2', 1, '4', 1, 'admin', '2024-10-31 15:18:43', NULL, NULL),
 	(47, 'IN/102024/00016', '3', 2, '1', 1, 'admin', '2024-10-31 15:18:43', NULL, NULL),
 	(48, 'IN/102024/00017', '3', 2, '1', 1, 'admin', '2024-10-31 15:21:37', NULL, NULL),
-	(49, 'IN/102024/00017', '2', 1, '4', 1, 'admin', '2024-10-31 15:21:37', NULL, NULL);
+	(49, 'IN/102024/00017', '2', 1, '4', 1, 'admin', '2024-10-31 15:21:37', NULL, NULL),
+	(50, 'RCP/112024/00001', '5', 8, '2', 2, 'admin', '2024-11-04 10:58:31', 'admin', '2024-11-04 13:51:46'),
+	(51, 'IN/112024/00001', '5', 10, '2', 1, 'admin', '2024-11-04 13:51:46', 'admin', '2024-11-04 15:49:49');
 
 -- Dumping structure for table app-fertilizer.t_purchase
 CREATE TABLE IF NOT EXISTS `t_purchase` (
@@ -795,11 +801,11 @@ INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_i
 	(53, 'PO/072024/00020', '2', 100, '4', 10, 0, 1000, NULL, 0, 'admin', '2024-07-21 21:20:33', 'admin', '2024-09-23 15:26:22'),
 	(54, 'PO/082024/00001', '2', 1, '4', 1, 1, 0.99, NULL, 0, 'admin', '2024-08-06 15:08:56', 'admin', '2024-09-23 15:24:46'),
 	(55, 'PO/082024/00001', '3', 2, '1', 2, 2, 3.92, NULL, 0, 'admin', '2024-08-06 15:08:56', 'admin', '2024-09-23 15:24:46'),
-	(56, 'PO/082024/00002', '2', 1, '4', 1, 1, 0.99, 1, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-10-31 15:21:37'),
-	(57, 'PO/082024/00002', '3', 2, '1', 2, 2, 3.92, 2, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-10-31 15:21:37'),
+	(56, 'PO/082024/00002', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-10-31 15:21:37'),
+	(57, 'PO/082024/00002', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-10-31 15:21:37'),
 	(58, 'PO/082024/00003', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32'),
 	(59, 'PO/082024/00003', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32'),
-	(60, 'PO/092024/00001', '5', 10, '2', 100, 5, 950, NULL, 1, 'admin', '2024-09-11 10:27:38', NULL, NULL);
+	(60, 'PO/092024/00001', '5', 10, '2', 100, 5, 950, NULL, 1, 'admin', '2024-09-11 10:27:38', 'admin', '2024-11-04 13:51:46');
 
 -- Dumping structure for table app-fertilizer.t_sales
 CREATE TABLE IF NOT EXISTS `t_sales` (
@@ -894,9 +900,6 @@ CREATE TABLE IF NOT EXISTS `t_stock` (
 
 -- Dumping data for table app-fertilizer.t_stock: ~2 rows (approximately)
 DELETE FROM `t_stock`;
-INSERT INTO `t_stock` (`id`, `warehouse_id`, `year`, `month`, `goods_id`, `qty_in`, `qty_out`, `qty_balance`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
-	(9, '2', '2024', '10', '3', 2, NULL, 2, 1, 'admin', '2024-10-31 15:21:37', NULL, NULL),
-	(10, '2', '2024', '10', '2', 1, NULL, 1, 1, 'admin', '2024-10-31 15:21:37', NULL, NULL);
 
 -- Dumping structure for table app-fertilizer.t_stock_card
 CREATE TABLE IF NOT EXISTS `t_stock_card` (
@@ -925,9 +928,6 @@ CREATE TABLE IF NOT EXISTS `t_stock_card` (
 
 -- Dumping data for table app-fertilizer.t_stock_card: ~2 rows (approximately)
 DELETE FROM `t_stock_card`;
-INSERT INTO `t_stock_card` (`id`, `transaction_id`, `warehouse_id`, `date`, `inventory_type_id`, `goods_id`, `qty`, `unit_id`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
-	(20, 'IN/102024/00017', '2', '2024-10-31', '2', '3', 2, '1', 1, 'admin', '2024-10-31 15:21:37', NULL, NULL),
-	(21, 'IN/102024/00017', '2', '2024-10-31', '2', '2', 1, '4', 1, 'admin', '2024-10-31 15:21:37', NULL, NULL);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

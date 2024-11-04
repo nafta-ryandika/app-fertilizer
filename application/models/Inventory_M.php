@@ -51,7 +51,8 @@ class Inventory_M extends CI_Model
                                 FROM t_purchase_detail 
                                 WHERE 
                                 purchase_id = '" . $inTransaction . "' AND 
-                                `status` <> 0";
+                                `status` <> 0 
+                                ORDER BY id DESC";
 
                     $row = $this->db->query($query)->num_rows();
 
@@ -344,6 +345,7 @@ class Inventory_M extends CI_Model
             $inWarehouse = $data[$i]["inWarehouse"];
             $inTransaction = $data[$i]["inTransaction"];
             $inRemark = $data[$i]["inRemark"];
+            $inStatus = $data[$i]["inStatus"];
 
             // detail
             $inDidx = $data[$i]["inDidx"];
@@ -351,6 +353,7 @@ class Inventory_M extends CI_Model
             $inDqty = $data[$i]["inDqty"];
             $inDunitid = $data[$i]["inDunitid"];
             $inDremove = $data[$i]["inDremove"];
+            $inDstatus = $data[$i]["inDstatus"];
         }
 
         $curdate = date("Y-m-d H:i:s");
@@ -696,14 +699,23 @@ class Inventory_M extends CI_Model
             }
         } else if ($inMode == "edit") {
             // header
-            $data2 = array(
-                'inventory_type_id' => $inType,
-                'warehouse_id' => $inWarehouse,
-                'transaction_id' => $inTransaction,
-                'remark' => $inRemark,
-                'log_by' => $_SESSION['user_id'],
-                'log_at' => date("Y-m-d H:i:s")
-            );
+            if ($inType == 1 && $inStatus == 2) {
+                $data2 = array(
+                    'remark' => $inRemark,
+                    'log_by' => $_SESSION['user_id'],
+                    'log_at' => date("Y-m-d H:i:s")
+                );
+            } else {
+                $data2 = array(
+                    'inventory_type_id' => $inType,
+                    'warehouse_id' => $inWarehouse,
+                    'transaction_id' => $inTransaction,
+                    'remark' => $inRemark,
+                    'log_by' => $_SESSION['user_id'],
+                    'log_at' => date("Y-m-d H:i:s")
+                );
+            }
+
 
             $this->db->db_debug = false;
 
@@ -737,49 +749,51 @@ class Inventory_M extends CI_Model
 
             if (!empty($inDgoods)) {
                 for ($i = 0; $i < count($inDgoods); $i++) {
-                    if (isset($inDidx[$i]) && $inDidx[$i] != "") {
-                        $data3 = array(
-                            'goods_id' => $inDgoods[$i],
-                            'qty' => $inDqty[$i],
-                            'unit_id' => $inDunitid[$i],
-                            'log_by' => $_SESSION['user_id'],
-                            'log_at' => date("Y-m-d H:i:s")
-                        );
+                    if ($inDstatus[$i] != 2) {
+                        if (isset($inDidx[$i]) && $inDidx[$i] != "") {
+                            $data3 = array(
+                                'goods_id' => $inDgoods[$i],
+                                'qty' => $inDqty[$i],
+                                'unit_id' => $inDunitid[$i],
+                                'log_by' => $_SESSION['user_id'],
+                                'log_at' => date("Y-m-d H:i:s")
+                            );
 
-                        $this->db->db_debug = false;
+                            $this->db->db_debug = false;
 
-                        $where3 = array(
-                            'id' => $inDidx[$i],
-                            'inventory_id' => $inId
-                        );
+                            $where3 = array(
+                                'id' => $inDidx[$i],
+                                'inventory_id' => $inId
+                            );
 
-                        $this->db->where($where3);
+                            $this->db->where($where3);
 
-                        if ($this->db->update("t_inventory_detail", $data3)) {
-                            $res['res'] = 'success';
+                            if ($this->db->update("t_inventory_detail", $data3)) {
+                                $res['res'] = 'success';
+                            } else {
+                                $res['res'] =  $this->db->error();
+                                $res['res'] = $data['res']['message'];
+                                return $res;
+                            }
                         } else {
-                            $res['res'] =  $this->db->error();
-                            $res['res'] = $data['res']['message'];
-                            return $res;
-                        }
-                    } else {
-                        $data3 = array(
-                            'id' => '',
-                            'inventory_id' => $inId,
-                            'goods_id' => $inDgoods[$i],
-                            'qty' => $inDqty[$i],
-                            'unit_id' => $inDunitid[$i],
-                            'created_by' => $_SESSION['user_id']
-                        );
+                            $data3 = array(
+                                'id' => '',
+                                'inventory_id' => $inId,
+                                'goods_id' => $inDgoods[$i],
+                                'qty' => $inDqty[$i],
+                                'unit_id' => $inDunitid[$i],
+                                'created_by' => $_SESSION['user_id']
+                            );
 
-                        $this->db->db_debug = false;
+                            $this->db->db_debug = false;
 
-                        if ($this->db->insert('t_inventory_detail', $data3)) {
-                            $res['res'] = 'success';
-                        } else {
-                            $res['err'] =  $this->db->error();
-                            $res['err'] = $res['err']['message'];
-                            return $res;
+                            if ($this->db->insert('t_inventory_detail', $data3)) {
+                                $res['res'] = 'success';
+                            } else {
+                                $res['err'] =  $this->db->error();
+                                $res['err'] = $res['err']['message'];
+                                return $res;
+                            }
                         }
                     }
                 }

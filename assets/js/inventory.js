@@ -693,11 +693,13 @@ function save(param,obj){
 		var  inWarehouse = $('#inWarehouse').val();
 		var  inTransaction = $('#inTransaction').val();
 		var  inRemark = $('#inRemark').val();
+		var  inStatus = $('#inStatus').val();
 
 		var inDidx = "";
 		var inDgoods = "";
 		var inDqty = "";
 		var inDunitid = "";
+		var inDstatus = "";
 		var inDremove = $("#inDremove").val();
 
 		$(".inDidx").each(function(){
@@ -714,6 +716,10 @@ function save(param,obj){
 		
 		$(".inDunitid").each(function(){
 			inDunitid  += $(this).val()+"|";
+		})
+
+		$(".inDstatus").each(function(){
+			inDstatus  += $(this).val()+"|";
 		})
 
 		if (inType.trim() == "") {
@@ -798,10 +804,12 @@ function save(param,obj){
 					inWarehouse: inWarehouse,
 					inTransaction: inTransaction,
 					inRemark: inRemark,
+					inStatus: inStatus,
 					inDidx: inDidx,
 					inDgoods: inDgoods,
 					inDqty: inDqty,
 					inDunitid: inDunitid,
+					inDstatus: inDstatus,
 					inDremove: inDremove}];  
 		
 				$.ajax({

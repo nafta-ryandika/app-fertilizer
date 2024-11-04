@@ -1,4 +1,6 @@
 <?php
+$disabled = "";
+
 if (isset($param)) {
     if ($param == "edit") {
         $inIdx = $data["header"]["id"];
@@ -9,8 +11,6 @@ if (isset($param)) {
         $inTransaction = $data["header"]["transaction_id"];
         $inRemark = $data["header"]["remark"];
         $inStatus = $data["header"]["status"];
-
-        $disabled = "";
 
         if ($inType == 1 && $inStatus == 2) {
             $disabled = "readonly disabled";
@@ -31,6 +31,7 @@ if (isset($param)) {
                     <label for="inId" class="col-sm-3 col-form-label">ID</label>
                     <div class="col-sm-6">
                         <input type="hidden" class="form-control text-center" id="inIdx" name="inIdx" value="" readonly disabled>
+                        <input type="hidden" class="form-control text-center" id="inStatus" name="inStatus" value="" readonly disabled>
                         <input type="text" class="form-control text-center" id="inId" name="inId" value="~ Automatic ~" readonly disabled>
                     </div>
                 </div>
@@ -117,6 +118,7 @@ if (isset($param)) {
                                                     <tr>
                                                         <td scope="row">
                                                             <input type="hidden" class="form-control text-center inDidx" id="inDidx" name="inDidx" value="<?= $inDidx; ?>" readonly disabled>
+                                                            <input type="hidden" class="form-control text-center inDstatus" id="inDstatus" name="inDstatus" value="<?= $inDstatus; ?>" readonly disabled>
                                                             <select class="form-control select2 inDgoods" style="width: 100%;" name="inDgoods" onclick="choose('inDgoods',this)" required <?= $dDisabled; ?>>
                                                                 <option value="">Select</option>
                                                                 <?php
@@ -236,6 +238,7 @@ if (isset($param)) {
 <script>
     $("#inMode").val('<?= $param ?>');
     $("#inIdx").val('<?= $inIdx ?>');
+    $("#inStatus").val('<?= $inStatus ?>');
     $("#inId").val('<?= $inId ?>');
     $("#inDate").val('<?= $inDate ?>');
     $("#inType").val('<?= $inType ?>');
