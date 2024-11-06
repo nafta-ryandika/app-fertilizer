@@ -4,6 +4,10 @@ $(document).ready(function() {
 	$('#modalDetail').on('hidden.bs.modal', function () {
 		$("#contentDetailsales").html("");
 	})
+
+	$('#modalSearchtransaction').on('hidden.bs.modal', function () {
+		$("#dataTable-modalTransaction").DataTable().destroy();
+	})
 });
 
 $(function () {
@@ -456,7 +460,7 @@ function get(param,obj,callBack) {
 								}
 							})
 
-							$("#dataTable-modalTransaction").DataTable();
+							$("#dataTable-modalTransaction").DataTable({destroy: true, retrieve: true, ordering: false});
 						}
 						else {
 							Swal.close();
