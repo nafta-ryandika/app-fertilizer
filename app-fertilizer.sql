@@ -577,7 +577,7 @@ CREATE TABLE IF NOT EXISTS `t_inventory` (
   KEY `inventory_type_id` (`inventory_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_inventory: ~23 rows (approximately)
+-- Dumping data for table app-fertilizer.t_inventory: ~26 rows (approximately)
 DELETE FROM `t_inventory`;
 INSERT INTO `t_inventory` (`id`, `inventory_id`, `date`, `inventory_type_id`, `warehouse_id`, `transaction_id`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'RCP/092024/00001', '2024-09-26', 1, 2, 'PO/082024/00002', 'test', 0, 'admin', '2024-09-26 17:40:41', 'admin', '2024-10-07 15:23:23'),
@@ -626,7 +626,7 @@ CREATE TABLE IF NOT EXISTS `t_inventory_detail` (
   KEY `purchase_id` (`inventory_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_inventory_detail: ~51 rows (approximately)
+-- Dumping data for table app-fertilizer.t_inventory_detail: ~54 rows (approximately)
 DELETE FROM `t_inventory_detail`;
 INSERT INTO `t_inventory_detail` (`id`, `inventory_id`, `goods_id`, `qty`, `unit_id`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'RCP/092024/00001', '2', 1, '4', 0, 'admin', '2024-09-26 17:40:41', 'admin', '2024-10-07 15:23:23'),
@@ -807,7 +807,7 @@ INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_i
 	(53, 'PO/072024/00020', '2', 100, '4', 10, 0, 1000, NULL, 0, 'admin', '2024-07-21 21:20:33', 'admin', '2024-09-23 15:26:22'),
 	(54, 'PO/082024/00001', '2', 1, '4', 1, 1, 0.99, NULL, 0, 'admin', '2024-08-06 15:08:56', 'admin', '2024-09-23 15:24:46'),
 	(55, 'PO/082024/00001', '3', 2, '1', 2, 2, 3.92, NULL, 0, 'admin', '2024-08-06 15:08:56', 'admin', '2024-09-23 15:24:46'),
-	(56, 'PO/082024/00002', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-10-31 15:21:37'),
+	(56, 'PO/082024/00002', '2', 1, '4', 1, 1, 0.99, 1, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-10-31 15:21:37'),
 	(57, 'PO/082024/00002', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-10-31 15:21:37'),
 	(58, 'PO/082024/00003', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32'),
 	(59, 'PO/082024/00003', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32'),

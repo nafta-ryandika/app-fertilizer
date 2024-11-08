@@ -143,7 +143,7 @@ class Inventory_M extends CI_Model
                 if ($inTransaction != "") {
                     $query = "SELECT 
                                 *, 
-                                (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,
+                                (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods,
                                 (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
                                 FROM (
                                     SELECT 
@@ -161,6 +161,13 @@ class Inventory_M extends CI_Model
                                     inventory_id = '" . $inTransaction . "'
                                 )t2
                                 ON t1.inventory_id = t2.inventory_id 
+                                LEFT JOIN (
+                                    SELECT 
+                                        purchase_id, goods_id, qty, qty_received 
+                                    FROM t_purchase_detail 
+                                    WHERE `status` <> 0
+                                )t3 
+                                ON t1.transaction_id = t3.purchase_id AND t2.goods_id = t3.goods_id
                                 ORDER BY t1.date DESC";
 
                     $row = $this->db->query($query)->num_rows();
@@ -175,7 +182,7 @@ class Inventory_M extends CI_Model
                                     *, 
                                     (SELECT `type` FROM m_inventory_type WHERE id = t1.inventory_type_id) AS `type`,
                                     (SELECT warehouse FROM m_warehouse WHERE id = t1.warehouse_id) AS warehouse,
-                                    (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,
+                                    (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods,
                                     (SELECT unit FROM m_unit WHERE id = unit_id) AS unit,
                                     DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
                                     FROM (
@@ -194,6 +201,12 @@ class Inventory_M extends CI_Model
                                         inventory_id LIKE '%" . $inTransaction . "%'
                                     )t2
                                     ON t1.inventory_id = t2.inventory_id 
+                                    LEFT JOIN (
+                                        SELECT 
+                                            purchase_id, goods_id, qty, qty_received 
+                                        FROM t_purchase_detail 
+                                        WHERE `status` <> 0
+                                    )t3 ON t1.transaction_id = t3.purchase_id AND t2.goods_id = t3.goods_id
                                     ORDER by t1.`date` DESC";
 
                         // return ($query2);
@@ -213,7 +226,7 @@ class Inventory_M extends CI_Model
                                 *, 
                                 (SELECT `type` FROM m_inventory_type WHERE id = t1.inventory_type_id) AS `type`,
                                 (SELECT warehouse FROM m_warehouse WHERE id = t1.warehouse_id) AS warehouse,
-                                (SELECT goods FROM m_goods WHERE id = goods_id) AS goods,
+                                (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods,
                                 (SELECT unit FROM m_unit WHERE id = unit_id) AS unit,
                                 DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
                                 FROM (
@@ -230,6 +243,12 @@ class Inventory_M extends CI_Model
                                     `status` <> 0 
                                 )t2
                                 ON t1.inventory_id = t2.inventory_id 
+                                LEFT JOIN (
+                                    SELECT 
+                                        purchase_id, goods_id, qty, qty_received 
+                                    FROM t_purchase_detail 
+                                    WHERE `status` <> 0
+                                )t3 ON t1.transaction_id = t3.purchase_id AND t2.goods_id = t3.goods_id
                                 ORDER by t1.`date` DESC";
 
 
