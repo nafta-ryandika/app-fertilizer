@@ -51,7 +51,8 @@ class Inventory_M extends CI_Model
                                 FROM t_purchase_detail 
                                 WHERE 
                                 purchase_id = '" . $inTransaction . "' AND 
-                                `status` <> 0 
+                                `status` <> 0 AND 
+                                (qty_received IS NULL OR qty > qty_received) 
                                 ORDER BY id DESC";
 
                     $row = $this->db->query($query)->num_rows();
@@ -80,7 +81,7 @@ class Inventory_M extends CI_Model
                                         `status` <> 0 AND 
                                         purchase_id  LIKE '%" . $inTransaction . "%'
                                     )t1 
-                                    LEFT  JOIN ( 
+                                    JOIN ( 
                                         SELECT 
                                         id, purchase_id, goods_id, qty, unit_id, qty_received
                                         FROM t_purchase_detail
@@ -118,13 +119,14 @@ class Inventory_M extends CI_Model
                                 (
                                     SELECT id, purchase_id, `date`, purchase_type_id, supplier_id, due_date, `status` 
                                     FROM t_purchase 
-                                    WHERE `status` = 1
+                                    WHERE `status` <> 0
                                 )t1 
                                 JOIN 
                                 (
                                     SELECT id, purchase_id, goods_id, qty, unit_id, price, discount, subtotal, qty_received, `status` 
                                     FROM t_purchase_detail
-                                    WHERE `status` = 1
+                                    WHERE `status` <> 0 AND 
+                                    (qty_received IS NULL OR qty > qty_received)
                                 )t2 
                                 ON t1.purchase_id = t2.purchase_id 
                                 ORDER BY t1.date DESC";
@@ -161,11 +163,13 @@ class Inventory_M extends CI_Model
                                     inventory_id = '" . $inTransaction . "'
                                 )t2
                                 ON t1.inventory_id = t2.inventory_id 
-                                LEFT JOIN (
+                                JOIN (
                                     SELECT 
                                         purchase_id, goods_id, qty, qty_received 
                                     FROM t_purchase_detail 
-                                    WHERE `status` <> 0
+                                    WHERE 
+                                    `status` <> 0 AND 
+                                    (qty_received IS NULL OR qty > qty_received)
                                 )t3 
                                 ON t1.transaction_id = t3.purchase_id AND t2.goods_id = t3.goods_id
                                 ORDER BY t1.date DESC";
@@ -201,11 +205,13 @@ class Inventory_M extends CI_Model
                                         inventory_id LIKE '%" . $inTransaction . "%'
                                     )t2
                                     ON t1.inventory_id = t2.inventory_id 
-                                    LEFT JOIN (
+                                    JOIN (
                                         SELECT 
                                             purchase_id, goods_id, qty, qty_received 
                                         FROM t_purchase_detail 
-                                        WHERE `status` <> 0
+                                        WHERE 
+                                        `status` <> 0 AND 
+                                        (qty_received IS NULL OR qty > qty_received)
                                     )t3 ON t1.transaction_id = t3.purchase_id AND t2.goods_id = t3.goods_id
                                     ORDER by t1.`date` DESC";
 
@@ -217,7 +223,6 @@ class Inventory_M extends CI_Model
                             $data["status"] = 0;
                             $data["res"] = $this->db->query($query2)->result_array();
                         } else {
-                            // $data["status"] = 2;
                             return FALSE;
                         }
                     }
@@ -243,11 +248,13 @@ class Inventory_M extends CI_Model
                                     `status` <> 0 
                                 )t2
                                 ON t1.inventory_id = t2.inventory_id 
-                                LEFT JOIN (
+                                JOIN (
                                     SELECT 
                                         purchase_id, goods_id, qty, qty_received 
                                     FROM t_purchase_detail 
-                                    WHERE `status` <> 0
+                                    WHERE 
+                                    `status` <> 0 AND 
+                                    (qty_received IS NULL OR qty > qty_received)
                                 )t3 ON t1.transaction_id = t3.purchase_id AND t2.goods_id = t3.goods_id
                                 ORDER by t1.`date` DESC";
 

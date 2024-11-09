@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.51-log - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.8.0.6908
+-- HeidiSQL Version:             12.5.0.6677
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `m_company` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_company: ~1 rows (approximately)
+-- Dumping data for table app-fertilizer.m_company: ~0 rows (approximately)
 DELETE FROM `m_company`;
 INSERT INTO `m_company` (`id`, `company`, `created_by`, `created_at`) VALUES
 	(1, 'PT AGRI MAKMUR MEGA PERKASA INDO', 'administrator', '2024-01-30 11:13:48');
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `m_counter` (
   KEY `period` (`period`),
   KEY `counter` (`counter`),
   KEY `transaction` (`transaction`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.m_counter: ~9 rows (approximately)
 DELETE FROM `m_counter`;
@@ -575,7 +575,7 @@ CREATE TABLE IF NOT EXISTS `t_inventory` (
   KEY `purchase_id` (`inventory_id`) USING BTREE,
   KEY `tax_type` (`transaction_id`) USING BTREE,
   KEY `inventory_type_id` (`inventory_type_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.t_inventory: ~26 rows (approximately)
 DELETE FROM `t_inventory`;
@@ -624,7 +624,7 @@ CREATE TABLE IF NOT EXISTS `t_inventory_detail` (
   KEY `unit_id` (`unit_id`) USING BTREE,
   KEY `status` (`status`) USING BTREE,
   KEY `purchase_id` (`inventory_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Dumping data for table app-fertilizer.t_inventory_detail: ~54 rows (approximately)
 DELETE FROM `t_inventory_detail`;
@@ -809,7 +809,7 @@ INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_i
 	(55, 'PO/082024/00001', '3', 2, '1', 2, 2, 3.92, NULL, 0, 'admin', '2024-08-06 15:08:56', 'admin', '2024-09-23 15:24:46'),
 	(56, 'PO/082024/00002', '2', 1, '4', 1, 1, 0.99, 1, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-10-31 15:21:37'),
 	(57, 'PO/082024/00002', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-06 15:52:33', 'admin', '2024-10-31 15:21:37'),
-	(58, 'PO/082024/00003', '2', 1, '4', 1, 1, 0.99, NULL, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32'),
+	(58, 'PO/082024/00003', '2', 1, '4', 1, 1, 0.99, 1, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32'),
 	(59, 'PO/082024/00003', '3', 2, '1', 2, 2, 3.92, NULL, 1, 'admin', '2024-08-07 14:22:46', 'admin', '2024-08-08 12:00:32'),
 	(60, 'PO/092024/00001', '5', 10, '2', 100, 5, 950, 1, 1, 'admin', '2024-09-11 10:27:38', 'admin', '2024-11-07 09:46:49');
 
@@ -842,7 +842,7 @@ CREATE TABLE IF NOT EXISTS `t_sales` (
   KEY `tax_type` (`sales_status_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_sales: ~3 rows (approximately)
+-- Dumping data for table app-fertilizer.t_sales: ~0 rows (approximately)
 DELETE FROM `t_sales`;
 INSERT INTO `t_sales` (`id`, `sales_id`, `date`, `customer_id`, `due_date`, `remark`, `currency_id`, `discount`, `tax_type`, `tax`, `total`, `sales_status_id`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'SO/082024/00003', '2024-08-27', 2, '2024-08-29', 'update', 1, 11, 0, 0, 21, NULL, 1, 'admin', '2024-08-27 11:49:12', 'admin', '2024-08-29 10:37:27'),
@@ -872,7 +872,7 @@ CREATE TABLE IF NOT EXISTS `t_sales_detail` (
   KEY `purchase_id` (`sales_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_sales_detail: ~6 rows (approximately)
+-- Dumping data for table app-fertilizer.t_sales_detail: ~0 rows (approximately)
 DELETE FROM `t_sales_detail`;
 INSERT INTO `t_sales_detail` (`id`, `sales_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_shipped`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'SO/082024/00003', '10', 2, '2', 2, 2, 3.92, NULL, 0, 'admin', '2024-08-27 11:49:12', 'admin', '2024-08-29 10:37:27'),
