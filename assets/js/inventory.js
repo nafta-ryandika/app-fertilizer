@@ -504,7 +504,7 @@ function set(param,obj){
 										</select>\n\
 									</td>\n\
 									<td scope="row">\n\
-										<input type="number" class="form-control text-right inDqty" name="inDqty" qty-max=\"'+parseFloat(obj[i].qty).toLocaleString('id-ID')+'\" value="' + parseFloat(obj[i].qty).toLocaleString('id-ID') + '" onfocus="$(this).select();" required>\n\
+										<input type="number" class="form-control text-right inDqty" name="inDqty" qty-max=\"'+parseFloat(obj[i].qty_max).toLocaleString('id-ID')+'\" value="' + parseFloat(obj[i].qty_max).toLocaleString('id-ID') + '" onfocus="$(this).select();" required>\n\
 									</td>\n\
 									<td scope="row">\n\
 										<input type="text" class="form-control inDunit" name="inDunit" value="' +obj[i].unit+ '" readonly disabled required>\n\

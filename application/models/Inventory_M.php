@@ -146,7 +146,8 @@ class Inventory_M extends CI_Model
                     $query = "SELECT 
                                 *, 
                                 (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods,
-                                (SELECT unit FROM m_unit WHERE id = unit_id) AS unit 
+                                (SELECT unit FROM m_unit WHERE id = unit_id) AS unit,
+                                IF(t3.qty_received IS NULL, IF(t2.qty <= t3.qty, t2.qty, t3.qty), IF((t3.qty - t3.qty_received) <= t2.qty, (t3.qty - t3.qty_received), (t3.qty - t3.qty_received))) AS qty_max 
                                 FROM (
                                     SELECT 
                                         id, inventory_id, `date`, inventory_type_id, warehouse_id, transaction_id, `status` 
@@ -188,7 +189,8 @@ class Inventory_M extends CI_Model
                                     (SELECT warehouse FROM m_warehouse WHERE id = t1.warehouse_id) AS warehouse,
                                     (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods,
                                     (SELECT unit FROM m_unit WHERE id = unit_id) AS unit,
-                                    DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
+                                    DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`,
+                                    IF(t3.qty_received IS NULL, IF(t2.qty <= t3.qty, t2.qty, t3.qty), IF((t3.qty - t3.qty_received) <= t2.qty, (t3.qty - t3.qty_received), (t3.qty - t3.qty_received))) AS qty_max
                                     FROM (
                                         SELECT 
                                             id, inventory_id, `date`, inventory_type_id, warehouse_id, transaction_id, `status` 
@@ -233,7 +235,8 @@ class Inventory_M extends CI_Model
                                 (SELECT warehouse FROM m_warehouse WHERE id = t1.warehouse_id) AS warehouse,
                                 (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods,
                                 (SELECT unit FROM m_unit WHERE id = unit_id) AS unit,
-                                DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`
+                                DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`,
+                                IF(t3.qty_received IS NULL, IF(t2.qty <= t3.qty, t2.qty, t3.qty), IF((t3.qty - t3.qty_received) <= t2.qty, (t3.qty - t3.qty_received), (t3.qty - t3.qty_received))) AS qty_max
                                 FROM (
                                     SELECT 
                                         id, inventory_id, `date`, inventory_type_id, warehouse_id, transaction_id, `status` 
@@ -681,7 +684,7 @@ class Inventory_M extends CI_Model
                         // update qty received in purchase order
                         $query9 = "UPDATE t_purchase_detail 
                                     SET 
-                                    qty_received = " . $inDqty[$i] . " ,
+                                    qty_received = IF(IS NULL qty_received, qty_received, qty_received + " . $inDqty[$i] . "),
                                     log_by = '" . $_SESSION['user_id'] . "',
                                     log_at = '" . $curdate . "' 
                                     WHERE 
