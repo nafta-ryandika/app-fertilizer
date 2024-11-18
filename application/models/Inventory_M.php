@@ -684,7 +684,7 @@ class Inventory_M extends CI_Model
                         // update qty received in purchase order
                         $query9 = "UPDATE t_purchase_detail 
                                     SET 
-                                    qty_received = IF(IS NULL qty_received, qty_received, qty_received + " . $inDqty[$i] . "),
+                                    qty_received = IF(qty_received IS NULL, qty_received, qty_received + " . $inDqty[$i] . "),
                                     log_by = '" . $_SESSION['user_id'] . "',
                                     log_at = '" . $curdate . "' 
                                     WHERE 
