@@ -144,7 +144,8 @@ class Inventory_M extends CI_Model
             } else if ($inType == 2) {
                 if ($inTransaction != "") {
                     $query = "SELECT 
-                                *, 
+                                t1.*,
+                                t2.*, 
                                 (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods,
                                 (SELECT unit FROM m_unit WHERE id = unit_id) AS unit,
                                 IF(t3.qty_received IS NULL, IF(t2.qty <= t3.qty, t2.qty, t3.qty), IF((t3.qty - t3.qty_received) <= t2.qty, (t3.qty - t3.qty_received), (t3.qty - t3.qty_received))) AS qty_max 
@@ -184,7 +185,8 @@ class Inventory_M extends CI_Model
                         $data["res"] = [];
 
                         $query2 = "SELECT 
-                                    *, 
+                                    t1.*,
+                                    t2.*,  
                                     (SELECT `type` FROM m_inventory_type WHERE id = t1.inventory_type_id) AS `type`,
                                     (SELECT warehouse FROM m_warehouse WHERE id = t1.warehouse_id) AS warehouse,
                                     (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods,
@@ -230,7 +232,8 @@ class Inventory_M extends CI_Model
                     }
                 } else {
                     $query3 = "SELECT 
-                                *, 
+                                t1.*,
+                                t2.*, 
                                 (SELECT `type` FROM m_inventory_type WHERE id = t1.inventory_type_id) AS `type`,
                                 (SELECT warehouse FROM m_warehouse WHERE id = t1.warehouse_id) AS warehouse,
                                 (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods,
@@ -684,12 +687,14 @@ class Inventory_M extends CI_Model
                         // update qty received in purchase order
                         $query9 = "UPDATE t_purchase_detail 
                                     SET 
-                                    qty_received = IF(qty_received IS NULL, qty_received, qty_received + " . $inDqty[$i] . "),
+                                    qty_received = IF(qty_received IS NULL, " . $inDqty[$i] . ", qty_received + " . $inDqty[$i] . "),
                                     log_by = '" . $_SESSION['user_id'] . "',
                                     log_at = '" . $curdate . "' 
                                     WHERE 
                                     purchase_id = (SELECT transaction_id FROM t_inventory WHERE inventory_id = '" . $inTransaction . "') AND 
                                     goods_id = '" . $inDgoods[$i] . "'";
+
+                        // echo $query9;
 
                         $this->db->db_debug = false;
 
