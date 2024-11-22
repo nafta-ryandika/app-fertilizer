@@ -661,74 +661,75 @@ class Inventory_M extends CI_Model
                         }
 
                         // update receipt detail
-                        $data8 = array(
-                            'status' => 2,
-                            'log_by' => $_SESSION['user_id'],
-                            'log_at' => $curdate
-                        );
+                        if ($inType == 2) {
+                            $query8 = "UPDATE t_purchase_detail 
+                                        SET 
+                                        qty_taken = IF(qty_taken IS NULL, " . $inDqty[$i] . ", qty_taken + " . $inDqty[$i] . "),
+                                        'status' => 2,
+                                        log_by = '" . $_SESSION['user_id'] . "',
+                                        log_at = '" . $curdate . "' 
+                                        WHERE 
+                                        inventory_id = '" . $inTransaction . "' AND 
+                                        goods_id = '" . $inDgoods[$i] . "'";
 
-                        $this->db->db_debug = false;
+                            $this->db->db_debug = false;
 
-                        $where8 = array(
-                            'inventory_id' => $inTransaction,
-                            'goods_id' => $inDgoods[$i],
-                        );
+                            if ($this->db->query($query8)) {
+                                $res['res'] = 'success';
+                            } else {
+                                $res['res'] =  $this->db->error();
+                                $res['res'] = $data['res']['message'];
+                                return $res;
+                            }
 
-                        $this->db->where($where8);
+                            // update qty received in purchase order
+                            $query9 = "UPDATE t_purchase_detail 
+                                        SET 
+                                        qty_received = IF(qty_received IS NULL, " . $inDqty[$i] . ", qty_received + " . $inDqty[$i] . "),
+                                        log_by = '" . $_SESSION['user_id'] . "',
+                                        log_at = '" . $curdate . "' 
+                                        WHERE 
+                                        purchase_id = (SELECT transaction_id FROM t_inventory WHERE inventory_id = '" . $inTransaction . "') AND 
+                                        goods_id = '" . $inDgoods[$i] . "'";
 
-                        if ($this->db->update("t_inventory_detail", $data8)) {
-                            $res['res'] = 'success';
-                        } else {
-                            $res['res'] =  $this->db->error();
-                            $res['res'] = $data['res']['message'];
-                            return $res;
-                        }
+                            // echo $query9;
 
-                        // update qty received in purchase order
-                        $query9 = "UPDATE t_purchase_detail 
-                                    SET 
-                                    qty_received = IF(qty_received IS NULL, " . $inDqty[$i] . ", qty_received + " . $inDqty[$i] . "),
-                                    log_by = '" . $_SESSION['user_id'] . "',
-                                    log_at = '" . $curdate . "' 
-                                    WHERE 
-                                    purchase_id = (SELECT transaction_id FROM t_inventory WHERE inventory_id = '" . $inTransaction . "') AND 
-                                    goods_id = '" . $inDgoods[$i] . "'";
+                            $this->db->db_debug = false;
 
-                        // echo $query9;
-
-                        $this->db->db_debug = false;
-
-                        if ($this->db->query($query9)) {
-                            $res['res'] = 'success';
-                        } else {
-                            $res['res'] =  $this->db->error();
-                            $res['res'] = $data['res']['message'];
-                            return $res;
+                            if ($this->db->query($query9)) {
+                                $res['res'] = 'success';
+                            } else {
+                                $res['res'] =  $this->db->error();
+                                $res['res'] = $data['res']['message'];
+                                return $res;
+                            }
                         }
                     }
                 }
 
-                // update receipt header
-                $data10 = array(
-                    'status' => 2,
-                    'log_by' => $_SESSION['user_id'],
-                    'log_at' => $curdate
-                );
+                if ($inType == 2) {
+                    // update receipt header
+                    $data10 = array(
+                        'status' => 2,
+                        'log_by' => $_SESSION['user_id'],
+                        'log_at' => $curdate
+                    );
 
-                $this->db->db_debug = false;
+                    $this->db->db_debug = false;
 
-                $where10 = array(
-                    'inventory_id' => $inTransaction
-                );
+                    $where10 = array(
+                        'inventory_id' => $inTransaction
+                    );
 
-                $this->db->where($where10);
+                    $this->db->where($where10);
 
-                if ($this->db->update("t_inventory", $data10)) {
-                    $res['res'] = 'success';
-                } else {
-                    $res['res'] =  $this->db->error();
-                    $res['res'] = $data['res']['message'];
-                    return $res;
+                    if ($this->db->update("t_inventory", $data10)) {
+                        $res['res'] = 'success';
+                    } else {
+                        $res['res'] =  $this->db->error();
+                        $res['res'] = $data['res']['message'];
+                        return $res;
+                    }
                 }
             }
         } else if ($inMode == "edit") {

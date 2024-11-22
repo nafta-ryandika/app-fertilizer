@@ -771,8 +771,6 @@ function save(param,obj){
 						check = false;
 					}
 				} else if ($(this).val().trim() != "") {
-
-					console.log ("lalalala"+inType);
 					if (dqtyx.trim() == "" || dunitx.trim() == ""){
 						Swal.fire({
 							title: "Please Check Inventory Details",
@@ -786,7 +784,6 @@ function save(param,obj){
 					}
 
 					if (inType == 2) {
-						console.log("qkqkqk"+dqtyx+"kk"+dqtyxMax);
 						if (parseInt(dqtyx) > parseInt(dqtyxMax)) {
 							Swal.fire({
 								title: "Qty Exceeds Limit !",
