@@ -2,7 +2,7 @@
 -- Host:                         127.0.0.1
 -- Server version:               5.6.51-log - MySQL Community Server (GPL)
 -- Server OS:                    Win64
--- HeidiSQL Version:             12.5.0.6677
+-- HeidiSQL Version:             12.8.0.6908
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -529,7 +529,7 @@ CREATE TABLE IF NOT EXISTS `m_user` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table app-fertilizer.m_user: ~1 rows (approximately)
+-- Dumping data for table app-fertilizer.m_user: ~0 rows (approximately)
 DELETE FROM `m_user`;
 INSERT INTO `m_user` (`id`, `user_id`, `name`, `email`, `image`, `password`, `company_id`, `department_id`, `division_id`, `role_id`, `status`, `created_by`, `created_at`) VALUES
 	(1, 'admin', 'admin', '-', 'default.png', '$2y$10$31nTmbo9IVv6NnjV7FHNHetkM4aIr18q8XRsRsI/y7qHXaNvtYKxK', 1, 4, 1, 1, 1, 'administrator', '2023-11-29 07:41:59');
@@ -576,7 +576,7 @@ CREATE TABLE IF NOT EXISTS `t_inventory` (
   KEY `inventory_type_id` (`inventory_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_inventory: ~56 rows (approximately)
+-- Dumping data for table app-fertilizer.t_inventory: ~62 rows (approximately)
 DELETE FROM `t_inventory`;
 INSERT INTO `t_inventory` (`id`, `inventory_id`, `date`, `inventory_type_id`, `warehouse_id`, `transaction_id`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'RCP/092024/00001', '2024-09-26', 1, 2, 'PO/082024/00002', 'test', 0, 'admin', '2024-09-26 17:40:41', 'admin', '2024-10-07 15:23:23'),
@@ -632,7 +632,7 @@ INSERT INTO `t_inventory` (`id`, `inventory_id`, `date`, `inventory_type_id`, `w
 	(51, 'IN/112024/00023', '2024-11-19', 2, 2, 'RCP/112024/00007', '', 1, 'admin', '2024-11-19 10:10:27', NULL, NULL),
 	(52, 'RCP/112024/00008', '2024-11-19', 1, 2, 'PO/112024/00003', '', 2, 'admin', '2024-11-19 15:38:13', 'admin', '2024-11-20 09:18:52'),
 	(53, 'IN/112024/00024', '2024-11-19', 2, 3, 'RCP/112024/00008', '', 0, 'admin', '2024-11-20 09:18:52', 'admin', '2024-11-20 11:30:47'),
-	(54, 'RCP/112024/00009', '2024-11-20', 1, 2, 'PO/112024/00004', '', 2, 'admin', '2024-11-20 11:33:56', 'admin', '2024-11-23 16:01:32'),
+	(54, 'RCP/112024/00009', '2024-11-20', 1, 2, 'PO/112024/00004', 'test update', 2, 'admin', '2024-11-20 11:33:56', 'admin', '2024-11-25 10:41:03'),
 	(55, 'RCP/112024/00010', '2024-11-20', 1, 2, 'PO/112024/00004', '', 1, 'admin', '2024-11-20 11:35:07', NULL, NULL),
 	(56, 'IN/112024/00025', '2024-11-21', 2, 1, 'RCP/112024/00009', '', 0, 'admin', '2024-11-21 11:47:46', 'admin', '2024-11-22 23:44:25'),
 	(57, 'IN/112024/00026', '2024-11-22', 2, 2, 'RCP/112024/00009', '', 0, 'admin', '2024-11-22 23:45:32', 'admin', '2024-11-22 23:51:18'),
@@ -662,7 +662,7 @@ CREATE TABLE IF NOT EXISTS `t_inventory_detail` (
   KEY `purchase_id` (`inventory_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_inventory_detail: ~99 rows (approximately)
+-- Dumping data for table app-fertilizer.t_inventory_detail: ~0 rows (approximately)
 DELETE FROM `t_inventory_detail`;
 INSERT INTO `t_inventory_detail` (`id`, `inventory_id`, `goods_id`, `qty`, `unit_id`, `qty_taken`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'RCP/092024/00001', '2', 1, '4', NULL, 0, 'admin', '2024-09-26 17:40:41', 'admin', '2024-10-07 15:23:23'),
@@ -801,7 +801,7 @@ CREATE TABLE IF NOT EXISTS `t_purchase` (
   KEY `tax_type` (`tax_type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_purchase: ~15 rows (approximately)
+-- Dumping data for table app-fertilizer.t_purchase: ~0 rows (approximately)
 DELETE FROM `t_purchase`;
 INSERT INTO `t_purchase` (`id`, `purchase_id`, `date`, `purchase_type_id`, `supplier_id`, `due_date`, `remark`, `currency_id`, `discount`, `tax_type`, `tax`, `total`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(2, 'PO/072024/00013', '2024-07-07', 1, 6, '2024-07-07', 'test', NULL, 10, NULL, 11, 0, 0, 'admin', '2024-07-07 10:16:55', 'admin', '2024-09-23 15:26:36'),
@@ -843,7 +843,7 @@ CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
   KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_purchase_detail: ~62 rows (approximately)
+-- Dumping data for table app-fertilizer.t_purchase_detail: ~0 rows (approximately)
 DELETE FROM `t_purchase_detail`;
 INSERT INTO `t_purchase_detail` (`id`, `purchase_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_received`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(3, 'PO/072024/00014', '2', 20, '4', 2000, 5, 38000, NULL, 0, 'admin', '2024-07-07 10:27:11', 'admin', '2024-09-23 15:26:33'),
@@ -938,7 +938,7 @@ CREATE TABLE IF NOT EXISTS `t_sales` (
   KEY `tax_type` (`sales_status_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_sales: ~3 rows (approximately)
+-- Dumping data for table app-fertilizer.t_sales: ~0 rows (approximately)
 DELETE FROM `t_sales`;
 INSERT INTO `t_sales` (`id`, `sales_id`, `date`, `customer_id`, `due_date`, `remark`, `currency_id`, `discount`, `tax_type`, `tax`, `total`, `sales_status_id`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'SO/082024/00003', '2024-08-27', 2, '2024-08-29', 'update', 1, 11, 0, 0, 21, NULL, 1, 'admin', '2024-08-27 11:49:12', 'admin', '2024-08-29 10:37:27'),
@@ -968,7 +968,7 @@ CREATE TABLE IF NOT EXISTS `t_sales_detail` (
   KEY `purchase_id` (`sales_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_sales_detail: ~6 rows (approximately)
+-- Dumping data for table app-fertilizer.t_sales_detail: ~0 rows (approximately)
 DELETE FROM `t_sales_detail`;
 INSERT INTO `t_sales_detail` (`id`, `sales_id`, `goods_id`, `qty`, `unit_id`, `price`, `discount`, `subtotal`, `qty_shipped`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'SO/082024/00003', '10', 2, '2', 2, 2, 3.92, NULL, 0, 'admin', '2024-08-27 11:49:12', 'admin', '2024-08-29 10:37:27'),
