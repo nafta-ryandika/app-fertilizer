@@ -239,7 +239,8 @@ class Inventory_M extends CI_Model
                                 (SELECT goods FROM m_goods WHERE id = t2.goods_id) AS goods,
                                 (SELECT unit FROM m_unit WHERE id = unit_id) AS unit,
                                 DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`,
-                                IF(t3.qty_received IS NULL, IF(t2.qty <= t3.qty, t2.qty, t3.qty), IF((t3.qty - t3.qty_received) <= t2.qty, (t3.qty - t3.qty_received), (t3.qty - t3.qty_received))) AS qty_max
+                                IF(t2.qty_taken IS NULL, t2.qty, t2.qty - t2.qty_taken) AS qty,
+                                IF(t3.qty_received IS NULL, IF(((t2.qty - COALESCE(t2.qty_taken, 0)) <= t3.qty), (t2.qty-COALESCE(t2.qty_taken, 0)), t3.qty), IF((t3.qty - t3.qty_received) <= (t2.qty - COALESCE(t2.qty_taken, 0)), (t3.qty - t3.qty_received), (t2.qty - COALESCE(t2.qty_taken, 0)))) AS qty_max
                                 FROM (
                                     SELECT 
                                         id, inventory_id, `date`, inventory_type_id, warehouse_id, transaction_id, `status` 
@@ -248,7 +249,7 @@ class Inventory_M extends CI_Model
                                     `status` <> 0 AND 
                                     inventory_type_id IN (1, 3) 
                                 )t1 JOIN (
-                                    SELECT id, inventory_id, goods_id, qty, unit_id, `status` 
+                                    SELECT id, inventory_id, goods_id, qty, unit_id, qty_taken, `status` 
                                     FROM t_inventory_detail
                                     WHERE 
                                     `status` <> 0 
@@ -662,10 +663,10 @@ class Inventory_M extends CI_Model
 
                         // update receipt detail
                         if ($inType == 2) {
-                            $query8 = "UPDATE t_purchase_detail 
+                            $query8 = "UPDATE t_inventory_detail 
                                         SET 
                                         qty_taken = IF(qty_taken IS NULL, " . $inDqty[$i] . ", qty_taken + " . $inDqty[$i] . "),
-                                        'status' => 2,
+                                        `status` = 2,
                                         log_by = '" . $_SESSION['user_id'] . "',
                                         log_at = '" . $curdate . "' 
                                         WHERE 
