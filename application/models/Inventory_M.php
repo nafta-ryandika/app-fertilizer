@@ -400,18 +400,21 @@ class Inventory_M extends CI_Model
             $transaction = "inv-receipt";
             $tCode = "RCP";
         } else if ($inType == 2) {
-            $transaction = "inv-in";
-            $tCode = "IN";
+            $transaction = "inv-goodsReceipt";
+            $tCode = "GRC";
         } else if ($inType == 3) {
-            $transaction = "inv-out";
-            $tCode = "OUT";
+            $transaction = "inv-in";
+            $tCode = "TIN";
         } else if ($inType == 4) {
+            $transaction = "inv-out";
+            $tCode = "TOT";
+        } else if ($inType == 5) {
             $transaction = "inv-return";
             $tCode = "RTR";
-        } else if ($inType == 5) {
+        } else if ($inType == 6) {
             $transaction = "inv-adjIn";
             $tCode = "ADI";
-        } else if ($inType == 6) {
+        } else if ($inType == 7) {
             $transaction = "inv-adjOut";
             $tCode = "ADO";
         }
@@ -734,7 +737,7 @@ class Inventory_M extends CI_Model
             }
         } else if ($inMode == "edit") {
             // header
-            if ($inType == 1 && $inStatus == 2) {
+            if (($inType == 1 && $inStatus == 2) || $inType == 2) {
                 $data2 = array(
                     'remark' => $inRemark,
                     'log_by' => $_SESSION['user_id'],
@@ -769,6 +772,8 @@ class Inventory_M extends CI_Model
                 return $res;
             }
 
+
+
             // detail 
             $inDidx = rtrim($inDidx, "|");
             $inDidx = explode("|", $inDidx);
@@ -782,84 +787,86 @@ class Inventory_M extends CI_Model
             $inDunitid = rtrim($inDunitid, "|");
             $inDunitid = explode("|", $inDunitid);
 
-            if (!empty($inDgoods)) {
-                for ($i = 0; $i < count($inDgoods); $i++) {
-                    if ($inDstatus[$i] != 2) {
-                        if (isset($inDidx[$i]) && $inDidx[$i] != "") {
-                            $data3 = array(
-                                'goods_id' => $inDgoods[$i],
-                                'qty' => $inDqty[$i],
-                                'unit_id' => $inDunitid[$i],
+            if (($inType != 1 && $inStatus != 2) || $inType != 2) {
+                if (!empty($inDgoods)) {
+                    for ($i = 0; $i < count($inDgoods); $i++) {
+                        if ($inDstatus[$i] != 2) {
+                            if (isset($inDidx[$i]) && $inDidx[$i] != "") {
+                                $data3 = array(
+                                    'goods_id' => $inDgoods[$i],
+                                    'qty' => $inDqty[$i],
+                                    'unit_id' => $inDunitid[$i],
+                                    'log_by' => $_SESSION['user_id'],
+                                    'log_at' => date("Y-m-d H:i:s")
+                                );
+
+                                $this->db->db_debug = false;
+
+                                $where3 = array(
+                                    'id' => $inDidx[$i],
+                                    'inventory_id' => $inId
+                                );
+
+                                $this->db->where($where3);
+
+                                if ($this->db->update("t_inventory_detail", $data3)) {
+                                    $res['res'] = 'success';
+                                } else {
+                                    $res['res'] =  $this->db->error();
+                                    $res['res'] = $data['res']['message'];
+                                    return $res;
+                                }
+                            } else {
+                                $data3 = array(
+                                    'id' => '',
+                                    'inventory_id' => $inId,
+                                    'goods_id' => $inDgoods[$i],
+                                    'qty' => $inDqty[$i],
+                                    'unit_id' => $inDunitid[$i],
+                                    'created_by' => $_SESSION['user_id']
+                                );
+
+                                $this->db->db_debug = false;
+
+                                if ($this->db->insert('t_inventory_detail', $data3)) {
+                                    $res['res'] = 'success';
+                                } else {
+                                    $res['err'] =  $this->db->error();
+                                    $res['err'] = $res['err']['message'];
+                                    return $res;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (isset($inDremove)) {
+                    $inDremove = explode("|", $inDremove);
+
+                    if (!empty($inDremove)) {
+                        for ($i = 0; $i < count($inDremove); $i++) {
+                            $data4 = array(
+                                'status' => 0,
                                 'log_by' => $_SESSION['user_id'],
                                 'log_at' => date("Y-m-d H:i:s")
                             );
 
                             $this->db->db_debug = false;
 
-                            $where3 = array(
-                                'id' => $inDidx[$i],
+                            $where4 = array(
+                                'id' => $inDremove[$i],
                                 'inventory_id' => $inId
                             );
 
-                            $this->db->where($where3);
+                            $this->db->where($where4);
 
-                            if ($this->db->update("t_inventory_detail", $data3)) {
+                            if ($this->db->update("t_inventory_detail", $data4)) {
                                 $res['res'] = 'success';
                             } else {
                                 $res['res'] =  $this->db->error();
                                 $res['res'] = $data['res']['message'];
                                 return $res;
                             }
-                        } else {
-                            $data3 = array(
-                                'id' => '',
-                                'inventory_id' => $inId,
-                                'goods_id' => $inDgoods[$i],
-                                'qty' => $inDqty[$i],
-                                'unit_id' => $inDunitid[$i],
-                                'created_by' => $_SESSION['user_id']
-                            );
-
-                            $this->db->db_debug = false;
-
-                            if ($this->db->insert('t_inventory_detail', $data3)) {
-                                $res['res'] = 'success';
-                            } else {
-                                $res['err'] =  $this->db->error();
-                                $res['err'] = $res['err']['message'];
-                                return $res;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (isset($inDremove)) {
-                $inDremove = explode("|", $inDremove);
-
-                if (!empty($inDremove)) {
-                    for ($i = 0; $i < count($inDremove); $i++) {
-                        $data4 = array(
-                            'status' => 0,
-                            'log_by' => $_SESSION['user_id'],
-                            'log_at' => date("Y-m-d H:i:s")
-                        );
-
-                        $this->db->db_debug = false;
-
-                        $where4 = array(
-                            'id' => $inDremove[$i],
-                            'inventory_id' => $inId
-                        );
-
-                        $this->db->where($where4);
-
-                        if ($this->db->update("t_inventory_detail", $data4)) {
-                            $res['res'] = 'success';
-                        } else {
-                            $res['res'] =  $this->db->error();
-                            $res['res'] = $data['res']['message'];
-                            return $res;
                         }
                     }
                 }

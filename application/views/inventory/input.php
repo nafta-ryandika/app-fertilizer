@@ -12,7 +12,7 @@ if (isset($param)) {
         $inRemark = $data["header"]["remark"];
         $inStatus = $data["header"]["status"];
 
-        if ($inType == 1 && $inStatus == 2) {
+        if (($inType == 1 && $inStatus == 2) || $inType == 2) {
             $disabled = "readonly disabled";
         }
     }
@@ -111,7 +111,7 @@ if (isset($param)) {
 
                                                     $dDisabled = "";
 
-                                                    if ($inType == 1 && $inDstatus == 2) {
+                                                    if (($inType == 1 && $inDstatus == 2) || $inType == 2) {
                                                         $dDisabled = "readonly disabled";
                                                     }
                                         ?>
