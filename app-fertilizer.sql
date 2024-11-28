@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `m_company` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_company: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.m_company: ~1 rows (approximately)
 DELETE FROM `m_company`;
 INSERT INTO `m_company` (`id`, `company`, `created_by`, `created_at`) VALUES
 	(1, 'PT AGRI MAKMUR MEGA PERKASA INDO', 'administrator', '2024-01-30 11:13:48');
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `m_counter` (
   KEY `transaction` (`transaction`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.m_counter: ~10 rows (approximately)
+-- Dumping data for table app-fertilizer.m_counter: ~11 rows (approximately)
 DELETE FROM `m_counter`;
 INSERT INTO `m_counter` (`id`, `transaction`, `counter`, `period`, `status`, `created_by`, `created_at`) VALUES
 	(2, 'purchase', 20, '072024', 1, 'admin', '2024-07-21 21:20:33'),
@@ -531,7 +531,7 @@ CREATE TABLE IF NOT EXISTS `m_user` (
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
--- Dumping data for table app-fertilizer.m_user: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.m_user: ~1 rows (approximately)
 DELETE FROM `m_user`;
 INSERT INTO `m_user` (`id`, `user_id`, `name`, `email`, `image`, `password`, `company_id`, `department_id`, `division_id`, `role_id`, `status`, `created_by`, `created_at`) VALUES
 	(1, 'admin', 'admin', '-', 'default.png', '$2y$10$31nTmbo9IVv6NnjV7FHNHetkM4aIr18q8XRsRsI/y7qHXaNvtYKxK', 1, 4, 1, 1, 1, 'administrator', '2023-11-29 07:41:59');
@@ -578,7 +578,7 @@ CREATE TABLE IF NOT EXISTS `t_inventory` (
   KEY `inventory_type_id` (`inventory_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_inventory: ~62 rows (approximately)
+-- Dumping data for table app-fertilizer.t_inventory: ~63 rows (approximately)
 DELETE FROM `t_inventory`;
 INSERT INTO `t_inventory` (`id`, `inventory_id`, `date`, `inventory_type_id`, `warehouse_id`, `transaction_id`, `remark`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'RCP/092024/00001', '2024-09-26', 1, 2, 'PO/082024/00002', 'test', 0, 'admin', '2024-09-26 17:40:41', 'admin', '2024-10-07 15:23:23'),
@@ -665,7 +665,7 @@ CREATE TABLE IF NOT EXISTS `t_inventory_detail` (
   KEY `purchase_id` (`inventory_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_inventory_detail: ~105 rows (approximately)
+-- Dumping data for table app-fertilizer.t_inventory_detail: ~106 rows (approximately)
 DELETE FROM `t_inventory_detail`;
 INSERT INTO `t_inventory_detail` (`id`, `inventory_id`, `goods_id`, `qty`, `unit_id`, `qty_taken`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(1, 'RCP/092024/00001', '2', 1, '4', NULL, 0, 'admin', '2024-09-26 17:40:41', 'admin', '2024-10-07 15:23:23'),
@@ -1004,7 +1004,7 @@ CREATE TABLE IF NOT EXISTS `t_stock` (
   KEY `goods_id` (`goods_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_stock: ~0 rows (approximately)
+-- Dumping data for table app-fertilizer.t_stock: ~1 rows (approximately)
 DELETE FROM `t_stock`;
 INSERT INTO `t_stock` (`id`, `warehouse_id`, `year`, `month`, `goods_id`, `qty_in`, `qty_out`, `qty_balance`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(19, '2', '2024', '11', '3', 30, NULL, 30, 1, 'admin', '2024-11-23 01:16:00', 'admin', '2024-11-26 11:06:38');
@@ -1034,7 +1034,7 @@ CREATE TABLE IF NOT EXISTS `t_stock_card` (
   KEY `inventory_type_id` (`inventory_type_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
--- Dumping data for table app-fertilizer.t_stock_card: ~2 rows (approximately)
+-- Dumping data for table app-fertilizer.t_stock_card: ~3 rows (approximately)
 DELETE FROM `t_stock_card`;
 INSERT INTO `t_stock_card` (`id`, `transaction_id`, `warehouse_id`, `date`, `inventory_type_id`, `goods_id`, `qty`, `unit_id`, `status`, `created_by`, `created_at`, `log_by`, `log_at`) VALUES
 	(35, 'IN/112024/00030', '2', '2024-11-22', '2', '3', 10, '2', 1, 'admin', '2024-11-23 01:16:00', NULL, NULL),

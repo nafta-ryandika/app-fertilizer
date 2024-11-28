@@ -883,6 +883,16 @@ class Inventory_M extends CI_Model
         if ($param == "data") {
             $datax = explode("|", $obj);
 
+            $id = $datax[0];
+            $inventory_id = $datax[1];
+            $inventory_type_id = $datax[2];
+            $warehouse_id = $datax[3];
+
+            // check stock
+            $query = "SELECT * FROM t_stock a WHERE a.`year` = '2024' AND a.`month` = '11' AND a.warehouse_id = '2' AND a.goods_id = '3';";
+
+
+
             // header
             $data1 = array(
                 'status' => 0,
