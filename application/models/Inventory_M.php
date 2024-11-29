@@ -878,6 +878,9 @@ class Inventory_M extends CI_Model
 
     public function remove($param, $obj)
     {
+        $curdate = date("Y-m-d H:i:s");
+        $year = date("Y");
+        $month = date("m");
         $res = array();
 
         if ($param == "data") {
@@ -888,56 +891,101 @@ class Inventory_M extends CI_Model
             $inventory_type_id = $datax[2];
             $warehouse_id = $datax[3];
 
-            // check stock
-            $query = "SELECT * FROM t_stock a WHERE a.`year` = '2024' AND a.`month` = '11' AND a.warehouse_id = '2' AND a.goods_id = '3';";
+            if ($inventory_type_id == 2) {
+                $status = true;
 
+                $query = "SELECT 
+                            goods_id, qty 
+                            FROM t_inventory_detail 
+                            WHERE 
+                            inventory_id = '" . $inventory_id . "'";
+                $row = $this->db->query($query)->num_rows();
 
+                if ($row > 0) {
+                    $res = $this->db->query($query)->result_array();
 
-            // header
-            $data1 = array(
-                'status' => 0,
-                'log_by' => $_SESSION['user_id'],
-                'log_at' => date("Y-m-d H:i:s")
-            );
+                    foreach ($res as $data) {
+                        $goods_id = $data["goods_id"];
+                        $qty = $data["qty"];
 
-            $this->db->db_debug = false;
+                        // check stock
+                        $query1 = "SELECT 
+                                    qty_balance
+                                    FROM t_stock 
+                                    WHERE 
+                                    `year` = '" . $year . "' AND 
+                                    `month` = '" . $month . "' AND 
+                                    warehouse_id = '" . $warehouse_id . "' AND 
+                                    goods_id = '" . $goods_id . "'";
 
-            $where1 = array(
-                'id' => $datax[0],
-                'inventory_id' => $datax[1]
-            );
+                        $row1 = $this->db->query($query1)->num_rows();
 
-            $this->db->where($where1);
+                        if ($row1 > 0) {
+                            $res1 = $this->db->query($query1)->result_array();
 
-            if ($this->db->update("t_inventory", $data1)) {
-                $res['res'] = 'success';
-            } else {
-                $res['res'] =  $this->db->error();
-                $res['res'] = $data['res']['message'];
-                return $res;
+                            foreach ($res1 as $data1) {
+                                $qty_balance = $data1["qty_balance"];
+
+                                if (($qty_balance - $qty) > 0) {
+                                    $data2 = array(
+                                        'status' => 0,
+                                        'log_by' => $_SESSION['user_id'],
+                                        'log_at' => date("Y-m-d H:i:s")
+                                    );
+
+                                    $this->db->db_debug = false;
+
+                                    $where2 = array(
+                                        'inventory_id' => $inventory_id,
+                                        'goods_id ' => $goods_id
+                                    );
+
+                                    $this->db->where($where2);
+
+                                    if ($this->db->update("t_inventory_detail", $data2)) {
+                                        $res['res'] = 'success';
+                                    } else {
+                                        $res['res'] =  $this->db->error();
+                                        $res['res'] = $data2['res']['message'];
+                                        return $res;
+                                    }
+                                } else {
+                                    $status = false;
+                                }
+                            }
+
+                            if ($status == true) {
+                                // header
+                                $data3 = array(
+                                    'status' => 0,
+                                    'log_by' => $_SESSION['user_id'],
+                                    'log_at' => date("Y-m-d H:i:s")
+                                );
+
+                                $this->db->db_debug = false;
+
+                                $where3 = array(
+                                    'id' => $datax[0],
+                                    'inventory_id' => $datax[1]
+                                );
+
+                                $this->db->where($where3);
+
+                                if ($this->db->update("t_inventory", $data3)) {
+                                    $res['res'] = 'success';
+                                } else {
+                                    $res['res'] =  $this->db->error();
+                                    $res['res'] = $data3['res']['message'];
+                                    return $res;
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
-            $data2 = array(
-                'status' => 0,
-                'log_by' => $_SESSION['user_id'],
-                'log_at' => date("Y-m-d H:i:s")
-            );
 
-            $this->db->db_debug = false;
-
-            $where2 = array(
-                'inventory_id' => $datax[1]
-            );
-
-            $this->db->where($where2);
-
-            if ($this->db->update("t_inventory_detail", $data2)) {
-                $res['res'] = 'success';
-            } else {
-                $res['res'] =  $this->db->error();
-                $res['res'] = $data['res']['message'];
-                return $res;
-            }
+            die();
         }
 
         return $res;
