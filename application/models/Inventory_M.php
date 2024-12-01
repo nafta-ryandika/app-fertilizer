@@ -879,8 +879,8 @@ class Inventory_M extends CI_Model
     public function remove($param, $obj)
     {
         $curdate = date("Y-m-d H:i:s");
-        $year = date("Y");
-        $month = date("m");
+        $curyear = date("Y");
+        $curmonth = date("m");
         $res = array();
 
         if ($param == "data") {
@@ -891,11 +891,14 @@ class Inventory_M extends CI_Model
             $inventory_type_id = $datax[2];
             $warehouse_id = $datax[3];
 
-            if ($inventory_type_id == 2) {
+            if ($inventory_type_id == 1) {
+            } else if ($inventory_type_id == 2) {
                 $status = true;
 
                 $query = "SELECT 
-                            goods_id, qty 
+                            goods_id, qty, 
+                            YEAR(created_at) AS `year`, 
+                            MONTH(created_at) AS `month` 
                             FROM t_inventory_detail 
                             WHERE 
                             inventory_id = '" . $inventory_id . "'";
@@ -907,6 +910,8 @@ class Inventory_M extends CI_Model
                     foreach ($res as $data) {
                         $goods_id = $data["goods_id"];
                         $qty = $data["qty"];
+                        $year = $data["year"];
+                        $month = $data["month"];
 
                         // check stock
                         $query1 = "SELECT 
@@ -949,12 +954,72 @@ class Inventory_M extends CI_Model
                                         $res['res'] = $data2['res']['message'];
                                         return $res;
                                     }
+
+                                    // t_stock_card
+                                    $data3 = array(
+                                        'status' => 0,
+                                        'log_by' => $_SESSION['user_id'],
+                                        'log_at' => date("Y-m-d H:i:s")
+                                    );
+
+                                    $this->db->db_debug = false;
+
+                                    $where3 = array(
+                                        'inventory_id' => $inventory_id,
+                                        'warehouse_id' => $warehouse_id,
+                                        'inventory_type_id' => $inventory_type_id,
+                                        'goods_id' => $goods_id
+                                    );
+
+                                    $this->db->where($where3);
+
+                                    if ($this->db->update("t_stock_card", $data3)) {
+                                        $res['res'] = 'success';
+                                    } else {
+                                        $res['res'] =  $this->db->error();
+                                        $res['res'] = $data3['res']['message'];
+                                        return $res;
+                                    }
+
+                                    // t_stock
+                                    if ($inventory_type_id == 2 || $inventory_type_id == 5) {
+                                        $this->db->set('qty_in', 'qty_in -' . $qty, FALSE);
+                                        $this->db->set('qty_balance', 'qty_balance -' . $qty, FALSE);
+                                    } else if ($inventory_type_id == 3 || $inventory_type_id == 4 || $inventory_type_id == 6) {
+                                        $this->db->set('qty_out', 'qty_out -' . $qty, FALSE);
+                                        $this->db->set('qty_balance', 'qty_balance +' . $qty, FALSE);
+                                    }
+
+                                    $this->db->set('log_by', $_SESSION['user_id']);
+                                    $this->db->set('log_at', $curdate);
+
+                                    $this->db->db_debug = false;
+
+                                    $where4 = array(
+                                        'warehouse_id' => $warehouse_id,
+                                        'year' => $year,
+                                        'month' => $month,
+                                        'goods_id' => $goods_id
+                                    );
+
+                                    $this->db->where($where4);
+
+                                    if ($this->db->update("t_stock")) {
+                                        $res['res'] = 'success';
+                                    } else {
+                                        $res['res'] =  $this->db->error();
+                                        $res['res'] = $data['res']['message'];
+                                        return $res;
+                                    }
+
+                                    // update receipt details
+
                                 } else {
                                     $status = false;
                                 }
                             }
 
-                            if ($status == true) {
+                            if ($status) {
                                 // header
                                 $data3 = array(
                                     'status' => 0,
