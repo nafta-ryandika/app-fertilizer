@@ -981,7 +981,7 @@ class Inventory_M extends CI_Model
                                         return $res;
                                     }
 
-                                    // t_stock
+                                    // 4. t_stock
                                     if ($inventory_type_id == 2 || $inventory_type_id == 5) {
                                         $this->db->set('qty_in', 'qty_in -' . $qty, FALSE);
                                         $this->db->set('qty_balance', 'qty_balance -' . $qty, FALSE);
@@ -1012,8 +1012,26 @@ class Inventory_M extends CI_Model
                                         return $res;
                                     }
 
-                                    // update receipt details
+                                    // 5. update receipt details
+                                    $query5 = "UPDATE t_inventory_detail
+                                                SET 
+                                                qty_taken = (qty_taken - " . $qty . "),
+                                                `status` = IF(qty_taken > 0, 2, 1),
+                                                log_by = '" . $_SESSION['user_id'] . "',
+                                                log_at = '" . date("Y-m-d H:i:s") . "'
+                                                WHERE 
+                                                inventory_id = '" . $inventory_id . "' AND 
+                                                goods_id = '" . $goods_id . "'";
 
+                                    $this->db->db_debug = false;
+
+                                    if ($this->db->query($query5)) {
+                                        $res['res'] = 'success';
+                                    } else {
+                                        $res['res'] =  $this->db->error();
+                                        $res['res'] = $data['res']['message'];
+                                        return $res;
+                                    }
                                 } else {
                                     $status = false;
                                 }
