@@ -1066,8 +1066,6 @@ class Inventory_M extends CI_Model
                     }
                 }
             }
-
-
             die();
         }
 
