@@ -965,7 +965,7 @@ class Inventory_M extends CI_Model
                                     $this->db->db_debug = false;
 
                                     $where3 = array(
-                                        'inventory_id' => $inventory_id,
+                                        'transaction_id' => $inventory_id,
                                         'warehouse_id' => $warehouse_id,
                                         'inventory_type_id' => $inventory_type_id,
                                         'goods_id' => $goods_id
@@ -1066,7 +1066,7 @@ class Inventory_M extends CI_Model
                     }
                 }
             }
-            die();
+            // die();
         }
 
         return $res;
