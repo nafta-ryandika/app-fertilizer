@@ -902,6 +902,7 @@ class Inventory_M extends CI_Model
                             FROM t_inventory_detail 
                             WHERE 
                             inventory_id = '" . $inventory_id . "'";
+
                 $row = $this->db->query($query)->num_rows();
 
                 if ($row > 0) {
@@ -932,6 +933,7 @@ class Inventory_M extends CI_Model
                                 $qty_balance = $data1["qty_balance"];
 
                                 if (($qty_balance - $qty) > 0) {
+                                    // update t_inventory_details
                                     $data2 = array(
                                         'status' => 0,
                                         'log_by' => $_SESSION['user_id'],
