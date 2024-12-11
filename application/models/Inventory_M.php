@@ -933,10 +933,7 @@ class Inventory_M extends CI_Model
                                 $qty_balance = $data1["qty_balance"];
 
                                 if (($qty_balance - $qty) > 0) {
-                                    echo "update t_inventory_details";
-                                    die("lalalala" . ($qty_balance - $qty));
-
-                                    // update t_inventory_details
+                                    // t_inventory_details
                                     $data2 = array(
                                         'status' => 0,
                                         'log_by' => $_SESSION['user_id'],
@@ -990,6 +987,7 @@ class Inventory_M extends CI_Model
                                     if ($inventory_type_id == 2 || $inventory_type_id == 5) {
                                         $this->db->set('qty_in', 'qty_in -' . $qty, FALSE);
                                         $this->db->set('qty_balance', 'qty_balance -' . $qty, FALSE);
+                                        echo "yokai";
                                     } else if ($inventory_type_id == 3 || $inventory_type_id == 4 || $inventory_type_id == 6) {
                                         $this->db->set('qty_out', 'qty_out -' . $qty, FALSE);
                                         $this->db->set('qty_balance', 'qty_balance +' . $qty, FALSE);
@@ -1017,7 +1015,10 @@ class Inventory_M extends CI_Model
                                         return $res;
                                     }
 
-                                    // 5. update receipt details
+                                    echo "update t_inventory_details";
+                                    die("lalalala" . $inventory_id . "|" . $warehouse_id . "|" . $inventory_type_id . "|" . $month);
+
+                                    // update receipt details
                                     $query5 = "UPDATE t_inventory_detail
                                                 SET 
                                                 qty_taken = (qty_taken - " . $qty . "),
