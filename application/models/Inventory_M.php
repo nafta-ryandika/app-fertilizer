@@ -933,6 +933,9 @@ class Inventory_M extends CI_Model
                                 $qty_balance = $data1["qty_balance"];
 
                                 if (($qty_balance - $qty) > 0) {
+                                    echo "update t_inventory_details";
+                                    die("lalalala" . ($qty_balance - $qty));
+
                                     // update t_inventory_details
                                     $data2 = array(
                                         'status' => 0,
