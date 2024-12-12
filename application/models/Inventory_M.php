@@ -890,6 +890,7 @@ class Inventory_M extends CI_Model
             $inventory_id = $datax[1];
             $inventory_type_id = $datax[2];
             $warehouse_id = $datax[3];
+            $transaction_id = $datax[4];
 
             if ($inventory_type_id == 1) {
             } else if ($inventory_type_id == 2) {
@@ -983,11 +984,10 @@ class Inventory_M extends CI_Model
                                         return $res;
                                     }
 
-                                    // 4. t_stock
+                                    // t_stock
                                     if ($inventory_type_id == 2 || $inventory_type_id == 5) {
                                         $this->db->set('qty_in', 'qty_in -' . $qty, FALSE);
                                         $this->db->set('qty_balance', 'qty_balance -' . $qty, FALSE);
-                                        echo "yokai";
                                     } else if ($inventory_type_id == 3 || $inventory_type_id == 4 || $inventory_type_id == 6) {
                                         $this->db->set('qty_out', 'qty_out -' . $qty, FALSE);
                                         $this->db->set('qty_balance', 'qty_balance +' . $qty, FALSE);
@@ -1015,9 +1015,6 @@ class Inventory_M extends CI_Model
                                         return $res;
                                     }
 
-                                    echo "update t_inventory_details";
-                                    die("lalalala" . $inventory_id . "|" . $warehouse_id . "|" . $inventory_type_id . "|" . $month);
-
                                     // update receipt details
                                     $query5 = "UPDATE t_inventory_detail
                                                 SET 
@@ -1026,7 +1023,7 @@ class Inventory_M extends CI_Model
                                                 log_by = '" . $_SESSION['user_id'] . "',
                                                 log_at = '" . date("Y-m-d H:i:s") . "'
                                                 WHERE 
-                                                inventory_id = '" . $inventory_id . "' AND 
+                                                inventory_id = '" . $transaction_id . "' AND 
                                                 goods_id = '" . $goods_id . "'";
 
                                     $this->db->db_debug = false;
@@ -1038,6 +1035,8 @@ class Inventory_M extends CI_Model
                                         $res['res'] = $data['res']['message'];
                                         return $res;
                                     }
+
+                                    die("t_inventory_detail");
                                 } else {
                                     $status = false;
                                 }

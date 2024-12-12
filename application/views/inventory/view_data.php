@@ -40,7 +40,7 @@
                 <td style="text-align: center !important;">
                     <a class="btn btn-info m-1" id="btnDetail" title="Detail" onclick="get('detail','<?= $data_inventory['id'] . '|' . $data_inventory['inventory_id']; ?>','')"><i class="fas fa-fw fa-solid fa-eye m-1"></i></a>
                     <a class="btn btn-warning m-1" id="btnEdit" title="Edit" onclick="get('edit','<?= $data_inventory['id']; ?>','')"><i class="fas fa-fw fa-solid fa-pen-to-square m-1"></i></a>
-                    <a class="btn btn-danger m-1 <?= $disabled ?>" id="btnDelete" title="Delete" onclick="remove('data','<?= $data_inventory['id'] . '|' . $data_inventory['inventory_id']  . '|' . $data_inventory['inventory_type_id']  . '|' . $data_inventory['warehouse_id']; ?>')"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
+                    <a class="btn btn-danger m-1 <?= $disabled ?>" id="btnDelete" title="Delete" onclick="remove('data','<?= $data_inventory['id'] . '|' . $data_inventory['inventory_id']  . '|' . $data_inventory['inventory_type_id']  . '|' . $data_inventory['warehouse_id'] . '|' . $data_inventory['transaction_id']; ?>')"><i class="fas fa-fw fa-solid fa-square-xmark m-1"></i></a>
                     <a class="btn btn-primary m-1" id="btnPrint" title="Print" onclick="report('print','<?= $data_inventory['id'] . '|' . $data_inventory['inventory_id']; ?>')"><i class="fas fa-fw fa-solid fa-print m-1"></i></a>
                 </td>
             </tr>
