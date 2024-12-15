@@ -36,7 +36,7 @@ class Inventory extends CI_Controller
                 (SELECT warehouse FROM m_warehouse WHERE id = dt1.warehouse_id) AS warehouse,
                 GROUP_CONCAT((SELECT goods FROM m_goods WHERE id = goods_id),' ') AS goods,
                 DATE_FORMAT(`date`, '%d-%m-%Y ') AS `date`,
-                dt1.`status` AS `status`
+                IF(MAX(dt2.`status` = 2), 2, 1) AS `status`
                 FROM 
                 (
                     SELECT id, inventory_id, date, inventory_type_id, warehouse_id, transaction_id, remark, created_by, created_at, `status` 
@@ -45,7 +45,7 @@ class Inventory extends CI_Controller
                 )dt1 
                 JOIN 
                 (
-                    SELECT id, inventory_id, goods_id, qty, unit_id
+                    SELECT id, inventory_id, goods_id, qty, unit_id, `status`
                     FROM t_inventory_detail
                     WHERE `status`  <> 0
                 )dt2 

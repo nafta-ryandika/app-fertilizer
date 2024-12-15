@@ -1035,16 +1035,14 @@ class Inventory_M extends CI_Model
                                         $res['res'] = $data['res']['message'];
                                         return $res;
                                     }
-
-                                    die("t_inventory_detail");
                                 } else {
                                     $status = false;
                                 }
                             }
 
                             if ($status) {
-                                // header
-                                $data3 = array(
+                                // update t_inventory
+                                $data6 = array(
                                     'status' => 0,
                                     'log_by' => $_SESSION['user_id'],
                                     'log_at' => date("Y-m-d H:i:s")
@@ -1052,18 +1050,18 @@ class Inventory_M extends CI_Model
 
                                 $this->db->db_debug = false;
 
-                                $where3 = array(
+                                $where6 = array(
                                     'id' => $datax[0],
                                     'inventory_id' => $datax[1]
                                 );
 
-                                $this->db->where($where3);
+                                $this->db->where($where6);
 
-                                if ($this->db->update("t_inventory", $data3)) {
+                                if ($this->db->update("t_inventory", $data6)) {
                                     $res['res'] = 'success';
                                 } else {
                                     $res['res'] =  $this->db->error();
-                                    $res['res'] = $data3['res']['message'];
+                                    $res['res'] = $data6['res']['message'];
                                     return $res;
                                 }
                             }
@@ -1071,7 +1069,6 @@ class Inventory_M extends CI_Model
                     }
                 }
             }
-            // die();
         }
 
         return $res;
