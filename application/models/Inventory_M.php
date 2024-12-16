@@ -893,6 +893,7 @@ class Inventory_M extends CI_Model
             $transaction_id = $datax[4];
 
             if ($inventory_type_id == 1) {
+                $status = true;
             } else if ($inventory_type_id == 2) {
                 $status = true;
 
@@ -1051,8 +1052,8 @@ class Inventory_M extends CI_Model
                                 $this->db->db_debug = false;
 
                                 $where6 = array(
-                                    'id' => $datax[0],
-                                    'inventory_id' => $datax[1]
+                                    'id' => $id,
+                                    'inventory_id' => $inventory_id
                                 );
 
                                 $this->db->where($where6);
@@ -1063,6 +1064,40 @@ class Inventory_M extends CI_Model
                                     $res['res'] =  $this->db->error();
                                     $res['res'] = $data6['res']['message'];
                                     return $res;
+                                }
+
+                                $query7 = "SELECT 
+                                            id 
+                                            FROM t_inventory_detail 
+                                            WHERE 
+                                            inventory_id = '" . $transaction_id . "' AND 
+                                            `status` = 2;";
+
+                                $row7 = $this->db->query($query7)->num_rows();
+
+                                if ($row7 == 0) {
+                                    // update transaction type 'RCP'
+                                    $data8 = array(
+                                        'status' => 1,
+                                        'log_by' => $_SESSION['user_id'],
+                                        'log_at' => date("Y-m-d H:i:s")
+                                    );
+
+                                    $this->db->db_debug = false;
+
+                                    $where8 = array(
+                                        'inventory_id' => $transaction_id
+                                    );
+
+                                    $this->db->where($where8);
+
+                                    if ($this->db->update("t_inventory", $data8)) {
+                                        $res['res'] = 'success';
+                                    } else {
+                                        $res['res'] =  $this->db->error();
+                                        $res['res'] = $data8['res']['message'];
+                                        return $res;
+                                    }
                                 }
                             }
                         }
