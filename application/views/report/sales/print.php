@@ -21,7 +21,7 @@
         .table td {
             padding: 0.75rem;
             vertical-align: top;
-            border-top: 1px solid #dee2e6;
+            /* border-top: 1px solid #dee2e6; */
         }
 
         .table thead th {
@@ -42,14 +42,13 @@
             border: 1px solid #dee2e6;
         }
 
+        .table-noborder td {
+            border: 0px solid #dee2e6;
+        }
+
         .table-bordered thead th,
         .table-bordered thead td {
             border-bottom-width: 2px;
-        }
-
-        .table-bordered th,
-        .table-bordered td {
-            border: 1px solid #dee2e6 !important;
         }
 
         .table-striped tbody tr:nth-of-type(odd) {
@@ -112,12 +111,31 @@
 
                 $total = $subtotal - $discount + $tax;
             }
+
             ?>
             <tr>
                 <td colspan="7"></td>
             </tr>
             <tr>
-                <td colspan="5" rowspan="4"></td>
+                <td colspan="5" rowspan="4">
+                    <table class="table-noborder" width="100%">
+                        <tr>
+                            <td style=\"vertical-align: top;\" width="15%">Due date</td>
+                            <td style=\"vertical-align: top;\" width="5%">:</td>
+                            <td width="80%"><?= $header["due_date"] ?></td>
+                        </tr>
+                        <tr>
+                            <td style=\"vertical-align: top;\">Currency</td>
+                            <td style=\"vertical-align: top;\">:</td>
+                            <td><?= $header["currency"] ?></td>
+                        </tr>
+                        <tr>
+                            <td style=\"vertical-align: top;\">Remark</td>
+                            <td style=\"vertical-align: top;\">:</td>
+                            <td><?= $header["remark"] ?></td>
+                        </tr>
+                    </table>
+                </td>
                 <td style="text-align: left;">Subtotal</td>
                 <td style="text-align: right;"><?= number_format($subtotal, 2, ",", "."); ?></td>
             </tr>

@@ -218,27 +218,7 @@ class Sales extends CI_Controller
 
             $footer = "<table style=\"border-collapse: collapse;\" width=\"100%\" border=\"1\">
                             <tr>
-                                <td width=\"70%\" style=\"text-align: left; vertical-align: top;\">
-                                    <div>
-                                        <table>
-                                            <tr>
-                                                <td style=\"vertical-align: top;\">Due date</td>
-                                                <td style=\"vertical-align: top;\">:</td>
-                                                <td>" . $due_date . "</td>
-                                            </tr>
-                                            <tr>
-                                                <td style=\"vertical-align: top;\">Currency</td>
-                                                <td style=\"vertical-align: top;\">:</td>
-                                                <td>" . $currency . "</td>
-                                            </tr>
-                                            <tr>
-                                                <td style=\"vertical-align: top;\">Remark</td>
-                                                <td style=\"vertical-align: top;\">:</td>
-                                                <td>" . $remark . "</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </td>
+                                
                             </tr>
                         </table>
                         <table width=\"100%\">
