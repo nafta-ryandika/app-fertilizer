@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `m_counter` (
   KEY `period` (`period`),
   KEY `counter` (`counter`),
   KEY `transaction` (`transaction`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Data exporting was unselected.
 
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `m_goods` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `unit_id` (`unit_id`),
   KEY `type_id` (`goods_type_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Data exporting was unselected.
 
@@ -256,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `m_supplier` (
   `log_by` varchar(256) DEFAULT NULL,
   `log_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Data exporting was unselected.
 
@@ -282,7 +282,7 @@ CREATE TABLE IF NOT EXISTS `m_unit` (
   `log_by` varchar(256) DEFAULT NULL,
   `log_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Data exporting was unselected.
 
@@ -345,7 +345,7 @@ CREATE TABLE IF NOT EXISTS `t_inventory` (
   KEY `purchase_type_id` (`destination_id`) USING BTREE,
   KEY `warehouse_id` (`warehouse_id`),
   KEY `destination_id` (`destination_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Data exporting was unselected.
 
@@ -367,7 +367,7 @@ CREATE TABLE IF NOT EXISTS `t_inventory_detail` (
   KEY `unit_id` (`unit_id`) USING BTREE,
   KEY `status` (`status`) USING BTREE,
   KEY `purchase_id` (`inventory_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Data exporting was unselected.
 
@@ -399,7 +399,7 @@ CREATE TABLE IF NOT EXISTS `t_purchase` (
   KEY `purchase_id` (`purchase_id`),
   KEY `currency_id` (`currency_id`),
   KEY `tax_type` (`tax_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Data exporting was unselected.
 
@@ -424,7 +424,7 @@ CREATE TABLE IF NOT EXISTS `t_purchase_detail` (
   KEY `goods_id` (`goods_id`),
   KEY `unit_id` (`unit_id`),
   KEY `status` (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Data exporting was unselected.
 
@@ -455,7 +455,7 @@ CREATE TABLE IF NOT EXISTS `t_sales` (
   KEY `purchase_type_id` (`customer_id`) USING BTREE,
   KEY `purchase_id` (`sales_id`) USING BTREE,
   KEY `tax_type` (`sales_status_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Data exporting was unselected.
 
@@ -480,7 +480,7 @@ CREATE TABLE IF NOT EXISTS `t_sales_detail` (
   KEY `unit_id` (`unit_id`) USING BTREE,
   KEY `status` (`status`) USING BTREE,
   KEY `purchase_id` (`sales_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT;
 
 -- Data exporting was unselected.
 
