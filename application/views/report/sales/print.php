@@ -118,7 +118,7 @@
             </tr>
             <tr>
                 <td colspan="5" rowspan="4">
-                    <table class="table-noborder" width="100%">
+                    <table class="table-bordered" width="100%">
                         <tr>
                             <td style=\"vertical-align: top;\" width="15%">Due date</td>
                             <td style=\"vertical-align: top;\" width="5%">:</td>
