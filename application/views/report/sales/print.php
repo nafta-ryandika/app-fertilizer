@@ -18,10 +18,13 @@
         }
 
         .table th,
-        .table td {
+        .table-bordered.table td {
             padding: 0.75rem;
             vertical-align: top;
-            /* border-top: 1px solid #dee2e6; */
+        }
+
+        .table-noborder.table td {
+            vertical-align: top;
         }
 
         .table thead th {
@@ -117,22 +120,23 @@
                 <td colspan="7"></td>
             </tr>
             <tr>
-                <td colspan="5" rowspan="4">
-                    <table class="table-bordered" width="100%">
+                <td colspan="5" rowspan="4" style="padding: 0px; margin: 5px;">
+                    <table class="table-noborder" width="100%" style="padding: 0px; margin: 5px;">
                         <tr>
-                            <td style=\"vertical-align: top;\" width="15%">Due date</td>
-                            <td style=\"vertical-align: top;\" width="5%">:</td>
-                            <td width="80%"><?= $header["due_date"] ?></td>
+                            <td style="vertical-align: top; padding: 0px; margin: 0px;" width="15%">Due date
+                            </td>
+                            <td style="vertical-align: top; padding: 0px; margin: 0px;" width="5%">:</td>
+                            <td width="80%" style="padding: 0px; margin: 0px;"><?= $header["due_date"] ?></td>
                         </tr>
                         <tr>
-                            <td style=\"vertical-align: top;\">Currency</td>
-                            <td style=\"vertical-align: top;\">:</td>
-                            <td><?= $header["currency"] ?></td>
+                            <td style="vertical-align: top; padding: 0px; margin: 0px;">Currency</td>
+                            <td style="vertical-align: top; padding: 0px; margin: 0px;">:</td>
+                            <td style="padding: 0px; margin: 0px;"><?= $header["currency"] ?></td>
                         </tr>
                         <tr>
-                            <td style=\"vertical-align: top;\">Remark</td>
-                            <td style=\"vertical-align: top;\">:</td>
-                            <td><?= $header["remark"] ?></td>
+                            <td style="vertical-align: top; padding: 0px; margin: 0px;">Remark</td>
+                            <td style="vertical-align: top; padding: 0px; margin: 0px;">:</td>
+                            <td style="padding: 0px; margin: 0px;"><?= $header["remark"] ?></td>
                         </tr>
                     </table>
                 </td>
@@ -152,6 +156,28 @@
                 <td style="text-align: right;"><?= number_format($total, 2, ",", "."); ?></td>
             </tr>
         </tbody>
+    </table>
+    <br />
+    <table class="table table-bordered table-striped" style="page-break-inside: auto !important; text-align:center;">
+        <tr>
+            <td width="34%">Prepared By</td>
+            <td width="33%">Approved By</td>
+            <td width="33%">Received By</td>
+        </tr>
+        <tr>
+            <td width="34%">
+                <br />
+                <br />
+                <br />
+            </td>
+            <td width="33%"></td>
+            <td width="33%"></td>
+        </tr>
+        <tr>
+            <td width="34%">(...............)</td>
+            <td width="33%">(...............)</td>
+            <td width="33%">(...............)</td>
+        </tr>
     </table>
 </body>
 
